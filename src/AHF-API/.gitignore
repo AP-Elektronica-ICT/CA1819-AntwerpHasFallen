@@ -11,7 +11,7 @@
 *.sln.docstates
 
 #appsettings.json with connectionstring
-*/appsettings.json
+AntwerpHasFallen/appsettings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

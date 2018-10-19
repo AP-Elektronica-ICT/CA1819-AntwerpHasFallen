@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AHF-App.iml" filepath="$PROJECT_DIR$/AHF-App.iml" />
+      <module fileurl="file://D:\jorren\Documents\School\2018-2019\Cloud Applications\CA1819-AntwerpHasFallen\src\AHF-App\AHF-App.iml" filepath="D:\jorren\Documents\School\2018-2019\Cloud Applications\CA1819-AntwerpHasFallen\src\AHF-App\AHF-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\jorren\Documents\School\2018-2019\Cloud Applications\CA1819-AntwerpHasFallen\src\AHF-App\app\app.iml" filepath="D:\jorren\Documents\School\2018-2019\Cloud Applications\CA1819-AntwerpHasFallen\src\AHF-App\app\app.iml" />
     </modules>
   </component>
 </project>

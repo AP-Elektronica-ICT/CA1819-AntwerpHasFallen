@@ -22,5 +22,19 @@ namespace BusinessLayer
             return context.Games.Include(g => g.Teams).ToList();
         }
         
+        public Game newGame(int teams, string[] teamNames)
+        {
+            Game game = new Game();
+            game.Teams = new List<Team>();
+            for (int i = 0; i < teams; i++)
+            {
+                Team team = new Team(teamNames[i]);
+                game.Teams.Add(team);
+                context.Add(team);
+            }
+            context.Add(game);
+            context.SaveChanges();
+            return game;
+        }
     }
 }

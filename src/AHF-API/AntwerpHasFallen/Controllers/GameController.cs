@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace AntwerpHasFallen.Controllers
 {
+    [Produces("application/json")]
+    [Route("api/games")]
     public class GameController : Controller
     {
         private readonly GameService service;
@@ -15,12 +17,19 @@ namespace AntwerpHasFallen.Controllers
         {
             this.service = service;
         }
-
-        [Route("api/games")]
+        
         [HttpGet]
         public IActionResult getAllGames()
         {
             return Ok(service.getGames());
+        }
+
+        [Route("newgame/{teams}")]
+        [HttpPost()]
+        public IActionResult startNewGame(int teams, [FromBody] IEnumerable<string> teamNames)
+        {
+            //string[] teamsArray = new string[] { "team1", "team2" };
+            return Ok(service.newGame(teams, teamNames.ToArray<string>()));
         }
     }
 }

@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        /*LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener = new LocationListener() {
             @Override
@@ -47,6 +47,6 @@ public class MainActivity extends AppCompatActivity {
         catch (SecurityException e)
         {
             Log.e("error", e.toString());
-        }
+        }*/
     }
 }

@@ -1,5 +1,6 @@
 package com.ahf.antwerphasfallen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public class Game {
     private List<Team> teams;
 
     public Game() {
+        teams = new ArrayList<>();
     }
 
     public int getId() {

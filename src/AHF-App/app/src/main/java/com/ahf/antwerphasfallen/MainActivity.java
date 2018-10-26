@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 CreateNewGameDialog dialog = new CreateNewGameDialog();
                 dialog.show(getSupportFragmentManager(), "Create new game");
-                /*Game game = new Game();
-                game.getTeams().add(new Team("TestTeamApp1"));
-                game.getTeams().add(new Team("TestTeamApp2"));
-                createNewGame(game);*/
             }
         });
 

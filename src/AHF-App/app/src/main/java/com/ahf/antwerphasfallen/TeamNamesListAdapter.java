@@ -2,11 +2,13 @@ package com.ahf.antwerphasfallen;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 
 public class TeamNamesListAdapter extends ArrayAdapter<Team> {
+    private static final String TAG = "TeamNamesListAdapter";
 
     private Context context;
 
@@ -35,7 +38,11 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemview = inflater.inflate(R.layout.list_item_teamname, null);
 
-        EditText txtTeamname = (EditText)itemview.findViewById(R.id.txt_teamname);
+        final GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setColor(context.getResources().getColor(R.color.transparant));
+
+        final EditText txtTeamname = (EditText)itemview.findViewById(R.id.txt_teamname);
+        txtTeamname.setContentDescription("teamname " + (position + 1));
         txtTeamname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -49,7 +56,20 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                getItem(position).setName(editable.toString());
+                boolean different = true;
+                for(int i = 0; i < getCount(); i++ ){
+                    if(editable.toString().equals(getItem(i).getName()) && i != position){
+                        different = false;
+                    }
+                }
+                if(different){
+                    getItem(position).setName(editable.toString());
+                    gradientDrawable.setStroke(0, context.getResources().getColor(R.color.red));
+                }
+                else{
+                    gradientDrawable.setStroke(5,context.getResources().getColor(R.color.red));
+                }
+                txtTeamname.setBackground(gradientDrawable);
             }
         });
 

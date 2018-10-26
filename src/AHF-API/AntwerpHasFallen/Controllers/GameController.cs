@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using DataLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,15 @@ namespace AntwerpHasFallen.Controllers
         public IActionResult getAllGames()
         {
             return Ok(service.getGames());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult getGame(int id)
+        {
+            Game game = service.GetGame(id);
+            if (game != null)
+                return Ok(service.GetGame(id));
+            return NotFound();
         }
 
         [Route("newgame/{teams}")]

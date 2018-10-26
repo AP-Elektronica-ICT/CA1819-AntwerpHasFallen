@@ -21,6 +21,11 @@ namespace BusinessLayer
         {
             return context.Games.Include(g => g.Teams).ToList();
         }
+
+        public Game GetGame(int id)
+        {
+            return context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == id);
+        }
         
         public Game newGame(int teams, string[] teamNames)
         {

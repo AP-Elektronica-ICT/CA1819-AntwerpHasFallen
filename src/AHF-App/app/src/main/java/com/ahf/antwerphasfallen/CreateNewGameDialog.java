@@ -67,7 +67,7 @@ public class CreateNewGameDialog extends DialogFragment {
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getContext(), game.getTeams().get(0).getName(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "creating new game", Toast.LENGTH_LONG).show();
                         host.createNewGame(game);
                     }
                 })

@@ -82,6 +82,7 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
                     gradientDrawable.setStroke(0, context.getResources().getColor(R.color.red));
                 }
                 else{
+                    txtTeamname.setError("Teamnames must be different!");
                     gradientDrawable.setStroke(5,context.getResources().getColor(R.color.red));
                 }
                 txtTeamname.setBackground(gradientDrawable);

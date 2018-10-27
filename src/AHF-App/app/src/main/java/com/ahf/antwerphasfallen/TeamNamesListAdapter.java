@@ -51,10 +51,11 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
         txtTeamname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(!b){
-                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromInputMethod(view.getWindowToken(), 0);
-                }
+                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(!b)
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                else
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             }
         });
         txtTeamname.addTextChangedListener(new TextWatcher() {

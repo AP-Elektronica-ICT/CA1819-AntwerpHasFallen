@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateNewGameDialog dialog = new CreateNewGameDialog();
-                dialog.show(getSupportFragmentManager(), "Create new game");
+                SelectTeamsDialog dialog = new SelectTeamsDialog();
+                dialog.show(getSupportFragmentManager(), "Select teams ");
             }
         });
 

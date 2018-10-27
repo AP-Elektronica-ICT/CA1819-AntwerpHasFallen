@@ -61,8 +61,7 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
         txtTeamname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                gradientDrawable.setStroke(5,context.getResources().getColor(R.color.red));
-                txtTeamname.setBackground(gradientDrawable);
+
             }
 
             @Override

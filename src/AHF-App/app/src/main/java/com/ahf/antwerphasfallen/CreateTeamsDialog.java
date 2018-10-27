@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by Jorren on 26/10/2018.
  */
 
-public class CreateTeamsDialog extends DialogFragment {
+public class CreateTeamsDialog extends DialogFragment implements Subscriber{
     private static final String TAG = "CreateTeamsDialog";
 
     @NonNull
@@ -77,6 +77,8 @@ public class CreateTeamsDialog extends DialogFragment {
                     }
                 });
 
+        Provider.subscribeIsDifferent(this);
+
         return builder.create();
     }
 
@@ -85,5 +87,14 @@ public class CreateTeamsDialog extends DialogFragment {
         super.onResume();
         Dialog dialog = getDialog();
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+    }
+
+    @Override
+    public void Update() {
+        AlertDialog dialog = (AlertDialog)getDialog();
+        if(!Provider.isDifferent())
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        else
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
     }
 }

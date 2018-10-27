@@ -77,6 +77,7 @@ public class TeamNamesListAdapter extends ArrayAdapter<Team> {
                         different = false;
                     }
                 }
+                Provider.setIsDifferent(different);
                 if(different){
                     getItem(position).setName(editable.toString());
                     gradientDrawable.setStroke(0, context.getResources().getColor(R.color.red));

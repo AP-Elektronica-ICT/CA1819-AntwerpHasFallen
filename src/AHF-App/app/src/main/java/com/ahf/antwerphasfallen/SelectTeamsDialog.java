@@ -16,7 +16,7 @@ import android.widget.NumberPicker;
  * Created by Jorren on 26/10/2018.
  */
 
-public class SelectTeamsDialog extends DialogFragment {
+public class SelectTeamsDialog extends DialogFragment{
     private static final String TAG = "SelectTeamsDialog";
 
     @NonNull
@@ -54,4 +54,6 @@ public class SelectTeamsDialog extends DialogFragment {
 
         return builder.create();
     }
+
+
 }

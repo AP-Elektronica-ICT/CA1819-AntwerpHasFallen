@@ -25,8 +25,6 @@ import java.util.List;
 public class CreateNewGameDialog extends DialogFragment {
     private static final String TAG = "CreateNewGameDialog";
 
-    public static final String PREFERENCES_NAME = "teamnames";
-    private SharedPreferences preferences;
     private MainActivity host;
 
     @NonNull
@@ -35,8 +33,6 @@ public class CreateNewGameDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_creategame, null);
-
-        preferences = getContext().getSharedPreferences(CreateNewGameDialog.PREFERENCES_NAME, getContext().MODE_PRIVATE);
 
         final NumberPicker npTeams = (NumberPicker)dialogView.findViewById(R.id.np_teams);
         ListView listTeamNames = (ListView)dialogView.findViewById(R.id.list_teamnames);
@@ -62,12 +58,12 @@ public class CreateNewGameDialog extends DialogFragment {
 
 
         builder.setView(dialogView)
-                .setTitle("choose teamnames")
-                .setMessage("choose amount of teams")
+                .setTitle("Choose teamnames")
+                .setMessage("Choose amount of teams")
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getContext(), "creating new game", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "creating new game ", Toast.LENGTH_LONG).show();
                         host.createNewGame(game);
                     }
                 })

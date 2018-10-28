@@ -35,13 +35,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SelectTeamsDialog dialog = new SelectTeamsDialog();
                 dialog.show(getSupportFragmentManager(), "Select teams ");
+            }
+        });
+
+        Button btnJoin = (Button)findViewById(R.id.btn_join);
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JoinGameDialog dialog = new JoinGameDialog();
+                dialog.show(getSupportFragmentManager(), "Join Games");
             }
         });
 

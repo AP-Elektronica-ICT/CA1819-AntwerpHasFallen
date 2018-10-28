@@ -29,11 +29,15 @@ public class JoinGameDialog extends DialogFragment {
 
         builder.setView(dialogView)
                 .setMessage("Fill in the game Id")
-                .setPositiveButton("Join", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        int gameId = Integer.valueOf(txtId.getText().toString());
-
+                        int gameId = Integer.valueOf(txtId.getText().toString()); //TODO: don't allow empty
+                        Bundle data = new Bundle();
+                        data.putInt("gameId", gameId);
+                        JoinTeamDialog joinTeamDialog = new JoinTeamDialog();
+                        joinTeamDialog.setArguments(data);
+                        joinTeamDialog.show(getFragmentManager(), "JoinTeam");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

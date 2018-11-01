@@ -14,20 +14,11 @@ namespace DataLayer
 
             if (!context.Games.Any())
             {
-                Team t1 = new Team("testTeam")
-                {
-                    PlayerCount = 3
-                };
+                Team t1 = new Team("testTeam");
 
-                Team t2 = new Team("otherTeam")
-                {
-                    PlayerCount = 3
-                };
+                Team t2 = new Team("otherTeam");
 
-                Team t3 = new Team("newTeam")
-                {
-                    PlayerCount = 3
-                };
+                Team t3 = new Team("newTeam");
 
                 Game g1 = new Game()
                 {

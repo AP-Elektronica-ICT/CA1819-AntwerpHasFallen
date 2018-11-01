@@ -18,7 +18,12 @@ namespace BusinessLayer
         public Player JoinTeam(int gameId, int teamId)
         {
             Game game = context.Games.Find(gameId);
-            Team team = context.Teams.Find(teamId);
+            if (game == null) return null;
+            Team team = null;
+            foreach (Team t in game.Teams)
+                if (t.Id == teamId)
+                    team = t;
+            if (team == null) return null;
             Player player = new Player() { Game = game, TeamId = team.Id };
             context.Players.Add(player);
             context.SaveChanges();

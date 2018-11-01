@@ -20,4 +20,7 @@ public interface GameDataService {
 
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);
+
+    @POST("games/join/{gameId}")
+    Call<Player> joinGame(@Path("gameId") int gameId, @Body int teamId);
 }

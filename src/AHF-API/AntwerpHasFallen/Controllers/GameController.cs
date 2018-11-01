@@ -48,7 +48,7 @@ namespace AntwerpHasFallen.Controllers
         {
             Player player = teamService.JoinTeam(gameId, teamId);
             if (player != null)
-                return Ok(teamService.JoinTeam(gameId, teamId));
+                return Ok(player);
             return NotFound();
         }
     }

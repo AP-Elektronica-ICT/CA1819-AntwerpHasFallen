@@ -1,7 +1,9 @@
 ﻿using DataLayer;
 using DataLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BusinessLayer
@@ -17,7 +19,7 @@ namespace BusinessLayer
 
         public Player JoinTeam(int gameId, int teamId)
         {
-            Game game = context.Games.Find(gameId);
+            Game game = context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == gameId);
             if (game == null) return null;
             Team team = null;
             foreach (Team t in game.Teams)

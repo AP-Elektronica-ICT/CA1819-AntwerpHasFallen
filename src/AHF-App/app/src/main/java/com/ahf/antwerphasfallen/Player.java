@@ -7,7 +7,7 @@ package com.ahf.antwerphasfallen;
 public class Player {
 
     private int Id;
-    private Game Game;
+    private int GameId;
     private int TeamId;
 
     public int getId() {
@@ -18,12 +18,12 @@ public class Player {
         Id = id;
     }
 
-    public Game getGame() {
-        return Game;
+    public int getGameId() {
+        return GameId;
     }
 
-    public void setGame(Game game) {
-        Game = game;
+    public void setGameId(int gameId) {
+        GameId = gameId;
     }
 
     public int getTeamId() {

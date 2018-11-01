@@ -26,7 +26,7 @@ namespace BusinessLayer
                 if (t.Id == teamId)
                     team = t;
             if (team == null) return null;
-            Player player = new Player() { Game = game, TeamId = team.Id };
+            Player player = new Player() { GameId = game.Id, TeamId = team.Id };
             context.Players.Add(player);
             team.Players.Add(player);
             context.SaveChanges();

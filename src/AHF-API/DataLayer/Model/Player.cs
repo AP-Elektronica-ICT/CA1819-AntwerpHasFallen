@@ -7,7 +7,7 @@ namespace DataLayer.Model
     public class Player
     {
         public int Id { get; set; }
-        public Game Game { get; set; }
+        public int GameId { get; set; }
         public int TeamId { get; set; }
     }
 }

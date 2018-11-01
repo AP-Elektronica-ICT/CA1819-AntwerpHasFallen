@@ -26,6 +26,7 @@ namespace BusinessLayer
             if (team == null) return null;
             Player player = new Player() { Game = game, TeamId = team.Id };
             context.Players.Add(player);
+            team.Players.Add(player);
             context.SaveChanges();
             return player;
         }

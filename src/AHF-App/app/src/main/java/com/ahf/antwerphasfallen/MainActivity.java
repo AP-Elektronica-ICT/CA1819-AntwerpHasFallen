@@ -113,4 +113,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void joinGame(int gameId, int teamId){
+        Call<Player> call = service.joinGame(gameId, teamId);
+        call.enqueue(new Callback<Player>() {
+            @Override
+            public void onResponse(Call<Player> call, Response<Player> response) {
+                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                intent.putExtra("gameId", response.body().getGameId());
+                intent.putExtra("playerId", response.body().getId());
+                intent.putExtra("teamId", response.body().getTeamId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Player> call, Throwable t) {
+
+            }
+        });
+    }
 }

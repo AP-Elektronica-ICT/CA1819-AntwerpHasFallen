@@ -3,9 +3,11 @@ package com.ahf.antwerphasfallen;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ public class JoinTeamDialog extends DialogFragment {
         if(getArguments() != null)
             if(getArguments().getInt("gameId") != 0)
                 gameId = getArguments().getInt("gameId");
-        GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
         if(gameId != 0){
             Call<Game> call = service.getGame(gameId);
             call.enqueue(new Callback<Game>() {
@@ -76,7 +78,16 @@ public class JoinTeamDialog extends DialogFragment {
                 .setPositiveButton("Join", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getContext(), "joining game: " + game.getId() + " and team: " + adapter.getItem(adapter.getSelectedPosition()).getName(), Toast.LENGTH_SHORT).show();
+                        Team joinTeam = adapter.getItem(adapter.getSelectedPosition());
+                        Toast.makeText(getContext(), "joining game: " + game.getId() + " and team: " + joinTeam.getName(), Toast.LENGTH_SHORT).show();
+                        try{
+                            MainActivity host = (MainActivity)getActivity();
+                            host.joinGame(game.getId(), joinTeam.getId());
+                        }catch (ClassCastException e){
+                            Log.d(TAG, getActivity().toString() + " is not mainactivity");
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "joining game " + game.getId() + " failed", Toast.LENGTH_LONG).show();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

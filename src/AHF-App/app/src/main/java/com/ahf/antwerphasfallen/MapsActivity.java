@@ -69,16 +69,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -93,6 +83,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+                                Log.e("location", currentLocation.toString());
+                                LatLng test = new LatLng(51.391364, 4.466397);
+                                calculateDistance(currentLocation, test);
                             }
                         }
                     });
@@ -101,5 +94,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             Log.e("Security Exception", e.toString());
         }
+    }
+
+    private void calculateDistance(LatLng currentLoc, LatLng targetLoc){
+        double r = 6371;
+
+        double dLat = Math.toRadians(targetLoc.latitude - currentLoc.latitude);
+        double dLon = Math.toRadians(targetLoc.longitude - currentLoc.longitude);
+
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Math.toRadians(currentLoc.latitude)) * Math.cos(Math.toRadians(targetLoc.latitude)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double d = r * c;
+
+        Log.e("distance", "" + d);
     }
 }

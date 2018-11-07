@@ -2,6 +2,7 @@ package com.ahf.antwerphasfallen;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,11 +25,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FusedLocationProviderClient mFusedLocationClient;
+
     private Button btnStart;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
-    private LocationCallback mLocationCallback;
-    private LocationRequest mLocationRequest;
     private boolean allowLocation = false;
 
     @Override
@@ -36,28 +35,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         btnStart = findViewById(R.id.btn_start);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLocationUpdates();
+                Intent maps = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(maps);
             }
         });
-
-
-        //define the location request
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
 
         //Check if the app has permission to use location.
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
+            allowLocation = false;
             //If the app doesn't have permission to use location ask if it can.
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -65,55 +56,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             allowLocation = true;
-            //If the app already has permission get the location.
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                // Handle the location object
-                                Log.e("locatie", location.toString());
-                            }
-                        }
-                    });
-
-
         }
-
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                    Log.e("location", location.toString());
-                }
-            };
-        };
     }
-    /*
-    @Override
-    protected void onResume(){
-        super.onResume();
-        startLocationUpdates();
 
-    }
-    */
-    private void startLocationUpdates(){
-        if(allowLocation){
-            try {
-                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
-            }
-            catch (SecurityException e)
-            {
-                Log.e("Security Exception", e.toString());
-            }
-        }
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,

@@ -17,6 +17,16 @@ namespace BusinessLayer
             this.context = context;
         }
 
+        public List<Team> GetTeams()
+        {
+            return context.Teams.Include(t => t.Players).ToList();
+        }
+
+        public List<Player> GetPlayers()
+        {
+            return context.Players.ToList();
+        }
+
         public Player JoinTeam(int gameId, int teamId)
         {
             Game game = context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == gameId);

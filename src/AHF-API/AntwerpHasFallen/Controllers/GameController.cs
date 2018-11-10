@@ -27,12 +27,22 @@ namespace AntwerpHasFallen.Controllers
             return Ok(gameService.getGames());
         }
 
-        [HttpGet("{id}")]
+        [Route("{id}")]
+        [HttpGet()]
         public IActionResult getGame(int id)
         {
             Game game = gameService.GetGame(id);
             if (game != null)
                 return Ok(gameService.GetGame(id));
+            return NotFound();
+        }
+
+        [Route("{id}")]
+        [HttpDelete()]
+        public IActionResult deleteGame(int id)
+        {
+            if(gameService.deleteGame(id))
+                return Ok();
             return NotFound();
         }
 
@@ -43,7 +53,8 @@ namespace AntwerpHasFallen.Controllers
             return Ok(gameService.newGame(teams, teamNames.ToArray<string>()));
         }
 
-        [HttpPost("join/{gameId}")]
+        [Route("join/{gameId}")]
+        [HttpPost()]
         public IActionResult joinGame(int gameId, [FromBody] int teamId)
         {
             Player player = teamService.JoinTeam(gameId, teamId);

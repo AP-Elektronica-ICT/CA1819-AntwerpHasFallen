@@ -6,31 +6,31 @@ package com.ahf.antwerphasfallen;
 
 public class Player {
 
-    private int Id;
-    private int GameId;
-    private int TeamId;
+    private int id;
+    private int gameId;
+    private int teamId;
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public int getGameId() {
-        return GameId;
+        return gameId;
     }
 
     public void setGameId(int gameId) {
-        GameId = gameId;
+        this.gameId = gameId;
     }
 
     public int getTeamId() {
-        return TeamId;
+        return teamId;
     }
 
     public void setTeamId(int teamId) {
-        TeamId = teamId;
+        this.teamId = teamId;
     }
 }

@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnStart = findViewById(R.id.btn_start);
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +73,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 JoinGameDialog dialog = new JoinGameDialog();
                 dialog.show(getSupportFragmentManager(), "Join Games");
-            }
-        });
-
-        /*LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent maps = new Intent(MainActivity.this, MapsActivity.class);
-                //startActivity(maps);
             }
         });
 

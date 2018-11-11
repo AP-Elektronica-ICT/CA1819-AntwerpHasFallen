@@ -32,6 +32,7 @@ namespace AntwerpHasFallen
             );
 
             services.AddScoped<GameService>();
+            services.AddScoped<TeamService>();
             services.AddMvc();
         }
 

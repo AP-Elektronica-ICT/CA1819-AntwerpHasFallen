@@ -2,28 +2,40 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/AntwerpHasFallen",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:54020/",
+      "applicationUrl": "http://localhost:54020/AntwerpHasFallen",
       "sslPort": 0
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "AntwerpHasFallen": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+      "IIS": {
+        "commandName": "IIS",
+        "launchBrowser": true,
+        "launchUrl": "api/games",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
       },
-      "applicationUrl": "http://localhost:54021/"
+      "IIS Express": {
+        "commandName": "IISExpress",
+        "launchBrowser": true,
+        "launchUrl": "api/games",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "AntwerpHasFallen": {
+        "commandName": "Project",
+        "launchBrowser": true,
+        "launchUrl": "api/games",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "applicationUrl": "http://*:54021/"
+      }
     }
   }
-}

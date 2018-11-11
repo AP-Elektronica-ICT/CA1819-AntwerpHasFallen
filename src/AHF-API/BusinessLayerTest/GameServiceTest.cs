@@ -1,14 +1,23 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Moq;
+using BusinessLayer;
 
 namespace BusinessLayerTest
 {
-    [TestClass]
     public class GameServiceTest
     {
-        [TestMethod]
-        public void TestMethod1()
+        [Theory]
+        [InlineData("test test", "testtest")]
+        [InlineData("i is tt   bla", "iisttbla")]
+        [InlineData("nospace", "nospace")]
+        [InlineData("       ", "")]
+        public void RemoveWhiteSpacesTest(string s, string value)
         {
+            var serviceMock = new Mock<GameService>();
+            GameService service = serviceMock.Object;
+            string result = service.RemoveWhiteSpaces(s);
+            Assert.Equal(result, value);
         }
     }
 }

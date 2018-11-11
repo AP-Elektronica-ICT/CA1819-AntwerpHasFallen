@@ -73,7 +73,7 @@ namespace BusinessLayer
             else return null;
         }
 
-        private bool isDifferent(string[] checkArray)
+        public bool isDifferent(string[] checkArray)
         {
             bool different = true;
             for(int i = 0; i < checkArray.Length - 1; i++)
@@ -86,7 +86,7 @@ namespace BusinessLayer
             return different;
         }
 
-        private string RemoveWhiteSpaces(string s)
+        public string RemoveWhiteSpaces(string s)
         {
             return new string(s.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
         }

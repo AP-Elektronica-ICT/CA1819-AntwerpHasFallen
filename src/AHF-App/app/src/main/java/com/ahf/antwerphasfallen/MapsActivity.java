@@ -1,8 +1,10 @@
 package com.ahf.antwerphasfallen;
 
+import android.content.DialogInterface;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -25,6 +27,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private LatLng currentLocation;
+    private LatLng targetLocation;
+    private String targetLocationTitle;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        builder = new AlertDialog.Builder(MapsActivity.this);
+        builder.setTitle("Alert")
+                .setMessage("You have arrived at your location")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        /*
+
+                            code voor naar het volgende scherm te gaan
+
+                         */
+                    }
+                });
+
+        /*
+
+            Code voor de coordinaten en naam van de volgende locatie uit de database te halen, deze komen dan in targetLocation en targetLocationTitle
+
+         */
+
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -47,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 for (Location location : locationResult.getLocations()) {
                     currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    //calculateDistance(currentLocation, targetLocation);
                 }
             };
         };
@@ -81,11 +108,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             if (location != null) {
                                 //startLocationUpdates();
                                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
+                                mMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                                Log.e("location", currentLocation.toString());
-                                LatLng test = new LatLng(51.391364, 4.466397);
-                                calculateDistance(currentLocation, test);
+                                mMap.addMarker(new MarkerOptions().position(targetLocation).title(targetLocationTitle));
                             }
                         }
                     });
@@ -105,7 +130,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Math.toRadians(currentLoc.latitude)) * Math.cos(Math.toRadians(targetLoc.latitude)) * Math.sin(dLon/2) * Math.sin(dLon/2);
         double c = 2 * Math.asin(Math.sqrt(a));
         double d = r * c;
+        d = Math.round(d*1000);
+        Log.e("distance", d + "m");
 
-        Log.e("distance", "" + d);
+        if(d <= 50){
+            builder.show();
+        }
     }
 }

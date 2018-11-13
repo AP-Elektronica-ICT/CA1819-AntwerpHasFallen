@@ -1,8 +1,6 @@
-package com.ahf.antwerphasfallen;
 
-import android.media.Image;
 
-public class DecodingPuzzles extends Puzzles {
+public class DecodingPuzzles: Puzzles {
     Image decodingdiagram;
     Image key;
 

@@ -1,12 +1,12 @@
-package com.ahf.antwerphasfallen;
+
 
 public class Puzzles {
 
-String question;
-String solution;
+string question;
+string solution;
 
-public String Checksolution(String sol){
-    String solution = sol;
+public string Checksolution(string sol){
+    string solution = sol;
     if (this.solution == solution) {
         return ("Antwoord is correct");
     }
@@ -16,11 +16,11 @@ public String Checksolution(String sol){
         }
     }
 
-    public void setQuestion(String question) {
+    public void setQuestion(string question) {
         this.question = question;
     }
 
-    public void setSolution(String solution) {
+    public void setSolution(string solution) {
         this.solution = solution;
     }
 }

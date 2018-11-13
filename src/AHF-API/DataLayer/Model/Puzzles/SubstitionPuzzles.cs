@@ -1,15 +1,13 @@
-package com.ahf.antwerphasfallen;
 
-import android.media.Image;
 
-public class SubstitionPuzzles extends Puzzles {
+public class SubstitionPuzzles : Puzzles {
     Image diagram;
-    String key;
+    string key;
 
 
 
-    public String CheckKey(String key){
-        String Key = key;
+    public string CheckKey(string key){
+        string Key = key;
         if (this.key == Key) {
             return ("Key is correct, hiermee kan u verder");
         }

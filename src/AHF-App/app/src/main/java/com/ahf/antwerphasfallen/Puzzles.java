@@ -1,6 +1,6 @@
 package com.ahf.antwerphasfallen;
 
-public class Puzzles {
+public abstract class Puzzles {
 
 String question;
 String solution;

@@ -23,11 +23,6 @@ namespace AntwerpHasFallen.Controllers
         {
             return Ok(teamService.GetTeams());
         }
-
-        [HttpGet("/players")]
-        public IActionResult getAllPlayers()
-        {
-            return Ok(teamService.GetPlayers());
-        }
+        
     }
 }

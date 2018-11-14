@@ -1,7 +1,7 @@
 
 
 public class DecodingPuzzles: Puzzles {
-    Image decodingdiagram;
+    /*Image decodingdiagram;
     Image key;
 
     public void setDecodingdiagram(Image decodingdiagram) {
@@ -10,5 +10,5 @@ public class DecodingPuzzles: Puzzles {
 
     public void setKey(Image key) {
         this.key = key;
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 
 
 public class SubstitionPuzzles : Puzzles {
-    Image diagram;
+    /*Image diagram;
     string key;
 
 
@@ -20,6 +20,6 @@ public class SubstitionPuzzles : Puzzles {
     public void setDiagram(Image diagram) {
         this.diagram = diagram;
     }
-
+    */
 }
 

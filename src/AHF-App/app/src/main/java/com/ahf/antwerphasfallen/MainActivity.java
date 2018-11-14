@@ -1,6 +1,17 @@
 package com.ahf.antwerphasfallen;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +35,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
+
+    private Button btnStart;
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
+    private boolean allowLocation = false;
 
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
@@ -34,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -45,36 +67,70 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener = new LocationListener() {
+        Button btnJoin = (Button)findViewById(R.id.btn_join);
+        btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-                //makeUseOfNewLocation(location);
+            public void onClick(View view) {
+                JoinGameDialog dialog = new JoinGameDialog();
+                dialog.show(getSupportFragmentManager(), "Join Games");
             }
+        });
 
+        Button btnMap = (Button)findViewById(R.id.btn_map);
+        btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
+            public void onClick(View view) {
+                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapsIntent);
             }
+        });
 
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        }
-        catch (SecurityException e)
+        //Check if the app has permission to use location.
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            Log.e("error", e.toString());
-        }*/
+            allowLocation = false;
+            //If the app doesn't have permission to use location ask if it can.
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+        }
+        else{
+            allowLocation = true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    allowLocation= true;
+                    /*
+
+                        Code that needs to be executed if the permission is granted.
+
+                    */
+                    
+                } else {
+                    allowLocation = false;
+                    /*
+
+                        Code that needs to be executed if the permission is denied.
+
+                    */
+                }
+                return;
+            }
+
+            /*
+
+                Other permissions the app needs
+
+            */
+        }
     }
 
     @NonNull
@@ -102,6 +158,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + call.toString());
+            }
+        });
+    }
+
+    public void joinGame(int gameId, int teamId){
+        Call<Player> call = service.joinGame(gameId, teamId);
+        call.enqueue(new Callback<Player>() {
+            @Override
+            public void onResponse(Call<Player> call, Response<Player> response) {
+                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                intent.putExtra("gameId", response.body().getGameId());
+                intent.putExtra("playerId", response.body().getId());
+                intent.putExtra("teamId", response.body().getTeamId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Player> call, Throwable t) {
+
             }
         });
     }

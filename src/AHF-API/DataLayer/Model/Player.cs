@@ -4,13 +4,10 @@ using System.Text;
 
 namespace DataLayer.Model
 {
-    public class Game
+    public class Player
     {
-        public Game()
-        {
-            Teams = new List<Team>();
-        }
         public int Id { get; set; }
-        public List<Team> Teams { get; set; }
+        public int GameId { get; set; }
+        public int TeamId { get; set; }
     }
 }

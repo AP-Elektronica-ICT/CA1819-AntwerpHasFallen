@@ -11,12 +11,15 @@ public class InGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
 
-        int id = 0;
+        int gameId = 0;
+        int playerId = 0;
         Bundle extras = getIntent().getExtras();
-        if(extras != null)
-            id = extras.getInt("gameId");
+        if(extras != null){
+            gameId = extras.getInt("gameId");
+            playerId = extras.getInt("playerId");
+        }
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
-        txtGameId.setText("Game id: " + id);
+        txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
     }
 }

@@ -1,5 +1,7 @@
 package com.ahf.antwerphasfallen;
 
+import java.util.List;
+
 /**
  * Created by Jorren on 20/10/2018.
  */
@@ -7,7 +9,7 @@ package com.ahf.antwerphasfallen;
 public class Team {
     private int id;
     private String name;
-    private int playerCount;
+    private List<Player> players;
 
     public Team() {
     }
@@ -32,11 +34,11 @@ public class Team {
         this.name = name;
     }
 
-    public int getPlayerCount() {
-        return playerCount;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setPlayerCount(int playerCount) {
-        this.playerCount = playerCount;
+    public void setPlayers(List<Player> playerCount) {
+        this.players = playerCount;
     }
 }

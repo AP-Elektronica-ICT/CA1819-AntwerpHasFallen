@@ -29,7 +29,7 @@ namespace BusinessLayer
 
         public bool deleteGame(int id)
         {
-            Game game = context.Games.Find(id);
+            Game game = context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).SingleOrDefault(g => g.Id == id);
             if (game == null)
                 return false;
             List<Team> teams = game.Teams;

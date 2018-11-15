@@ -1,10 +1,12 @@
 package com.ahf.antwerphasfallen;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +40,8 @@ public class InGameActivity extends AppCompatActivity {
         btn_endGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
+                dialog.show(getSupportFragmentManager(), "confirm end game");
             }
         });
     }
@@ -63,12 +66,16 @@ public class InGameActivity extends AppCompatActivity {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                
+                if (response.body() != null) {
+                    Toast.makeText(InGameActivity.this, "Game ended", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(InGameActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-
+                Toast.makeText(InGameActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
     }

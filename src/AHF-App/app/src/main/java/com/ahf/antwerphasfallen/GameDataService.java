@@ -28,6 +28,6 @@ public interface GameDataService {
     @POST("games/join/{gameId}")
     Call<Player> joinGame(@Path("gameId") int gameId, @Body int teamId);
 
-    @DELETE("games/end/{gameId}")
+    @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
 }

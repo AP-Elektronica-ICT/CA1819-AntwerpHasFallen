@@ -18,11 +18,14 @@ namespace AntwerpHasFallen.Controllers
             this.playerService = playerService;
         }
 
+        [HttpGet()]
         public IActionResult getAllPlayers()
         {
             return Ok(playerService.GetPlayers());
         }
 
+        [Route("{id}")]
+        [HttpGet()]
         public IActionResult getPlayer(int id)
         {
             if (playerService.GetPlayer(id) != null)

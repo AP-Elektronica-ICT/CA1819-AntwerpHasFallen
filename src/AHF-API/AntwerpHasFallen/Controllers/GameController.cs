@@ -42,7 +42,7 @@ namespace AntwerpHasFallen.Controllers
         public IActionResult deleteGame(int id)
         {
             if(gameService.deleteGame(id))
-                return Ok();
+                return Ok(true);
             return NotFound();
         }
 

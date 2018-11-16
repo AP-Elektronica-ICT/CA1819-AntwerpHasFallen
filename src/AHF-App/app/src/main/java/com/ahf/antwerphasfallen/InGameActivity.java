@@ -18,6 +18,7 @@ public class InGameActivity extends AppCompatActivity {
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     public Player CurrentPlayer;
+    public Team CurrentTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,23 @@ public class InGameActivity extends AppCompatActivity {
         call.enqueue(new Callback<Player>() {
             @Override
             public void onResponse(Call<Player> call, Response<Player> response) {
-                CurrentPlayer = response.body();
+                if (response.body() != null) {
+                    CurrentPlayer = response.body();
+                    Call<Team> teamCall = service.getTeam(CurrentPlayer.getTeamId());
+                    teamCall.enqueue(new Callback<Team>() {
+                        @Override
+                        public void onResponse(Call<Team> call, Response<Team> response) {
+                            if(response.body() != null) {
+                                CurrentTeam = response.body();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Team> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
 
             @Override

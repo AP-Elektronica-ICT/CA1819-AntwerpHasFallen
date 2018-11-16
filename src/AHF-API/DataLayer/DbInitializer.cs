@@ -16,10 +16,16 @@ namespace DataLayer
             if (!context.Games.Any())
             {
                 Team t1 = new Team("testTeam");
+                Inventory inventoryT1 = new Inventory();
+                t1.Inventory = inventoryT1;
 
                 Team t2 = new Team("otherTeam");
+                Inventory inventoryT2 = new Inventory();
+                t2.Inventory = inventoryT2;
 
                 Team t3 = new Team("newTeam");
+                Inventory inventoryT3 = new Inventory();
+                t3.Inventory = inventoryT3;
 
                 Game g1 = new Game();
                 g1.Teams.Add(t1);
@@ -27,6 +33,10 @@ namespace DataLayer
                 g1.Teams.Add(t3);
 
                 createTestInventoryItems(context);
+
+                context.Inventories.Add(inventoryT1);
+                context.Inventories.Add(inventoryT2);
+                context.Inventories.Add(inventoryT3);
 
                 context.Teams.Add(t1);
                 context.Teams.Add(t2);

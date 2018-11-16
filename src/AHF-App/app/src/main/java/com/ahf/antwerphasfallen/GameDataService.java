@@ -22,6 +22,12 @@ public interface GameDataService {
     @GET("players/{id}")
     Call<Player> getPlayer(@Path("id") int id);
 
+    @GET("teams/{id}")
+    Call<Team> getTeam(@Path("id") int id);
+
+    @GET("inventory/{id}")
+    Call<Inventory> getInventory(@Path("id") int id);
+
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);
 

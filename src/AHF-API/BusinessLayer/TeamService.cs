@@ -27,10 +27,10 @@ namespace BusinessLayer
             try
             {
                 return context.Teams.Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
-            }catch (ArgumentNullException e)
+            }catch (ArgumentNullException)
             {
                 return null;
-            }catch (InvalidOperationException e)
+            }catch (InvalidOperationException)
             {
                 return null;
             }

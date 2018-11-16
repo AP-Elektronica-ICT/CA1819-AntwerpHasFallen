@@ -12,6 +12,7 @@ namespace DataLayer.Model.InventoryModel
             Ingredients = new List<Ingredient>();
         }
 
+        public int Id { get; set; }
         public List<ShopItem> ShopItems { get; set; }
         public List<Ingredient> Ingredients { get; set; }
     }

@@ -39,7 +39,10 @@ namespace DataLayer
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis");
                 Location l3 = new Location(51.222759, 4.397382, "Het Steen");
 
-                
+                context.Locations.Add(l1);
+                context.Locations.Add(l2);
+                context.Locations.Add(l3);
+
             }
 
             context.SaveChanges();

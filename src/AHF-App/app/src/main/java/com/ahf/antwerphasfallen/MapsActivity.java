@@ -23,6 +23,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.w3c.dom.Text;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -35,10 +39,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AlertDialog.Builder builder;
     private TextView txt_distance;
 
+    public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        int locationId = 5;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            locationId = extras.getInt("locationId");
+            Log.e("locationId", "" + locationId);
+
+            Call<com.ahf.antwerphasfallen.Location> call = service.getLocation(locationId);
+            call.enqueue(new Callback<com.ahf.antwerphasfallen.Location>() {
+                @Override
+                public void onResponse(Call<com.ahf.antwerphasfallen.Location> call, Response<com.ahf.antwerphasfallen.Location> response) {
+                    targetLocation = new LatLng(response.body().getLat(), response.body().getLon());
+                    targetLocationTitle = response.body().getName();
+                }
+
+                @Override
+                public void onFailure(Call<com.ahf.antwerphasfallen.Location> call, Throwable t) {
+
+                }
+            });
+        }
 
         txt_distance = (TextView)findViewById(R.id.txt_distance);
 
@@ -113,12 +140,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 //demo
-                                targetLocation = new LatLng(51.229852, 4.423083);
+                                //targetLocation = new LatLng(51.229852, 4.423083);
                                 //startLocationUpdates();
                                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                                mMap.addMarker(new MarkerOptions().position(targetLocation).title(/*targetLocationTitle*/ "target location"));
+                                mMap.addMarker(new MarkerOptions().position(targetLocation).title(targetLocationTitle));
                                 //demo
                                 calculateDistance(currentLocation,targetLocation);
                             }

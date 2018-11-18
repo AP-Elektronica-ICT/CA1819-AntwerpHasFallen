@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLayer;
+using DataLayer.Model;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,28 @@ namespace AntwerpHasFallen.Controllers
     [Route("api/locations")]
     public class LocationController : Controller
     {
+        private readonly LocationService locationService;
+
+        public LocationController(LocationService locationService)
+        {
+            this.locationService = locationService;
+        }
+
+        public IActionResult getAllLocations()
+        {
+            return Ok(locationService.getLocations());
+        }
+
+        [Route("{id}")]
+        [HttpGet()]
+        public IActionResult getLocation(int id)
+        {
+            Location location = locationService.GetLocation(id);
+            if (location != null)
+                return Ok(location);
+            else
+                return NotFound();
+        }
 
     }
 }

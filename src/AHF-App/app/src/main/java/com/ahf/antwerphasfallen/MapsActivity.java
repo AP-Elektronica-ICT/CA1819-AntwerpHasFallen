@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -20,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.w3c.dom.Text;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -30,11 +33,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng targetLocation;
     private String targetLocationTitle;
     private AlertDialog.Builder builder;
+    private TextView txt_distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        txt_distance = (TextView)findViewById(R.id.txt_distance);
 
         //define the location request
         mLocationRequest = new LocationRequest();
@@ -106,11 +112,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
+                                //demo
+                                targetLocation = new LatLng(51.229852, 4.423083);
                                 //startLocationUpdates();
                                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                                mMap.addMarker(new MarkerOptions().position(targetLocation).title(targetLocationTitle));
+                                mMap.addMarker(new MarkerOptions().position(targetLocation).title(/*targetLocationTitle*/ "target location"));
+                                //demo
+                                calculateDistance(currentLocation,targetLocation);
                             }
                         }
                     });
@@ -132,6 +142,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double d = r * c;
         d = Math.round(d*1000);
         Log.e("distance", d + "m");
+        txt_distance.setText(d + "m");
 
         if(d <= 50){
             builder.show();

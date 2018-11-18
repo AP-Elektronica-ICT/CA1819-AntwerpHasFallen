@@ -50,7 +50,9 @@ namespace AntwerpHasFallen.Controllers
         [HttpPost()]
         public IActionResult startNewGame(int teams, [FromBody] IEnumerable<string> teamNames)
         {
-            return Ok(gameService.newGame(teams, teamNames.ToArray<string>()));
+            if (gameService.newGame(teams, teamNames.ToArray<string>()) != null)
+                return Ok(gameService.newGame(teams, teamNames.ToArray<string>()));
+            else return NotFound();
         }
 
         [Route("join/{gameId}")]

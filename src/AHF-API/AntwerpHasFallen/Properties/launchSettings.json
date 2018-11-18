@@ -12,30 +12,30 @@
     }
   },
   "profiles": {
-      "IIS": {
-        "commandName": "IIS",
-        "launchBrowser": true,
-        "launchUrl": "api/games",
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
-      },
-      "IIS Express": {
-        "commandName": "IISExpress",
-        "launchBrowser": true,
-        "launchUrl": "api/games",
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
-      },
-      "AntwerpHasFallen": {
-        "commandName": "Project",
-        "launchBrowser": true,
-        "launchUrl": "api/games",
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        },
-        "applicationUrl": "http://*:54021/"
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "api/games",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "api/games",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "AntwerpHasFallen": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api/games",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://*:54021/"
     }
   }
+}

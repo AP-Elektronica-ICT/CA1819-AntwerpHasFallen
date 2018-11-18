@@ -58,15 +58,37 @@ namespace BusinessLayer
         {
             Game game = new Game();
             game.Teams = new List<Team>();
-            for (int i = 0; i < teams; i++)
+            if (isDifferent(teamNames))
             {
-                Team team = new Team(teamNames[i]);
-                game.Teams.Add(team);
-                context.Add(team);
+                for (int i = 0; i < teams; i++)
+                {
+                    Team team = new Team(teamNames[i]);
+                    game.Teams.Add(team);
+                    context.Add(team);
+                }
+                context.Add(game);
+                context.SaveChanges();
+                return game;
             }
-            context.Add(game);
-            context.SaveChanges();
-            return game;
+            else return null;
+        }
+
+        public bool isDifferent(string[] checkArray)
+        {
+            bool different = true;
+            for(int i = 0; i < checkArray.Length - 1; i++)
+                for(int j = i + 1; j < checkArray.Length; j++)
+                    if (RemoveWhiteSpaces(checkArray[i]).Equals(RemoveWhiteSpaces(checkArray[j])))
+                    {
+                        different = false;
+                        break;
+                    }
+            return different;
+        }
+
+        public string RemoveWhiteSpaces(string s)
+        {
+            return new string(s.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
         }
     }
 }

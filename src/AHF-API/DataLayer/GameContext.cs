@@ -16,5 +16,6 @@ namespace DataLayer
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<Location> Locations { get; set; }
     }
 }

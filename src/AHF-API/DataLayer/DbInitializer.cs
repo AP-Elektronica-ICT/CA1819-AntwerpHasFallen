@@ -31,14 +31,18 @@ namespace DataLayer
 
                 context.Games.Add(g1);
 
-                context.SaveChanges();
+                //context.SaveChanges();
             }
             if (!context.Locations.Any())
             {
                 Location l1 = new Location(51.229023, 4.404622, "MAS");
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis");
                 Location l3 = new Location(51.222759, 4.397382, "Het Steen");
+
+                
             }
+
+            context.SaveChanges();
         }
     }
 }

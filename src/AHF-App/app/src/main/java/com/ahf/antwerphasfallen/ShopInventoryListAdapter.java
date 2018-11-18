@@ -26,12 +26,12 @@ public class ShopInventoryListAdapter extends ArrayAdapter<ShopItem> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.list_item_shop_inventory, null);
 
-        TextView lblName = itemView.findViewById(R.id.lbl_name);
-        TextView lblQuantity = itemView.findViewById(R.id.lbl_quantity);
+        TextView lblName = itemView.findViewById(R.id.lbl_item_shop_name);
+        TextView lblQuantity = itemView.findViewById(R.id.lbl_item_shop_quantity);
         TextView lblDescription = itemView.findViewById(R.id.lbl_description);
 
         lblName.setText(getItem(position).getName());
-        lblQuantity.setText(getItem(position).getQuantity());
+        lblQuantity.setText(Integer.toString(getItem(position).getQuantity()));
         lblDescription.setText(getItem(position).getDescription());
 
         return itemView;

@@ -31,7 +31,7 @@ public class IngredientsListAdapter extends ArrayAdapter<Ingredient> {
         TextView lblQuantity = itemView.findViewById(R.id.lbl_quantity);
 
         lblName.setText(getItem(position).getName());
-        lblQuantity.setText(getItem(position).getQuantity());
+        lblQuantity.setText(Integer.toString(getItem(position).getQuantity()));
 
         return itemView;
     }

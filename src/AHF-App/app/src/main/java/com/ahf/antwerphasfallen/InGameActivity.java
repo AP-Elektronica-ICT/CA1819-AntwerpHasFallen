@@ -20,6 +20,8 @@ public class InGameActivity extends AppCompatActivity {
     public Player CurrentPlayer;
     public Team CurrentTeam;
 
+    private InventoryFragment inventoryFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,11 @@ public class InGameActivity extends AppCompatActivity {
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
         txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
+
+        inventoryFragment = new InventoryFragment();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment, inventoryFragment, "inventoryFragment");
+        ft.commit();
 
         Button btn_endGame = findViewById(R.id.btn_endGame);
         btn_endGame.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +67,21 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
+                                Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
+                                inventoryCall.enqueue(new Callback<Inventory>() {
+                                    @Override
+                                    public void onResponse(Call<Inventory> call, Response<Inventory> response) {
+                                        if (response.body() != null) {
+                                            CurrentTeam.setInventory(response.body());
+                                            inventoryFragment.setAdapters();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Inventory> call, Throwable t) {
+
+                                    }
+                                });
                             }
                         }
 

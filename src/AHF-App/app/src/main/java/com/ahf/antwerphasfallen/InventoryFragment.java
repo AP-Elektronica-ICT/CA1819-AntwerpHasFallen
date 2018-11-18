@@ -13,10 +13,7 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InventoryFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * A simple {@link Fragment} subclass
  * Use the {@link InventoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -25,6 +22,8 @@ public class InventoryFragment extends Fragment {
     private InGameActivity host;
     private IngredientsListAdapter ingredientsAdapter;
     private ShopInventoryListAdapter shopInventoryAdapter;
+    private ListView lvIngredients;
+    private ListView lvShopItems;
 
     public InventoryFragment() {
     }
@@ -38,6 +37,24 @@ public class InventoryFragment extends Fragment {
         return fragment;
     }
 
+    public void setAdapters() {
+        if (host.CurrentTeam != null) {
+            if (host.CurrentTeam.getInventory() != null) {
+                if (host.CurrentTeam.getInventory().getIngredients() != null)
+                    ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
+                if (host.CurrentTeam.getInventory().getShopItems() != null)
+                    shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getShopItems());
+                ingredientsAdapter.notifyDataSetChanged();
+                shopInventoryAdapter.notifyDataSetChanged();
+            }
+        } else {
+            ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<Ingredient>());
+            shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<ShopItem>());
+        }
+        lvIngredients.setAdapter(ingredientsAdapter);
+        lvShopItems.setAdapter(shopInventoryAdapter);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,19 +62,19 @@ public class InventoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
-        ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList)host.CurrentTeam.getInventory().getIngredients());
-        shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), (ArrayList)host.CurrentTeam.getInventory().getShopItems());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_inventory, container, false);
 
-        ListView lvIngredients = fragmentView.findViewById(R.id.lv_ingredients);
+        lvIngredients = fragmentView.findViewById(R.id.lv_ingredients);
         lvIngredients.setAdapter(ingredientsAdapter);
 
-        ListView lvShopItems = fragmentView.findViewById(R.id.lv_shopItems);
+        lvShopItems = fragmentView.findViewById(R.id.lv_shopItems);
         lvShopItems.setAdapter(shopInventoryAdapter);
+
+        setAdapters();
 
         return fragmentView;
     }
@@ -69,7 +86,7 @@ public class InventoryFragment extends Fragment {
             host = (InGameActivity) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " is not inGameActivity");
         }
     }
 

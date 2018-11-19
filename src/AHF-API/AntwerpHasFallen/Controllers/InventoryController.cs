@@ -30,6 +30,24 @@ namespace AntwerpHasFallen.Controllers
             return Ok(inventoryItems);
         }
 
+        [Route("shopItems")]
+        [HttpGet]
+        public IActionResult getAllShopItems()
+        {
+            if (inventoryService.GetShopItems() != null)
+                return Ok(inventoryService.GetShopItems());
+            return NotFound();
+        }
+
+        [Route("ingredients")]
+        [HttpGet]
+        public IActionResult getAllIngredients()
+        {
+            if (inventoryService.GetIngredients() != null)
+                return Ok(inventoryService.GetIngredients());
+            return NotFound();
+        }
+
         [Route("{id}")]
         [HttpGet]
         public IActionResult getInventory(int id)

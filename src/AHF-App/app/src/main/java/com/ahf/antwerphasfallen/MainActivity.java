@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+                Intent mapsIntent = new Intent(MainActivity.this, InGameActivity.class);
                 startActivity(mapsIntent);
             }
         });

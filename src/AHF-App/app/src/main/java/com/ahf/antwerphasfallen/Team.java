@@ -10,6 +10,7 @@ public class Team {
     private int id;
     private String name;
     private List<Player> players;
+    private Inventory inventory;
 
     public Team() {
     }
@@ -40,5 +41,13 @@ public class Team {
 
     public void setPlayers(List<Player> playerCount) {
         this.players = playerCount;
+    }
+    
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }

@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ahf.antwerphasfallen.InventoryFragment">
+
+    <TextView
+        android:text="Ingredients"
+        android:id="@+id/lbl_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:layout_below="@id/lbl_ingredients"
+        android:id="@+id/lv_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+    <TextView
+        android:layout_below="@id/lv_ingredients"
+        android:text="Shop inventory"
+        android:id="@+id/lbl_shopItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:layout_below="@id/lbl_shopItems"
+        android:id="@+id/lv_shopItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+</RelativeLayout>

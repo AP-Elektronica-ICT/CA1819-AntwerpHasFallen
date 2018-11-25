@@ -30,7 +30,9 @@ public class PuzzlesActivity extends AppCompatActivity {
     public void Checksolution(View view) {
         String antwoord = answer.getText().toString();
         if (antwoord == vraag.solution) {
-            
+            question.setText("Proficiat! Antwoord is juist");
         }
     }
+
+    
 }

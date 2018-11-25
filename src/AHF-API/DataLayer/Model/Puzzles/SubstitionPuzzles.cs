@@ -1,7 +1,7 @@
 
 
 public class SubstitionPuzzles : Puzzles {
-    /*Image diagram;
+    
     string key;
 
 
@@ -16,10 +16,5 @@ public class SubstitionPuzzles : Puzzles {
             return("Key is fout, probeer opnieuw");
         }
     }
-
-    public void setDiagram(Image diagram) {
-        this.diagram = diagram;
-    }
-    */
 }
 

@@ -1,14 +1,13 @@
 
+using static System.Net.Mime.MediaTypeNames;
 
 public class DecodingPuzzles: Puzzles {
-    /*Image decodingdiagram;
-    Image key;
+     /* Image key;
 
-    public void setDecodingdiagram(Image decodingdiagram) {
-        this.decodingdiagram = decodingdiagram;
-    }
+   
 
-    public void setKey(Image key) {
+     public void setKey( key) {
         this.key = key;
-    }*/
+    }
+    */
 }

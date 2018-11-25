@@ -62,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectTeamsDialog dialog = new SelectTeamsDialog();
-                dialog.show(getSupportFragmentManager(), "Select teams ");
+               /* SelectTeamsDialog dialog = new SelectTeamsDialog();
+                dialog.show(getSupportFragmentManager(), "Select teams ");*/
+                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -108,19 +110,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     allowLocation= true;
-                    /*
-
-                        Code that needs to be executed if the permission is granted.
-
-                    */
                     
                 } else {
                     allowLocation = false;
-                    /*
-
-                        Code that needs to be executed if the permission is denied.
-
-                    */
                 }
                 return;
             }

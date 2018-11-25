@@ -65,12 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
 
-        /*
-
-            Code voor de coordinaten en naam van de volgende locatie uit de database te halen, deze komen dan in targetLocation en targetLocationTitle
-
-         */
-
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {

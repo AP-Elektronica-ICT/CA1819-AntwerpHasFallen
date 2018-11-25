@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mapsIntent = new Intent(MainActivity.this, InGameActivity.class);
+                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+                mapsIntent.putExtra("locationId", getRandomLocation());
                 startActivity(mapsIntent);
             }
         });
@@ -171,5 +173,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public int getRandomLocation(){
+        Random rand = new Random();
+        int id = rand.nextInt(3);
+        return id;
     }
 }

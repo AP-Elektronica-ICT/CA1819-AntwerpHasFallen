@@ -30,6 +30,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /*
  * A simple {@link Fragment} subclass.
@@ -48,11 +52,12 @@ public class MapFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private AlertDialog.Builder builder;
-    private GoogleMap mMap;
     FragmentActivity listener;
-
     MapView mMapView;
     private GoogleMap googleMap;
+    private int locationId;
+
+    public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     @Override
     public void onAttach(Context context) {
@@ -63,93 +68,16 @@ public class MapFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        super.onViewCreated(view, savedInstanceState);
-
-        /*mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.listener);
-
-        builder = new AlertDialog.Builder(this.listener);
-        builder.setTitle("Alert")
-                .setMessage("You have arrived at your location")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                            //code voor naar het volgende scherm te gaan
-
-
-                    }
-                });
-
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    //calculateDistance(currentLocation, targetLocation);
-                }
-            };
-        };
-
-
-        /*try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*//*
-        SupportMapFragment mapFragment = (SupportMapFragment) listener.getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
-
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                Log.e("fragtest", "fragment map opgestart");
-                mMap = googleMap;
-
-                try {
-                    mFusedLocationClient.getLastLocation()
-                            .addOnSuccessListener(listener, new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    if (location != null) {
-                                        //demo
-                                        targetLocation = new LatLng(51.229852, 4.423083);
-                                        //startLocationUpdates();
-                                        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                        Log.e("onsucces", "test" + currentLocation);
-                                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                                        mMap.addMarker(new MarkerOptions().position(targetLocation).title(/*targetLocationTitle*//* "target location"));
-                                        //demo
-                                        calculateDistance(currentLocation,targetLocation);
-                                    }
-                                }
-                            });
-                }
-                catch (SecurityException e)
-                {
-                    Log.e("Security Exception", e.toString());
-                }
-            }
-        });*/
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            locationId = bundle.getInt("locationId");
+            getTargetLocation(locationId);
+        }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -220,20 +148,6 @@ public class MapFragment extends Fragment {
                 {
                     Log.e("Security Exception", e.toString());
                 }
-
-                // For showing a move to my location button
-                /*try {
-                    googleMap.setMyLocationEnabled(true);
-                }
-                catch (SecurityException e){}
-
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
             }
         });
 
@@ -290,6 +204,22 @@ public class MapFragment extends Fragment {
         if(d <= 50){
             builder.show();
         }
+    }
+
+    private void getTargetLocation(int id){
+        Call<com.ahf.antwerphasfallen.Location> call = service.getLocation(id);
+        call.enqueue(new Callback<com.ahf.antwerphasfallen.Location>() {
+            @Override
+            public void onResponse(Call<com.ahf.antwerphasfallen.Location> call, Response<com.ahf.antwerphasfallen.Location> response) {
+                targetLocation = new LatLng(response.body().getLat(), response.body().getLon());
+                targetLocationTitle = response.body().getName();
+            }
+
+            @Override
+            public void onFailure(Call<com.ahf.antwerphasfallen.Location> call, Throwable t) {
+
+            }
+        });
     }
 
 

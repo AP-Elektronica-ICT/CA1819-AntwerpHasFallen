@@ -79,16 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btnMap = (Button)findViewById(R.id.btn_map);
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
-                mapsIntent.putExtra("locationId", getRandomLocation());
-                startActivity(mapsIntent);
-            }
-        });
-
         //Check if the app has permission to use location.
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -175,9 +165,5 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public int getRandomLocation(){
-        Random rand = new Random();
-        int id = rand.nextInt(3);
-        return id;
-    }
+
 }

@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import java.util.Random;
+
 public class InGameActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
@@ -46,6 +48,9 @@ public class InGameActivity extends AppCompatActivity {
                 switch(item.toString()){
                     case "Map":
                         fr = new MapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("locationId", getRandomLocation());
+                        fr.setArguments(bundle);
                         break;
                 }
 
@@ -77,5 +82,11 @@ public class InGameActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getRandomLocation(){
+        Random rand = new Random();
+        int id = rand.nextInt(3);
+        return id;
     }
 }

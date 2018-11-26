@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using DataLayer.Model.InventoryModel;
 
 namespace BusinessLayer
 {
@@ -29,7 +30,7 @@ namespace BusinessLayer
 
         public bool deleteGame(int id)
         {
-            Game game = context.Games.Find(id);
+            Game game = context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).SingleOrDefault(g => g.Id == id);
             if (game == null)
                 return false;
             List<Team> teams = game.Teams;
@@ -63,10 +64,13 @@ namespace BusinessLayer
                 for (int i = 0; i < teams; i++)
                 {
                     Team team = new Team(teamNames[i]);
+                    Inventory inventory = new Inventory();
+                    context.Inventories.Add(inventory);
+                    team.Inventory = inventory;
                     game.Teams.Add(team);
-                    context.Add(team);
+                    context.Teams.Add(team);
                 }
-                context.Add(game);
+                context.Games.Add(game);
                 context.SaveChanges();
                 return game;
             }

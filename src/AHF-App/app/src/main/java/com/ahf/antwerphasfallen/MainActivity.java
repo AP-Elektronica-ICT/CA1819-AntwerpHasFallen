@@ -186,6 +186,6 @@ public class MainActivity extends AppCompatActivity {
     public int getRandomLocation(){
         Random rand = new Random();
         int id = rand.nextInt(3);
-        return id;
+        return id + 1;
     }
 }

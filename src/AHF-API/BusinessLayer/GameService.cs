@@ -30,15 +30,21 @@ namespace BusinessLayer
 
         public bool deleteGame(int id)
         {
-            Game game = context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).SingleOrDefault(g => g.Id == id);
+            Game game = context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == id);
             if (game == null)
                 return false;
-            List<Team> teams = game.Teams;
+            List<Team> teams = new List<Team>();
+            foreach (Team team in game.Teams)
+            {
+                teams.Add(context.Teams.Include(t => t.Players).Include(t => t.Inventory).SingleOrDefault(t => t.Id == team.Id));
+            }
 
             foreach(Team t in teams)
             {
                 if (t == null)
                     return false;
+                if (t.Inventory != null)
+                    context.Inventories.Remove(t.Inventory);
                 if (t.Players != null)
                 {
                     foreach (Player p in t.Players)

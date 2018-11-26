@@ -115,6 +115,22 @@ public class InGameActivity extends AppCompatActivity {
         return id;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public int getRandomLocation(){
+        Random rand = new Random();
+        int id = rand.nextInt(3);
+        return id;
+    }
+
     private void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {

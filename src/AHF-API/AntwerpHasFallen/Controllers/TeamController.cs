@@ -24,10 +24,14 @@ namespace AntwerpHasFallen.Controllers
             return Ok(teamService.GetTeams());
         }
 
-        [HttpGet("/players")]
-        public IActionResult getAllPlayers()
+        [Route("{id}")]
+        [HttpGet]
+        public IActionResult getTeam(int id)
         {
-            return Ok(teamService.GetPlayers());
+            if (teamService.GetTeam(id) != null)
+                return Ok(teamService.GetTeam(id));
+            return NotFound();
         }
+        
     }
 }

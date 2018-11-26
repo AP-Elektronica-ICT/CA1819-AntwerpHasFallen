@@ -22,9 +22,18 @@ namespace BusinessLayer
             return context.Teams.Include(t => t.Players).ToList();
         }
 
-        public List<Player> GetPlayers()
+        public Team GetTeam(int id)
         {
-            return context.Players.ToList();
+            try
+            {
+                return context.Teams.Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
+            }catch (ArgumentNullException)
+            {
+                return null;
+            }catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public Player JoinTeam(int gameId, int teamId)

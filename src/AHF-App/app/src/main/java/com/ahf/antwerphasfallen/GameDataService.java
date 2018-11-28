@@ -28,6 +28,12 @@ public interface GameDataService {
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 
+    @GET("locations")
+    Call<LocationList> getLocations();
+
+    @GET("locations/{id}")
+    Call<Location> getLocation(@Path("id") int id);
+
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);
 

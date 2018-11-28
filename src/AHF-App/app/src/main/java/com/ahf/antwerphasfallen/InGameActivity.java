@@ -1,18 +1,40 @@
 package com.ahf.antwerphasfallen;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 import android.widget.Toast;
+
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InGameActivity extends AppCompatActivity {
+
+    private DrawerLayout mDrawer;
+    private Fragment fr;
 
 
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
@@ -27,6 +49,8 @@ public class InGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
 
+        inventoryFragment = new InventoryFragment();
+
         int gameId = 0;
         int playerId = 0;
         Bundle extras = getIntent().getExtras();
@@ -39,19 +63,66 @@ public class InGameActivity extends AppCompatActivity {
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
         txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
 
-        inventoryFragment = new InventoryFragment();
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, inventoryFragment, "inventoryFragment");
-        ft.commit();
+        TextView txtMoney = findViewById(R.id.txt_money);
+        txtMoney.setText("Game id: " + gameId);
 
-        Button btn_endGame = findViewById(R.id.btn_endGame);
-        btn_endGame.setOnClickListener(new View.OnClickListener() {
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        mDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
-                dialog.show(getSupportFragmentManager(), "confirm end game");
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true);
+                mDrawer.closeDrawers();
+                Log.e("tsetest", item.toString());
+
+                //update UI
+                switch(item.toString()){
+                    case "Map":
+                        fr = new MapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("locationId", getRandomLocation());
+                        fr.setArguments(bundle);
+                        break;
+                    case "Inventory":
+                            fr =inventoryFragment;
+                        break;
+                    case "Exit Game":
+                        ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
+                        dialog.show(getSupportFragmentManager(), "confirm end game");
+                        break;
+                }
+                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fr);
+                    ft.commit();
+                }
+
+                return true;
             }
         });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public int getRandomLocation(){
+        Random rand = new Random();
+        int id = rand.nextInt(3);
+        return id;
     }
 
     private void loadPlayer(int id) {

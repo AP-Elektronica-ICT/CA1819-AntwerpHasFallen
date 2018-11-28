@@ -28,6 +28,7 @@ namespace AntwerpHasFallen
         {
             services.AddDbContext<GameContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
+                //Configuration["Connectionstring"]
                 )
             );
 
@@ -35,6 +36,7 @@ namespace AntwerpHasFallen
             services.AddScoped<TeamService>();
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
+            services.AddScoped<LocationService>();
             services.AddMvc();
         }
 

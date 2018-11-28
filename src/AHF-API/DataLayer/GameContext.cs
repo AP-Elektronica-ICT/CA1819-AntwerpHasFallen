@@ -20,5 +20,6 @@ namespace DataLayer
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ShopItem> ShopItems { get; set; }
+        public DbSet<Location> Locations { get; set; }
     }
 }

@@ -97,7 +97,7 @@ public class InGameActivity extends AppCompatActivity {
                         dialog.show(getSupportFragmentManager(), "confirm end game");
                         break;
                 }
-                if(!item.toString().equals("Exit Game")) {
+                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();

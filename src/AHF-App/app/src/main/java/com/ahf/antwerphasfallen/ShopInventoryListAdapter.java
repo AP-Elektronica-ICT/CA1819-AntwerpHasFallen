@@ -15,8 +15,8 @@ import java.util.ArrayList;
  * Created by Jorren on 16/11/2018.
  */
 
-public class ShopInventoryListAdapter extends ArrayAdapter<ShopItem> {
-    public ShopInventoryListAdapter(@NonNull Context context, @NonNull ArrayList<ShopItem> objects) {
+public class ShopInventoryListAdapter extends ArrayAdapter<InventoryItem> {
+    public ShopInventoryListAdapter(@NonNull Context context, @NonNull ArrayList<InventoryItem> objects) {
         super(context, -1, objects);
     }
 
@@ -30,9 +30,10 @@ public class ShopInventoryListAdapter extends ArrayAdapter<ShopItem> {
         TextView lblQuantity = itemView.findViewById(R.id.lbl_item_shop_quantity);
         TextView lblDescription = itemView.findViewById(R.id.lbl_description);
 
-        lblName.setText(getItem(position).getName());
+        Item item = getItem(position).getItem();
+        lblName.setText(item.getName());
         lblQuantity.setText(Integer.toString(getItem(position).getQuantity()));
-        lblDescription.setText(getItem(position).getDescription());
+        lblDescription.setText(((ShopItem)item).getDescription());
 
         return itemView;
     }

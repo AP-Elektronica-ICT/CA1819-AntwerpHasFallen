@@ -49,8 +49,8 @@ public class InventoryFragment extends Fragment {
                     shopInventoryAdapter.notifyDataSetChanged();
                 }
             } else {
-                ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<Ingredient>());
-                shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<ShopItem>());
+                ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<InventoryItem>());
+                shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<InventoryItem>());
             }
 //            lvIngredients.setAdapter(ingredientsAdapter);
 //            lvShopItems.setAdapter(shopInventoryAdapter);

@@ -43,8 +43,8 @@ namespace BusinessLayer
             {
                 if (t == null)
                     return false;
-                if (t.Inventory != null)
-                    context.Inventories.Remove(t.Inventory);
+                /*if (t.Inventory != null)                   !!Conflict in db, door mapping EF van list!!
+                    context.Inventories.Remove(t.Inventory);*/
                 if (t.Players != null)
                 {
                     foreach (Player p in t.Players)

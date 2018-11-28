@@ -37,6 +37,11 @@
                     android:text="Antwerp Has Fallen"/>
 
                 <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
                     android:id="@+id/txt_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

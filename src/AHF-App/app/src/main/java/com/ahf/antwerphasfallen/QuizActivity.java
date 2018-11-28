@@ -24,6 +24,7 @@ public class QuizActivity extends AppCompatActivity {
     private String answer;
     private int gold = 0;
     private int questionnumber = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +35,10 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
                 QuizPuzzles quiz = response.body();
-                if(quiz != null){
+                if (quiz != null) {
                     //game.setTeams(joinGame.getTeams());
-                  answer = quiz.getCorrect();
-                  question.setText(quiz.getQuestion());
-                  
-
-
-
+                    answer = quiz.getCorrect();
+                    question.setText(quiz.getQuestion());
 
 
                 }
@@ -64,7 +61,7 @@ public class QuizActivity extends AppCompatActivity {
         choice3 = (Button) findViewById(R.id.keuze3);
         //updateQuestion();
 
-        choice1.setOnClickListener(new View.OnClickListener() {
+       /* choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice1.getText() == answer){
@@ -123,10 +120,13 @@ public class QuizActivity extends AppCompatActivity {
         answer = puzzles.getCorrectAnswer(questionnumber);
         questionnumber++;
     }
-    */
+
     private void updateGold(int punt){
         reward.setText("" + gold);
     }
 
+    */
 
+
+    }
 }

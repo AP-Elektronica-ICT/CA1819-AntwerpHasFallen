@@ -49,6 +49,23 @@ public class InGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
 
+        inventoryFragment = new InventoryFragment();
+
+        int gameId = 0;
+        int playerId = 0;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            gameId = extras.getInt("gameId");
+            playerId = extras.getInt("playerId");
+            loadPlayer(playerId);
+        }
+
+        TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
+        txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
+
+        TextView txtMoney = findViewById(R.id.txt_money);
+        txtMoney.setText("Game id: " + gameId);
+
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -73,7 +90,7 @@ public class InGameActivity extends AppCompatActivity {
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                        fr = new InventoryFragment();
+                            fr =inventoryFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
@@ -90,17 +107,6 @@ public class InGameActivity extends AppCompatActivity {
             }
         });
 
-        int gameId = 0;
-        int playerId = 0;
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            gameId = extras.getInt("gameId");
-            playerId = extras.getInt("playerId");
-            loadPlayer(playerId);
-        }
-
-        TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
-        txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class ShopInventoryListAdapter extends ArrayAdapter<InventoryItem> {
         Item item = getItem(position).getItem();
         lblName.setText(item.getName());
         lblQuantity.setText(Integer.toString(getItem(position).getQuantity()));
-        lblDescription.setText(((ShopItem)item).getDescription());
+        //lblDescription.setText(((ShopItem)item).getDescription());
 
         return itemView;
     }

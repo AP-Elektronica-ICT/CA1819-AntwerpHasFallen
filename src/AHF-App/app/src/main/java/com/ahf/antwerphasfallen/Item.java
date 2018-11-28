@@ -4,7 +4,7 @@ package com.ahf.antwerphasfallen;
  * Created by Jorren on 28/11/2018.
  */
 
-public abstract class Item {
+public class Item {
     private int id;
     private String name;
 

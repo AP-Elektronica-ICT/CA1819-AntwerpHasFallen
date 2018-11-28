@@ -19,13 +19,10 @@ namespace BusinessLayer
 
         public  List<Quizpuzzles> GetQuestions()
         {
-            return context.Quizpuzzles.Include(t => t.Questions).ToList();
+            return context.Quizpuzzles.ToList();
         }
 
-        public List<Quizpuzzles> GetAnswers()
-        {
-            return context.Quizpuzzles.Include(t => t.Answers).ToList();
-        }
+      
 
     }
 }

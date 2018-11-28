@@ -9,8 +9,8 @@ namespace DataLayer.Model
     {
         public int ID { get; set; }
 
-        public List<String> Answers { get; set; }
-        public List<String> Questions { get; set; }
+        public String Answers { get; set; }
+        public String Question { get; set; }
         public String CorrectAnswer { get; set; }
         
     }

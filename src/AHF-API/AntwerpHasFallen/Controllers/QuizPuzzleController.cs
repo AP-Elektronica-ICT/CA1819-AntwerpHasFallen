@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AntwerpHasFallen.Controllers
 {
 	[Produces("application/json")]
-	[Route("api/Quiz")]
+	[Route("api/quiz")]
 
 	public class QuizPuzzleController: Controller
     {
@@ -19,16 +19,12 @@ namespace AntwerpHasFallen.Controllers
             this.quizService = quizService;
         }
 
-        [HttpGet("/questions")]
+        [HttpGet]
         public IActionResult getAllQuestions()
         {
             return Ok(quizService.GetQuestions());
         }
 
-        [HttpGet("/answers")]
-        public IActionResult getAllAnswers()
-        {
-            return Ok(quizService.GetAnswers());
-        }
+      
     }
 }

@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class QuizActivity extends AppCompatActivity {
     private QuizPuzzles puzzles = new QuizPuzzles();
     private TextView question;
@@ -24,13 +28,41 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        Call<QuizPuzzles> call = service.GetQuestions();
+        call.enqueue(new Callback<QuizPuzzles>() {
+            @Override
+            public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
+                QuizPuzzles quiz = response.body();
+                if(quiz != null){
+                    //game.setTeams(joinGame.getTeams());
+                  answer = quiz.getCorrect();
+                  question.setText(quiz.getQuestion());
+                  
+
+
+
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<QuizPuzzles> call, Throwable t) {
+                t.printStackTrace();
+
+            }
+        });
+
 
         reward = (TextView) findViewById(R.id.gold);
         question = (TextView) findViewById(R.id.question);
         choice1 = (Button) findViewById(R.id.keuze1);
         choice2 = (Button) findViewById(R.id.keuze2);
         choice3 = (Button) findViewById(R.id.keuze3);
-        updateQuestion();
+        //updateQuestion();
 
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +70,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (choice1.getText() == answer){
                     gold = gold+1;
                     updateGold(gold);
-                    updateQuestion();
+                   // updateQuestion();
                     Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(QuizActivity.this, "Wrong",Toast.LENGTH_SHORT).show();{
@@ -54,7 +86,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (choice2.getText() == answer){
                     gold = gold+1;
                     updateGold(gold);
-                    updateQuestion();
+                   // updateQuestion();
                     Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(QuizActivity.this, "Wrong",Toast.LENGTH_SHORT).show();{
@@ -70,7 +102,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (choice3.getText() == answer){
                     gold = gold+1;
                     updateGold(gold);
-                    updateQuestion();
+                   // updateQuestion();
                     Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -83,7 +115,7 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private void updateQuestion(){
+   /* private void updateQuestion(){
         question.setText(puzzles.getQuestion(questionnumber));
         choice1.setText(puzzles.getChoice1(questionnumber));
         choice2.setText(puzzles.getChoice2(questionnumber));
@@ -91,7 +123,7 @@ public class QuizActivity extends AppCompatActivity {
         answer = puzzles.getCorrectAnswer(questionnumber);
         questionnumber++;
     }
-
+    */
     private void updateGold(int punt){
         reward.setText("" + gold);
     }

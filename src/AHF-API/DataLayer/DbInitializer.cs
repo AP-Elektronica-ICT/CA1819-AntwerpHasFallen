@@ -33,15 +33,17 @@ namespace DataLayer
 
                 context.SaveChanges();
             }
-            if(!context.Quizpuzzles.Any())
+            if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
 
-                quiz.Answers.Add("1420");
-                quiz.Answers.Add("1250");
-                quiz.Answers.Add("1008");
-                quiz.Questions.Add("Wanneer heeft Antwerpen zijn stadszegel gekregen");
+
+                quiz.Answers = "1008,1420,1052";
+                quiz.Question = "Wanneer heeft Antwerpen zijn Stadszegel gekregen";
                 quiz.CorrectAnswer = "1008";
+                context.Quizpuzzles.Add(quiz);
+                context.SaveChanges();
+            }
         }
     }
 }

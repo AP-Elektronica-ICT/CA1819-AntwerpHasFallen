@@ -15,10 +15,11 @@ public interface GameDataService {
     @GET("games")
     Call<GameList> getGames();
 
+    @GET("quiz")
+    Call<QuizPuzzles> GetQuestions();
+
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
-
-
 
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);

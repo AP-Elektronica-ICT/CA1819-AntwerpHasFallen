@@ -18,6 +18,7 @@ namespace DataLayer
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<InventoryItem> Items { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ShopItem> ShopItems { get; set; }
         public DbSet<Location> Locations { get; set; }

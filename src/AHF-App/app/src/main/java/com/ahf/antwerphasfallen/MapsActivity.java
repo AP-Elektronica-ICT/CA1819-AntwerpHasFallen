@@ -58,6 +58,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onResponse(Call<com.ahf.antwerphasfallen.Location> call, Response<com.ahf.antwerphasfallen.Location> response) {
                     targetLocation = new LatLng(response.body().getLat(), response.body().getLon());
                     targetLocationTitle = response.body().getName();
+                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(MapsActivity.this);
                 }
 
                 @Override
@@ -108,9 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
     }
 
     private void startLocationUpdates(){

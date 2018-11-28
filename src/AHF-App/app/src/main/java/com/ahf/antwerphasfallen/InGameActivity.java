@@ -121,7 +121,7 @@ public class InGameActivity extends AppCompatActivity {
 
     public int getRandomLocation(){
         Random rand = new Random();
-        int id = rand.nextInt(3);
+        int id = rand.nextInt(3) + 1;
         return id;
     }
 

@@ -38,21 +38,23 @@ public class InventoryFragment extends Fragment {
     }
 
     public void setAdapters() {
-        if (host.CurrentTeam != null) {
-            if (host.CurrentTeam.getInventory() != null) {
-                if (host.CurrentTeam.getInventory().getIngredients() != null)
-                    ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
-                if (host.CurrentTeam.getInventory().getShopItems() != null)
-                    shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getShopItems());
-                ingredientsAdapter.notifyDataSetChanged();
-                shopInventoryAdapter.notifyDataSetChanged();
+        if (host != null) {
+            if (host.CurrentTeam != null) {
+                if (host.CurrentTeam.getInventory() != null) {
+                    if (host.CurrentTeam.getInventory().getIngredients() != null)
+                        ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
+                    if (host.CurrentTeam.getInventory().getShopItems() != null)
+                        shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getShopItems());
+                    ingredientsAdapter.notifyDataSetChanged();
+                    shopInventoryAdapter.notifyDataSetChanged();
+                }
+            } else {
+                ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<Ingredient>());
+                shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<ShopItem>());
             }
-        } else {
-            ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<Ingredient>());
-            shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<ShopItem>());
+//            lvIngredients.setAdapter(ingredientsAdapter);
+//            lvShopItems.setAdapter(shopInventoryAdapter);
         }
-        lvIngredients.setAdapter(ingredientsAdapter);
-        lvShopItems.setAdapter(shopInventoryAdapter);
     }
 
     @Override
@@ -84,6 +86,7 @@ public class InventoryFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof InGameActivity) {
             host = (InGameActivity) context;
+            setAdapters();
         } else {
             throw new RuntimeException(context.toString()
                     + " is not inGameActivity");

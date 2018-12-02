@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* SelectTeamsDialog dialog = new SelectTeamsDialog();
-                dialog.show(getSupportFragmentManager(), "Select teams ");*/
-                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
-                startActivity(intent);
+                SelectTeamsDialog dialog = new SelectTeamsDialog();
+                dialog.show(getSupportFragmentManager(), "Select teams ");
+                /*Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                startActivity(intent);*/
             }
         });
 
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + call.toString());
+                Toast.makeText(MainActivity.this, "Creating new game failed", Toast.LENGTH_LONG).show();
             }
         });
     }

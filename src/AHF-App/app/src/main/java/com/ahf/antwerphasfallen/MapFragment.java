@@ -76,7 +76,7 @@ public class MapFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             locationId = bundle.getInt("locationId");
-            //getTargetLocation(locationId);
+            getTargetLocation(locationId);
         }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);

@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,7 +47,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
+    private final String SAVED_PLAYER = "savedPlayer";
 
     private Button btnStart;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkPlayer();
 
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -126,6 +129,72 @@ public class MainActivity extends AppCompatActivity {
         return teamNames;
     }
 
+    private void checkPlayer() {
+        checkFile();
+        String playerInfo = getPlayerInfo();
+        if(playerInfo.contains("playerId"))
+            if(playerInfo.contains("gameId"))
+                if (playerInfo.contains("teamId"))
+                    startInGameAcitivity(extractPlayerFromFileString(playerInfo));
+    }
+
+    private void checkFile() {
+        final File file;
+        boolean found = false;
+        for(int i=0; i<this.fileList().length; i++){
+            if(this.fileList()[i] == SAVED_PLAYER){
+                found = true;
+                break;
+            }
+        }
+        if(!found) file = new File(this.getFilesDir(), SAVED_PLAYER);
+    }
+
+    private String getPlayerInfo(){
+        FileInputStream fis = null;
+        InputStreamReader reader = null;
+        try{
+            fis = openFileInput(SAVED_PLAYER);
+            reader = new InputStreamReader(fis);
+
+            char[] buffer = new char[100];
+            int bytesRead;
+            String playerInfo = "";
+
+            while ((bytesRead=reader.read(buffer)) > 0){
+                String read = String.copyValueOf(buffer, 0, bytesRead);
+                playerInfo += read;
+            }
+            return playerInfo;
+        }catch (IOException e){
+            e.printStackTrace();
+            return "";
+        }finally {
+            try {
+                if (fis != null) fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (reader != null) reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Player extractPlayerFromFileString(String info){
+        return new Player(); //TODO: implement!!
+    }
+
+    private void startInGameAcitivity(Player p){
+        Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+        intent.putExtra("gameId", p.getGameId());
+        intent.putExtra("playerId", p.getId());
+        intent.putExtra("teamId", p.getTeamId());
+        startActivity(intent);
+    }
+
     public void createNewGame(Game game) {
         String[] teamNames = getTeamNames(game);
         Call<Game> call = service.newGame(game.getTeams().size(), teamNames);
@@ -152,11 +221,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Player>() {
             @Override
             public void onResponse(Call<Player> call, Response<Player> response) {
-                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
-                intent.putExtra("gameId", response.body().getGameId());
-                intent.putExtra("playerId", response.body().getId());
-                intent.putExtra("teamId", response.body().getTeamId());
-                startActivity(intent);
+                startInGameAcitivity(response.body());
             }
 
             @Override
@@ -165,6 +230,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DataLayer.Model.InventoryModel
 {
-    public class ShopItem : Item
+    public abstract class Item
     {
-        public string Description { get; set; }
-        public void Use() { }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

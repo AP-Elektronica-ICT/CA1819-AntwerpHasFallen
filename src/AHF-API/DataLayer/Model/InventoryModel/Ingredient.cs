@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataLayer.Model.InventoryModel
 {
-    public class Ingredient : InventoryItem
+    public class Ingredient : Item
     {
     }
 }

@@ -35,8 +35,8 @@ namespace AntwerpHasFallen
             services.AddScoped<GameService>();
             services.AddScoped<TeamService>();
 
-            services.AddScoped<QuizService>();
 
+            services.AddScoped<QuizService>();
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
             services.AddScoped<LocationService>();

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Inventory {
     private int id;
-    private List<Ingredient> ingredients;
-    private List<ShopItem> shopItems;
+    private List<InventoryItem> ingredients;
+    private List<InventoryItem> shopItems;
 
     public Inventory() {
     }
@@ -22,19 +22,19 @@ public class Inventory {
         this.id = id;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<InventoryItem> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<InventoryItem> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public List<ShopItem> getShopItems() {
+    public List<InventoryItem> getShopItems() {
         return shopItems;
     }
 
-    public void setShopItems(List<ShopItem> shopItems) {
+    public void setShopItems(List<InventoryItem> shopItems) {
         this.shopItems = shopItems;
     }
 }

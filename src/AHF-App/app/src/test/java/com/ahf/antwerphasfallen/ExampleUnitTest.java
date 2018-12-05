@@ -1,5 +1,9 @@
 package com.ahf.antwerphasfallen;
 
+import android.app.Instrumentation;
+import android.content.pm.InstrumentationInfo;
+import android.test.mock.MockContext;
+
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.DataPoints;
@@ -18,6 +22,7 @@ import static org.junit.Assert.*;
 @RunWith(Theories.class)
 public class ExampleUnitTest {
 
+
     @DataPoints
     public static int[] ids (){
         return new int[]{21,2,3,54,26,8,62,58,46};
@@ -25,8 +30,8 @@ public class ExampleUnitTest {
 
     @Theory(nullsAccepted = false)
     public void getPlayerFromString(int id, int gameId, int teamId){
-        MainActivity testMain = new MainActivity();
-        Player result = testMain.extractPlayerFromFileString("playerId:"+id + ";gameId:"+ gameId + ";teamId:"+teamId+";");
+        PlayerHandler testPlayerHandler = new PlayerHandler(new MockContext());
+        Player result = testPlayerHandler.extractPlayerFromFileString("playerId:"+id + ";gameId:"+ gameId + ";teamId:"+teamId+";");
 
         assertEquals(id, result.getId());
         assertEquals(gameId, result.getGameId());

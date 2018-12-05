@@ -47,7 +47,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private final String SAVED_PLAYER = "savedPlayer";
 
     private Button btnStart;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        checkPlayer();
+
     }
 
     @NonNull
@@ -133,72 +132,7 @@ public class MainActivity extends AppCompatActivity {
         return teamNames;
     }
 
-    private void checkPlayer() {
-        checkFile();
-        String playerInfo = getPlayerInfo();
-        if(playerInfo.contains("playerId"))
-            if(playerInfo.contains("gameId"))
-                if (playerInfo.contains("teamId"))
-                    startInGameAcitivity(extractPlayerFromFileString(playerInfo));
-    }
 
-    private void checkFile() {
-        final File file;
-        boolean found = false;
-        for(int i=0; i<this.fileList().length; i++){
-            if(this.fileList()[i] == SAVED_PLAYER){
-                found = true;
-                break;
-            }
-        }
-        if(!found) file = new File(this.getFilesDir(), SAVED_PLAYER);
-    }
-
-    private String getPlayerInfo(){
-        FileInputStream fis = null;
-        InputStreamReader reader = null;
-        try{
-            fis = openFileInput(SAVED_PLAYER);
-            reader = new InputStreamReader(fis);
-
-            char[] buffer = new char[100];
-            int bytesRead;
-            String playerInfo = "";
-
-            while ((bytesRead=reader.read(buffer)) > 0){
-                String read = String.copyValueOf(buffer, 0, bytesRead);
-                playerInfo += read;
-            }
-            return playerInfo;
-        }catch (IOException e){
-            e.printStackTrace();
-            return "";
-        }finally {
-            try {
-                if (fis != null) fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (reader != null) reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Player extractPlayerFromFileString(String info){
-        Player player = new Player();
-        player.setId(extractIdFromString(info, "playerId:"));
-        player.setGameId(extractIdFromString(info, "gameId:"));
-        player.setTeamId(extractIdFromString(info, "teamId:"));
-
-        return player;
-    }
-
-    private int extractIdFromString(String s, String name){
-        return Integer.valueOf(s.substring(s.indexOf(name) + name.length(), s.indexOf(';', s.indexOf(name))));
-    }
 
     private void startInGameAcitivity(Player p){
         Intent intent = new Intent(MainActivity.this, InGameActivity.class);

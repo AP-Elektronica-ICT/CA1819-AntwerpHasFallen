@@ -132,6 +132,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if (response.body() != null) {
                     CurrentPlayer = response.body();
+                    PlayerHandler.getInstance(getApplicationContext()).putPlayerInfo(CurrentPlayer);
                     Call<Team> teamCall = service.getTeam(CurrentPlayer.getTeamId());
                     teamCall.enqueue(new Callback<Team>() {
                         @Override
@@ -162,6 +163,7 @@ public class InGameActivity extends AppCompatActivity {
                         }
                     });
                 }
+                else startMainActivity();
             }
 
             @Override
@@ -171,6 +173,11 @@ public class InGameActivity extends AppCompatActivity {
         });
     }
 
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public void EndGame(){
         Call<Boolean> call = service.endGame(CurrentPlayer.getGameId());
         call.enqueue(new Callback<Boolean>() {
@@ -178,6 +185,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.body() != null) {
                     Toast.makeText(InGameActivity.this, "Game ended", Toast.LENGTH_SHORT).show();
+                    PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
                     Intent intent = new Intent(InGameActivity.this, MainActivity.class);
                     startActivity(intent);
                 }

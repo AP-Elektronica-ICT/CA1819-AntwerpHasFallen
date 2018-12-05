@@ -183,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Player extractPlayerFromFileString(String info){
+    public Player extractPlayerFromFileString(String info){
+        int test = info.indexOf("playerId");
         return new Player(); //TODO: implement!!
     }
 
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     public void GoToPuzzles(View view) {
         startActivity(new Intent(MainActivity.this, QuizActivity.class));
     }

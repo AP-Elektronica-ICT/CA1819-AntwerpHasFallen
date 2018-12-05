@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">AntwerpHasFallen</string>
     <string name="title_activity_maps">Map</string>
+    <string name="nav_inventory">Inventory</string>
+    <string name="nav_shop">Shop</string>
+    <string name="nav_team">Team</string>
+    <string name="nav_exitgame">Exit Game</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -42,7 +42,7 @@ namespace AntwerpHasFallen.Controllers
         public IActionResult deleteGame(int id)
         {
             if(gameService.deleteGame(id))
-                return Ok();
+                return Ok(true);
             return NotFound();
         }
 
@@ -50,8 +50,9 @@ namespace AntwerpHasFallen.Controllers
         [HttpPost()]
         public IActionResult startNewGame(int teams, [FromBody] IEnumerable<string> teamNames)
         {
-            if (gameService.newGame(teams, teamNames.ToArray<string>()) != null)
-                return Ok(gameService.newGame(teams, teamNames.ToArray<string>()));
+            Game newGame = gameService.newGame(teams, teamNames.ToArray<string>());
+            if (newGame != null)
+                return Ok(newGame);
             else return NotFound();
         }
 

@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SelectTeamsDialog dialog = new SelectTeamsDialog();
                 dialog.show(getSupportFragmentManager(), "Select teams ");
+                /*Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                startActivity(intent);*/
             }
         });
 
@@ -73,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 JoinGameDialog dialog = new JoinGameDialog();
                 dialog.show(getSupportFragmentManager(), "Join Games");
-            }
-        });
-
-        Button btnMap = (Button)findViewById(R.id.btn_map);
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(mapsIntent);
             }
         });
 
@@ -108,19 +102,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     allowLocation= true;
-                    /*
-
-                        Code that needs to be executed if the permission is granted.
-
-                    */
                     
                 } else {
                     allowLocation = false;
-                    /*
-
-                        Code that needs to be executed if the permission is denied.
-
-                    */
                 }
                 return;
             }
@@ -158,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + call.toString());
+                Toast.makeText(MainActivity.this, "Creating new game failed", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -181,7 +166,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void GoToPuzzles(View view) {
         startActivity(new Intent(MainActivity.this, QuizActivity.class));
     }
+
 }

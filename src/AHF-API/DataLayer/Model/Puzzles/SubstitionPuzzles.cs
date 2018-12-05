@@ -1,10 +1,11 @@
 
 
 public class SubstitionPuzzles : Puzzles {
+<<<<<<< HEAD
     
+=======
+>>>>>>> master
     string key;
-
-
 
     public string CheckKey(string key){
         string Key = key;

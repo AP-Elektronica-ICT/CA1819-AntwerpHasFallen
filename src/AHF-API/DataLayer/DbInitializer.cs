@@ -57,7 +57,7 @@ namespace DataLayer
                 context.Locations.Add(l3);
 
             }
-<<<<<<< HEAD
+
             if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
@@ -69,7 +69,7 @@ namespace DataLayer
                 context.Quizpuzzles.Add(quiz);
                 context.SaveChanges();
             }
-=======
+
 
             context.SaveChanges();
         }
@@ -114,7 +114,7 @@ namespace DataLayer
             context.Ingredients.Add(i1);
             context.Ingredients.Add(i2);
             context.Ingredients.Add(i3);
->>>>>>> master
+
         }
     }
 }

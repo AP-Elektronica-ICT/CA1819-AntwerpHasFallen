@@ -34,13 +34,13 @@ namespace AntwerpHasFallen
 
             services.AddScoped<GameService>();
             services.AddScoped<TeamService>();
-<<<<<<< HEAD
+
             services.AddScoped<QuizService>();
-=======
+
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
             services.AddScoped<LocationService>();
->>>>>>> master
+
             services.AddMvc();
         }
 

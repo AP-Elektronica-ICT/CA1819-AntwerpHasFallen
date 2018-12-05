@@ -37,7 +37,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
                 QuizPuzzles quiz = response.body();
                 if (quiz != null) {
-                    //game.setTeams(joinGame.getTeams());
+
                     answer = quiz.getCorrectAnswer();
                     Toast.makeText(QuizActivity.this, answer,Toast.LENGTH_SHORT).show();
                     question.setText(quiz.getQuestion());

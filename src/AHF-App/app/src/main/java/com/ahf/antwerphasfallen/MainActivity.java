@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkPlayer();
-
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
 
             */
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkPlayer();
     }
 
     @NonNull
@@ -184,8 +188,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Player extractPlayerFromFileString(String info){
-        int test = info.indexOf("playerId");
-        return new Player(); //TODO: implement!!
+        Player player = new Player();
+        player.setId(extractIdFromString(info, "playerId:"));
+        player.setGameId(extractIdFromString(info, "gameId:"));
+        player.setTeamId(extractIdFromString(info, "teamId:"));
+
+        return player;
+    }
+
+    private int extractIdFromString(String s, String name){
+        return Integer.valueOf(s.substring(s.indexOf(name) + name.length(), s.indexOf(';', s.indexOf(name))));
     }
 
     private void startInGameAcitivity(Player p){

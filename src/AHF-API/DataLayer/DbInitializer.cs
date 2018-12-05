@@ -57,6 +57,10 @@ namespace DataLayer
                 context.Locations.Add(l3);
 
             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
             if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
@@ -68,6 +72,10 @@ namespace DataLayer
                 context.Quizpuzzles.Add(quiz);
                 context.SaveChanges();
             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
 
             context.SaveChanges();
         }
@@ -112,6 +120,7 @@ namespace DataLayer
             context.Ingredients.Add(i1);
             context.Ingredients.Add(i2);
             context.Ingredients.Add(i3);
+
         }
     }
 }

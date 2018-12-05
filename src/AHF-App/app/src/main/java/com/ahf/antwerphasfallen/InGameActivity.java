@@ -129,10 +129,11 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowPuzzles(int timer){
+        txtTimer.setVisibility(View.VISIBLE);
         new CountDownTimer(timer*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                txtTimer.setText("Time left: " + timeConversion((int)millisUntilFinished));
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
             }
 
             public void onFinish() {
@@ -141,14 +142,14 @@ public class InGameActivity extends AppCompatActivity {
         }.start();
     }
 
-    private static String timeConversion(int totalSeconds) {
+    private static String timeConversion(long totalSeconds) {
 
         final int MINUTES_IN_AN_HOUR = 60;
         final int SECONDS_IN_A_MINUTE = 60;
 
-        int seconds = totalSeconds % SECONDS_IN_A_MINUTE;
-        int totalMinutes = totalSeconds / SECONDS_IN_A_MINUTE;
-        int minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+        long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
+        long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
+        long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
 
         return minutes + ":" + seconds;
     }

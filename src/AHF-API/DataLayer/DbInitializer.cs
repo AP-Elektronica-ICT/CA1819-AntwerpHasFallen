@@ -15,15 +15,15 @@ namespace DataLayer
 
             if (!context.Games.Any())
             {
-                Team t1 = new Team("testTeam");
+                Team t1 = new Team("testTeam", 100);
                 Inventory inventoryT1 = new Inventory();
                 t1.Inventory = inventoryT1;
 
-                Team t2 = new Team("otherTeam");
+                Team t2 = new Team("otherTeam", 100);
                 Inventory inventoryT2 = new Inventory();
                 t2.Inventory = inventoryT2;
 
-                Team t3 = new Team("newTeam");
+                Team t3 = new Team("newTeam", 100);
                 Inventory inventoryT3 = new Inventory();
                 t3.Inventory = inventoryT3;
 

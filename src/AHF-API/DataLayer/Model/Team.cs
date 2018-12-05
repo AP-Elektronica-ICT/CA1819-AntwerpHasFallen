@@ -7,10 +7,11 @@ namespace DataLayer.Model
 {
     public class Team
     {
-        public Team(string name)
+        public Team(string name, int money)
         {
             Name = name;
             Players = new List<Player>();
+            Money = money;
         }
         public Team()
         {
@@ -20,5 +21,6 @@ namespace DataLayer.Model
         public string Name { get; set; }
         public List<Player> Players { get; set; }
         public Inventory Inventory { get; set; }
+        public int Money { get; set; }
     }
 }

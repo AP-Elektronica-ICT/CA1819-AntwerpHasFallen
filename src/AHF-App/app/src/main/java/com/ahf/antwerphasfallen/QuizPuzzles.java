@@ -6,7 +6,7 @@ public class QuizPuzzles  {
 
     String answers;
 
-    String correct;
+    String correctAnswer;
 
     public String getQuestion() {
         return question;
@@ -24,12 +24,12 @@ public class QuizPuzzles  {
         this.answers = answers;
     }
 
-    public String getCorrect() {
-        return correct;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setCorrect(String correct) {
-        this.correct = correct;
+    public void setCorrectAnswer(String correct) {
+        this.correctAnswer = correct;
     }
 
 

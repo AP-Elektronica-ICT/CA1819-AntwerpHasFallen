@@ -48,9 +48,9 @@ namespace DataLayer
             }
             if (!context.Locations.Any())
             {
-                Location l1 = new Location(51.229023, 4.404622, "MAS");
-                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis");
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen");
+                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
+                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
+                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
 
                 context.Locations.Add(l1);
                 context.Locations.Add(l2);

@@ -11,6 +11,7 @@ public class Team {
     private String name;
     private List<Player> players;
     private Inventory inventory;
+    private int money;
 
     public Team() {
     }
@@ -50,4 +51,8 @@ public class Team {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
+
+    public int getMoney() { return money;}
+
+    public void setMoney(int money){this.money = money;}
 }

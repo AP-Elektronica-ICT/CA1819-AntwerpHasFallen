@@ -41,7 +41,7 @@ public class InGameActivity extends AppCompatActivity {
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
-
+    private TextView txtMoney;
     private InventoryFragment inventoryFragment;
 
     @Override
@@ -63,7 +63,7 @@ public class InGameActivity extends AppCompatActivity {
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
         txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
 
-        TextView txtMoney = findViewById(R.id.txt_money);
+        txtMoney = findViewById(R.id.txt_money);
         txtMoney.setText("Game id: " + gameId);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -138,6 +138,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
+                                txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {
                                     @Override

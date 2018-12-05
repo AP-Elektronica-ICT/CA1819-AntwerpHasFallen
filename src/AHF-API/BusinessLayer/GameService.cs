@@ -63,7 +63,7 @@ namespace BusinessLayer
             {
                 for (int i = 0; i < teams; i++)
                 {
-                    Team team = new Team(teamNames[i]);
+                    Team team = new Team(teamNames[i], 100);
                     Inventory inventory = new Inventory();
                     context.Inventories.Add(inventory);
                     team.Inventory = inventory;

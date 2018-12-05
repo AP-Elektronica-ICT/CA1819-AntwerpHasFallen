@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 import retrofit2.Call;
@@ -42,6 +45,7 @@ public class InGameActivity extends AppCompatActivity {
     public Player CurrentPlayer;
     public Team CurrentTeam;
     private TextView txtMoney;
+    private TextView txtTimer;
     private InventoryFragment inventoryFragment;
 
     @Override
@@ -62,7 +66,7 @@ public class InGameActivity extends AppCompatActivity {
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
         txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
-
+        txtTimer = findViewById(R.id.txt_timer);
         txtMoney = findViewById(R.id.txt_money);
         txtMoney.setText("Game id: " + gameId);
 
@@ -79,7 +83,6 @@ public class InGameActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 mDrawer.closeDrawers();
-                Log.e("tsetest", item.toString());
 
                 //update UI
                 switch(item.toString()){
@@ -124,6 +127,32 @@ public class InGameActivity extends AppCompatActivity {
         int id = rand.nextInt(3) + 1;
         return id;
     }
+
+    public void ShowPuzzles(int timer){
+        new CountDownTimer(timer*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                txtTimer.setText("Time left: " + timeConversion((int)millisUntilFinished));
+            }
+
+            public void onFinish() {
+                //code voor als ze nog in de zone zitten
+            }
+        }.start();
+    }
+
+    private static String timeConversion(int totalSeconds) {
+
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        int seconds = totalSeconds % SECONDS_IN_A_MINUTE;
+        int totalMinutes = totalSeconds / SECONDS_IN_A_MINUTE;
+        int minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+
+        return minutes + ":" + seconds;
+    }
+
 
     private void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);

@@ -16,19 +16,26 @@ public class PlayerHandler {
     private final String SAVED_PLAYER = "savedPlayer";
 
     private Context context;
+    private static PlayerHandler playerHandler;
 
     public PlayerHandler(Context context){
         this.context = context;
     }
 
-    public boolean checkPlayer() {
+    public static PlayerHandler getInstance(Context context){
+        if(playerHandler == null)
+            playerHandler = new PlayerHandler(context);
+        return playerHandler;
+    }
+
+    public Player checkPlayer() {
         checkFile();
         String playerInfo = getPlayerInfo();
         if(playerInfo.contains("playerId"))
             if(playerInfo.contains("gameId"))
                 if (playerInfo.contains("teamId"))
-                    return true;
-        return false;
+                    return extractPlayerFromFileString(playerInfo);
+        return null;
     }
 
     public void checkFile() {

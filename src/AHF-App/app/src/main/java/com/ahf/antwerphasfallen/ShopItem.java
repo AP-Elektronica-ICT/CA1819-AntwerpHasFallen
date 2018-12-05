@@ -4,7 +4,7 @@ package com.ahf.antwerphasfallen;
  * Created by Jorren on 16/11/2018.
  */
 
-public class ShopItem extends InventoryItem {
+public class ShopItem extends Item {
 
     private String description;
 

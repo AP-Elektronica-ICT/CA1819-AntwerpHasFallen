@@ -151,7 +151,7 @@ public class InGameActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(Call<Inventory> call, Throwable t) {
-
+                                        Toast.makeText(InGameActivity.this, "Could not retrieve team inventory", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

@@ -31,7 +31,7 @@ namespace BusinessLayer
         {
             try
             {
-                return context.Inventories.Include(i => i.Ingredients).Include(i => i.ShopItems).Single(i => i.Id == id);
+                return context.Inventories.Include(i => i.Ingredients).ThenInclude(i=>i.Item).Include(i => i.ShopItems).ThenInclude(i => i.Item).Single(i => i.Id == id);
             }catch (ArgumentNullException)
             {
                 return null;
@@ -45,11 +45,25 @@ namespace BusinessLayer
         public Inventory addShopItem(int inventoryId, int itemId)
         {
             Inventory inventory = getInventory(inventoryId);
-            ShopItem item = context.ShopItems.Find(itemId);
+            ShopItem shopItem = context.ShopItems.Find(itemId);
 
-            if (inventory != null && item != null)
+            if (inventory != null && shopItem != null)
             {
-                inventory.ShopItems.Add(item);
+                foreach(InventoryItem item in inventory.ShopItems)
+                {
+                    if(item.Item.Id == itemId)
+                    {
+                        item.Quantity++;
+                        context.SaveChanges();
+                        return inventory;
+                    }
+                }
+                InventoryItem newItem = new InventoryItem()
+                {
+                    Item = context.ShopItems.Find(itemId),
+                    Quantity = 1
+                };
+                inventory.ShopItems.Add(newItem);
                 context.SaveChanges();
                 return inventory;
             }
@@ -63,7 +77,21 @@ namespace BusinessLayer
 
             if (inventory != null && ingredient != null)
             {
-                inventory.Ingredients.Add(ingredient);
+                foreach (InventoryItem item in inventory.Ingredients)
+                {
+                    if (item.Item.Id == ingredientId)
+                    {
+                        item.Quantity++;
+                        context.SaveChanges();
+                        return inventory;
+                    }
+                }
+                InventoryItem newItem = new InventoryItem()
+                {
+                    Item = context.Ingredients.Find(ingredientId),
+                    Quantity = 1
+                };
+                inventory.Ingredients.Add(newItem);
                 context.SaveChanges();
                 return inventory;
             }

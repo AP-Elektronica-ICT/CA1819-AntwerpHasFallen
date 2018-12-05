@@ -57,6 +57,17 @@ namespace DataLayer
                 context.Locations.Add(l3);
 
             }
+            if (!context.Quizpuzzles.Any())
+            {
+                Quizpuzzles quiz = new Quizpuzzles();
+
+
+                quiz.Answers = "1008,1420,1052";
+                quiz.Question = "Wanneer heeft Antwerpen zijn Stadszegel gekregen";
+                quiz.CorrectAnswer = "1008";
+                context.Quizpuzzles.Add(quiz);
+                context.SaveChanges();
+            }
 
             context.SaveChanges();
         }

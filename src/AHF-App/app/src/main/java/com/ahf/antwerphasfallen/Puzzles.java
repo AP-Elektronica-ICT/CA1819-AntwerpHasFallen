@@ -12,7 +12,7 @@ public String Checksolution(String sol){
     }
     else
         {
-           return("Antwoord is fout, probeer opnieuw voor -100 euro");
+           return("Antwoord is fout, probeer opnieuw voor 100 euro");
         }
     }
 

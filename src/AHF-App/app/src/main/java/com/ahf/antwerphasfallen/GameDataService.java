@@ -16,6 +16,9 @@ public interface GameDataService {
     @GET("games")
     Call<GameList> getGames();
 
+    @GET("quiz")
+    Call<QuizPuzzles> GetQuestions();
+
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
 
@@ -40,6 +43,8 @@ public interface GameDataService {
     @POST("games/join/{gameId}")
     Call<Player> joinGame(@Path("gameId") int gameId, @Body int teamId);
 
+
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
+
 }

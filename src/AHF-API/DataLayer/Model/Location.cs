@@ -11,13 +11,13 @@ namespace DataLayer.Model
             Lat = lat;
             Lon = lon;
             Name = name;
-            TimeSec = time;
+            Time = time;
         }
         public int Id { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
         public string Name { get; set; }
-        public int TimeSec { get; set; }
+        public int Time { get; set; }
 
     }
 }

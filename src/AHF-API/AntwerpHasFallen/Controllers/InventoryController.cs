@@ -21,7 +21,7 @@ namespace AntwerpHasFallen.Controllers
 
         public IActionResult getAllInventoryItems()
         {
-            List<InventoryItem> inventoryItems = new List<InventoryItem>();
+            List<Item> inventoryItems = new List<Item>();
             inventoryService.GetShopItems().ForEach(item =>
                 inventoryItems.Add(item));
             inventoryService.GetIngredients().ForEach(item =>

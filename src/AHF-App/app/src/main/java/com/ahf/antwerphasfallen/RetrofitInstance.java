@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://antwerphasfallen.azurewebsites.net/api/";
+    private static final String BASE_URL = "http://172.16.180.172/AntwerpHasFallen/api/";
 
     public static Retrofit getRetrofitInstance(){
         if(retrofit == null){

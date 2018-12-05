@@ -121,7 +121,7 @@ public class InGameActivity extends AppCompatActivity {
 
     public int getRandomLocation(){
         Random rand = new Random();
-        int id = rand.nextInt(3);
+        int id = rand.nextInt(3) + 1;
         return id;
     }
 
@@ -150,7 +150,7 @@ public class InGameActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(Call<Inventory> call, Throwable t) {
-
+                                        Toast.makeText(InGameActivity.this, "Could not retrieve team inventory", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

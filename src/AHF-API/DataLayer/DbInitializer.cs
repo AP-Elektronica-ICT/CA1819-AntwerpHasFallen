@@ -48,15 +48,19 @@ namespace DataLayer
             }
             if (!context.Locations.Any())
             {
-                Location l1 = new Location(51.229023, 4.404622, "MAS");
-                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis");
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen");
+                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
+                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
+                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
 
                 context.Locations.Add(l1);
                 context.Locations.Add(l2);
                 context.Locations.Add(l3);
 
             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
             if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
@@ -68,6 +72,10 @@ namespace DataLayer
                 context.Quizpuzzles.Add(quiz);
                 context.SaveChanges();
             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
 
             context.SaveChanges();
         }
@@ -112,6 +120,7 @@ namespace DataLayer
             context.Ingredients.Add(i1);
             context.Ingredients.Add(i2);
             context.Ingredients.Add(i3);
+
         }
     }
 }

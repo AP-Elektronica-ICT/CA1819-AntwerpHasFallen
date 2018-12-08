@@ -5,6 +5,7 @@ public class Location {
     private double lat;
     private double lon;
     private String name;
+    private int time;
 
     public Location() {}
 
@@ -28,4 +29,7 @@ public class Location {
 
     public void setName(String name) {this.name = name;}
 
+    public int getTime() {return time;}
+
+    public void setTime(int time) {this.time = time;}
 }

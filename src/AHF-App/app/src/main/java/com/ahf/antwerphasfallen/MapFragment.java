@@ -48,11 +48,12 @@ public class MapFragment extends Fragment {
     private LatLng currentLocation;
     private LatLng targetLocation;
     private String targetLocationTitle;
+    private int targetLocationTime;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private AlertDialog.Builder builder;
-    FragmentActivity listener;
+    InGameActivity listener;
     MapView mMapView;
     private GoogleMap googleMap;
     private int locationId;
@@ -62,8 +63,8 @@ public class MapFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Activity){
-            this.listener = (FragmentActivity) context;
+        if (context instanceof InGameActivity){
+            this.listener = (InGameActivity) context;
         }
     }
 
@@ -97,7 +98,7 @@ public class MapFragment extends Fragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //code voor naar het volgende scherm te gaan
+                        listener.ShowPuzzles(targetLocationTime);
                     }
                 });
 
@@ -200,7 +201,7 @@ public class MapFragment extends Fragment {
         d = Math.round(d*1000);
         Log.e("distance", d + "m");
         //txt_distance.setText(d + "m");
-
+        d = 40;
         if(d <= 50){
             builder.show();
         }
@@ -213,6 +214,7 @@ public class MapFragment extends Fragment {
             public void onResponse(Call<com.ahf.antwerphasfallen.Location> call, Response<com.ahf.antwerphasfallen.Location> response) {
                 targetLocation = new LatLng(response.body().getLat(), response.body().getLon());
                 targetLocationTitle = response.body().getName();
+                targetLocationTime = response.body().getTime();
             }
 
             @Override

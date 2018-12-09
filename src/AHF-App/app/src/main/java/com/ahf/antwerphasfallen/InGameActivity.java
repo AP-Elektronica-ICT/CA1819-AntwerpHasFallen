@@ -130,6 +130,10 @@ public class InGameActivity extends AppCompatActivity {
 
     public void ShowPuzzles(int timer){
         txtTimer.setVisibility(View.VISIBLE);
+        fr = new QuizFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
         new CountDownTimer(timer*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {

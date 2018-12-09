@@ -26,9 +26,5 @@ namespace DataLayer
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ShopItem> ShopItems { get; set; }
         public DbSet<Location> Locations { get; set; }
-<<<<<<< HEAD
-
-=======
->>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
     }
 }

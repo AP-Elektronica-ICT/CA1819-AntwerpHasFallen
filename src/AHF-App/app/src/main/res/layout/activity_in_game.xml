@@ -71,14 +71,6 @@
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"/>
 
-        <TextView
-            android:id="@+id/txt_gameId"
-            android:text="Game id: "
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAlignment="center"
-            android:gravity="center"/>
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

@@ -47,6 +47,9 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtMoney;
     private TextView txtTimer;
     private InventoryFragment inventoryFragment;
+    private Bundle bundle;
+    private int gameId;
+    private int playerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,11 @@ public class InGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_game);
 
         inventoryFragment = new InventoryFragment();
+        txtTimer = findViewById(R.id.txt_timer);
+        fr = new TeamFragment();
+        bundle = new Bundle();
+        mDrawer = findViewById(R.id.drawer_layout);
 
-        int gameId = 0;
-        int playerId = 0;
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             gameId = extras.getInt("gameId");
@@ -64,18 +69,11 @@ public class InGameActivity extends AppCompatActivity {
             loadPlayer(playerId);
         }
 
-        TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
-        txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
-        txtTimer = findViewById(R.id.txt_timer);
-        txtMoney = findViewById(R.id.txt_money);
-        txtMoney.setText("Game id: " + gameId);
-
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        mDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -86,21 +84,28 @@ public class InGameActivity extends AppCompatActivity {
 
                 //update UI
                 switch(item.toString()){
+                    case "Team":
+                        fr = new TeamFragment();
+                        bundle = new Bundle();
+                        bundle.putString("teamName", CurrentTeam.getName());
+                        bundle.putInt("gameId", gameId);
+                        fr.setArguments(bundle);
+                        break;
                     case "Map":
                         fr = new MapFragment();
-                        Bundle bundle = new Bundle();
+                        bundle = new Bundle();
                         bundle.putInt("locationId", getRandomLocation());
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                            fr =inventoryFragment;
+                            fr = inventoryFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
                         dialog.show(getSupportFragmentManager(), "confirm end game");
                         break;
                 }
-                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
+                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();
@@ -173,6 +178,12 @@ public class InGameActivity extends AppCompatActivity {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
+                                bundle.putString("teamName", CurrentTeam.getName());
+                                bundle.putInt("gameId", gameId);
+                                fr.setArguments(bundle);
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.fragment_container, fr);
+                                ft.commit();
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {
                                     @Override

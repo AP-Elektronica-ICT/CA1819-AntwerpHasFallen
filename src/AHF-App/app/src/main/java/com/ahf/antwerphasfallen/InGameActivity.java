@@ -50,6 +50,7 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
+    private int[] pastLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class InGameActivity extends AppCompatActivity {
         fr = new TeamFragment();
         bundle = new Bundle();
         mDrawer = findViewById(R.id.drawer_layout);
+        txtMoney = findViewById(R.id.txt_money);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -161,6 +163,10 @@ public class InGameActivity extends AppCompatActivity {
         long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
 
         return minutes + ":" + seconds;
+    }
+
+    private void loadLocations(){
+        Call<LocationList> call = service.getLocations();
     }
 
 

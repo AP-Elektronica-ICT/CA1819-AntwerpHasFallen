@@ -12,7 +12,7 @@ namespace DataLayer
         public static void Initialize(GameContext context)
         {
             context.Database.EnsureCreated();
-
+            
             if (!context.Games.Any())
             {
                 Team t1 = new Team("testTeam", 100);
@@ -57,10 +57,7 @@ namespace DataLayer
                 context.Locations.Add(l3);
 
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
             if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
@@ -72,10 +69,19 @@ namespace DataLayer
                 context.Quizpuzzles.Add(quiz);
                 context.SaveChanges();
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> 193c4baa3518204d5e360c7e62846f6f1c1767a5
+            if (!context.SubstitionPuzzles.Any())
+            {
+                SubstitionPuzzles sub = new SubstitionPuzzles();
+                sub.Key = "MAS";
+                sub.Solution = "dead skull";
+                context.SubstitionPuzzles.Add(sub);
+                context.SaveChanges();
+
+               
+                
+            }
+
 
             context.SaveChanges();
         }

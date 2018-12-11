@@ -86,12 +86,14 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
                     gold = gold+1;
+                    updateGold();
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
                     gold -=1;
+                    updateGold();
 
                 }
             }
@@ -102,12 +104,14 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
                     gold = gold+1;
+                    updateGold();
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
                     gold -=1;
+                    updateGold();
 
                 }
             }
@@ -118,12 +122,14 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     gold = gold+1;
+                    updateGold();
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
                     gold -=1;
+                    updateGold();
 
                 }
             }
@@ -134,6 +140,10 @@ public class QuizFragment extends Fragment {
         ;
         return rootView;
 
+    }
+
+    private void updateGold(){
+        reward.setText( gold);
     }
 }
 

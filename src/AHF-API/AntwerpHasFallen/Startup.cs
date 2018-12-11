@@ -40,6 +40,7 @@ namespace AntwerpHasFallen
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
             services.AddScoped<LocationService>();
+            services.AddScoped<SubstitionPuzzles>();
 
             services.AddMvc();
         }

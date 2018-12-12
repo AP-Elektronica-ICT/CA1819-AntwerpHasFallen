@@ -74,6 +74,7 @@ namespace DataLayer
             {
                 SubstitionPuzzles sub = new SubstitionPuzzles();
                 sub.Key = "MAS";
+                sub.ClearText = "museumant";
                 sub.Solution = "dead skull";
                 context.SubstitionPuzzles.Add(sub);
                 context.SaveChanges();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 import retrofit2.Call;
@@ -41,7 +44,8 @@ public class InGameActivity extends AppCompatActivity {
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
-
+    private TextView txtMoney;
+    private TextView txtTimer;
     private InventoryFragment inventoryFragment;
 
     @Override
@@ -62,8 +66,8 @@ public class InGameActivity extends AppCompatActivity {
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
         txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
-
-        TextView txtMoney = findViewById(R.id.txt_money);
+        txtTimer = findViewById(R.id.txt_timer);
+        txtMoney = findViewById(R.id.txt_money);
         txtMoney.setText("Game id: " + gameId);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -79,7 +83,6 @@ public class InGameActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 mDrawer.closeDrawers();
-                Log.e("tsetest", item.toString());
 
                 //update UI
                 switch(item.toString()){
@@ -125,6 +128,37 @@ public class InGameActivity extends AppCompatActivity {
         return id;
     }
 
+    public void ShowPuzzles(int timer){
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new QuizFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
+        new CountDownTimer(timer*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
+            }
+
+            public void onFinish() {
+                //code voor als ze nog in de zone zitten
+            }
+        }.start();
+    }
+
+    private static String timeConversion(long totalSeconds) {
+
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
+        long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
+        long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+
+        return minutes + ":" + seconds;
+    }
+
+
     private void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {
@@ -139,6 +173,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
+                                txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {
                                     @Override

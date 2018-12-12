@@ -17,7 +17,10 @@ namespace DataLayer
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
+
+
         public DbSet<Quizpuzzles> Quizpuzzles { get; set; }
+
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<InventoryItem> Items { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }

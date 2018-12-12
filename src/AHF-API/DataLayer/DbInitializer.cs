@@ -15,15 +15,15 @@ namespace DataLayer
 
             if (!context.Games.Any())
             {
-                Team t1 = new Team("testTeam");
+                Team t1 = new Team("testTeam", 100);
                 Inventory inventoryT1 = new Inventory();
                 t1.Inventory = inventoryT1;
 
-                Team t2 = new Team("otherTeam");
+                Team t2 = new Team("otherTeam", 100);
                 Inventory inventoryT2 = new Inventory();
                 t2.Inventory = inventoryT2;
 
-                Team t3 = new Team("newTeam");
+                Team t3 = new Team("newTeam", 100);
                 Inventory inventoryT3 = new Inventory();
                 t3.Inventory = inventoryT3;
 
@@ -48,15 +48,16 @@ namespace DataLayer
             }
             if (!context.Locations.Any())
             {
-                Location l1 = new Location(51.229023, 4.404622, "MAS");
-                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis");
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen");
+                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
+                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
+                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
 
                 context.Locations.Add(l1);
                 context.Locations.Add(l2);
                 context.Locations.Add(l3);
 
             }
+
             if (!context.Quizpuzzles.Any())
             {
                 Quizpuzzles quiz = new Quizpuzzles();
@@ -112,6 +113,7 @@ namespace DataLayer
             context.Ingredients.Add(i1);
             context.Ingredients.Add(i2);
             context.Ingredients.Add(i3);
+
         }
     }
 }

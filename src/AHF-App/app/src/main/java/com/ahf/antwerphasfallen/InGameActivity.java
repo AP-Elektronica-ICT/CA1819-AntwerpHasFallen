@@ -62,6 +62,7 @@ public class InGameActivity extends AppCompatActivity {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
+            loadLocations();
         }
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
@@ -123,9 +124,25 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public int getRandomLocation(){
+
         Random rand = new Random();
         int id = rand.nextInt(3) + 1;
         return id;
+    }
+
+    public void loadLocations(){
+        Call<LocationList> locationListCall = service.getLocations();
+        locationListCall.enqueue(new Callback<LocationList>() {
+            @Override
+            public void onResponse(Call<LocationList> call, Response<LocationList> response) {
+                Log.e("onResponse", response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<LocationList> call, Throwable t) {
+                Log.e("onFailure" , t.toString());
+            }
+        });
     }
 
     public void ShowPuzzles(int timer){

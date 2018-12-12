@@ -4,10 +4,10 @@ public class SubstitutionPuzzles {
 
     String key;
     String solution;
-    String ClearText;
+    String clearText;
 
     public String getClearText() {
-        return ClearText;
+        return clearText;
     }
 
 

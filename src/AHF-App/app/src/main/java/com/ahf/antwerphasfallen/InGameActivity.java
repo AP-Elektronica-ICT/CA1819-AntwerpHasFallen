@@ -127,10 +127,44 @@ public class InGameActivity extends AppCompatActivity {
         int id = rand.nextInt(3) + 1;
         return id;
     }
+    public void ShowQuiz(int timer){
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new QuizFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
+        new CountDownTimer(timer*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
+            }
+
+            public void onFinish() {
+                //code voor als ze nog in de zone zitten
+            }
+        }.start();
+    }
+    public void Showsub(int timer){
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new SubstitutionFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
+        new CountDownTimer(timer*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
+            }
+
+            public void onFinish() {
+                //code voor als ze nog in de zone zitten
+            }
+        }.start();
+    }
 
     public void ShowPuzzles(int timer){
         txtTimer.setVisibility(View.VISIBLE);
-        fr = new QuizFragment();
+        fr = new Puzzles();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();

@@ -91,7 +91,8 @@ public class QuizFragment extends Fragment {
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
+                else {
+                    Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();
                     gold -=1;
                     updateGold();
 

@@ -9,7 +9,7 @@ namespace AntwerpHasFallen.Controllers
 {
 
     [Produces("application/json")]
-    [Route("api/puzzles/substition")]
+    [Route("api/puzzles/substitution")]
 
     public class SubstitionPuzzleController : Controller
     {

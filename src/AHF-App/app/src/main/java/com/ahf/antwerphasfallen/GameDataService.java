@@ -19,6 +19,9 @@ public interface GameDataService {
     @GET("quiz")
     Call<QuizPuzzles> GetQuestions();
 
+    @GET("puzzles/substitution/{id}")
+    Call<SubstitutionPuzzles> getQuestionbyId(@Path("id") int id);
+
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
 

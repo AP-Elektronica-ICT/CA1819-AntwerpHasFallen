@@ -150,12 +150,18 @@ public class InGameActivity extends AppCompatActivity {
 
         final int MINUTES_IN_AN_HOUR = 60;
         final int SECONDS_IN_A_MINUTE = 60;
+        String sec;
 
         long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
         long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
         long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+        if (seconds < 10){
+            sec = "0" + seconds;
+        }else{
+            sec = String.valueOf(seconds);
+        }
 
-        return minutes + ":" + seconds;
+        return minutes + ":" + sec;
     }
 
 

@@ -40,7 +40,7 @@ public class Puzzles extends Fragment {
             @Override
             public void onClick(View view) {
 
-                listener.ShowQuiz(targetLocationTime);
+                listener.ShowQuiz();
 
                 }
 
@@ -50,7 +50,7 @@ public class Puzzles extends Fragment {
             @Override
             public void onClick(View view) {
 
-                listener.Showsub(targetLocationTime);
+                listener.Showsub();
 
             }
 

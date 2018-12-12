@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+       /*File file = new File(getFilesDir(), PlayerHandler.SAVED_PLAYER);
+        file.delete();*/
         Player p = PlayerHandler.getInstance(getApplicationContext()).checkPlayer();
         if(p != null)
             startInGameAcitivity(p);

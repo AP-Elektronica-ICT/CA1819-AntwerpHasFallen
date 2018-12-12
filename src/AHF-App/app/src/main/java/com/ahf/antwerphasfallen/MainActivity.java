@@ -154,9 +154,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 Game game = response.body();
                 Log.d(TAG, "onResponse: " + game.getId());
-                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
-                intent.putExtra("gameId", game.getId());
-                startActivity(intent);
+                Bundle data = new Bundle();
+                data.putInt("gameId", game.getId());
+                JoinTeamDialog joinTeamDialog = new JoinTeamDialog();
+                joinTeamDialog.setArguments(data);
+                joinTeamDialog.show(getSupportFragmentManager(), "JoinTeam");
             }
 
             @Override

@@ -18,7 +18,6 @@ import retrofit2.Response;
 
 public class SubstitutionFragment extends Fragment {
 
-private SubstitionPuzzles puzzles = new SubstitionPuzzles();
 private TextView key;
 private EditText solution;
 private String Key;
@@ -50,7 +49,7 @@ InGameActivity listener;
         Checksolution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (solution.getText().equals(Solution)){
+                if (solution.getText().toString().equals(Solution)){
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();

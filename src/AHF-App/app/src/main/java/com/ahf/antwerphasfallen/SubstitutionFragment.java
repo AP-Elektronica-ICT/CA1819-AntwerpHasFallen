@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ public class SubstitutionFragment extends Fragment {
 
 private SubstitionPuzzles puzzles = new SubstitionPuzzles();
 private TextView key;
+private EditText solution;
 private String Key;
 private Button Checksolution;
 private String Solution;
@@ -44,10 +46,11 @@ InGameActivity listener;
         key = (TextView) rootView.findViewById(R.id.key);
         Checksolution = (Button) rootView.findViewById(R.id.checksolution);
         cleartext = (TextView) rootView.findViewById(R.id.clear);
+        solution = (EditText) rootView.findViewById(R.id.solution);
         Checksolution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Checksolution.getText().equals(Solution)){
+                if (solution.getText().equals(Solution)){
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();

@@ -18,7 +18,6 @@ import retrofit2.Response;
 
 public class SubstitutionFragment extends Fragment {
 
-private SubstitionPuzzles puzzles = new SubstitionPuzzles();
 private TextView key;
 private EditText solution;
 private String Key;

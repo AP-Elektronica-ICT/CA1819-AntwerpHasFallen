@@ -144,7 +144,7 @@ public class QuizFragment extends Fragment {
     }
 
     private void updateGold(){
-        reward.setText( gold);
+        reward.setText(String.valueOf(gold));
     }
 }
 

@@ -24,7 +24,6 @@
         </activity>
 
         <activity android:name=".InGameActivity"/>
-        <activity android:name=".PuzzlesActivity"/>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

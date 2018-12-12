@@ -29,7 +29,7 @@ public class QuizFragment extends Fragment {
     private Button choice3;
     InGameActivity listener;
     private String answer;
-    private int gold = 0;
+    private int gold;
 
 
     @Override
@@ -74,7 +74,7 @@ public class QuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
         reward = (TextView) rootView.findViewById(R.id.gold);
         question = (TextView) rootView.findViewById(R.id.question);
         choice1 = (Button) rootView.findViewById(R.id.keuze1);
@@ -85,7 +85,9 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
-                    gold = gold+1;
+                    gold++;
+
+                    reward.setText(String.valueOf(gold));
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();

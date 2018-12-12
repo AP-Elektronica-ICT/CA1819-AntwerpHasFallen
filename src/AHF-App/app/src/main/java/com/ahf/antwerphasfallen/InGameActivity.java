@@ -47,6 +47,8 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtMoney;
     private TextView txtTimer;
     private InventoryFragment inventoryFragment;
+    private MenuItem mapItem;
+    private Fragment puzzleFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +90,21 @@ public class InGameActivity extends AppCompatActivity {
                 //update UI
                 switch(item.toString()){
                     case "Map":
+                        mapItem = item;
                         fr = new MapFragment();
                         Bundle bundle = new Bundle();
                         bundle.putInt("locationId", getRandomLocation());
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                            fr =inventoryFragment;
+                        fr = inventoryFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
                         dialog.show(getSupportFragmentManager(), "confirm end game");
+                        break;
+                    case "Puzzle":
+                        fr = puzzleFragment;
                         break;
                 }
                 if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
@@ -147,7 +153,11 @@ public class InGameActivity extends AppCompatActivity {
 
     public void ShowPuzzles(int timer){
         txtTimer.setVisibility(View.VISIBLE);
+        if(mapItem != null){
+            mapItem.setTitle("Puzzle");
+        }
         fr = new QuizFragment();
+        puzzleFragment = fr;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
@@ -159,6 +169,9 @@ public class InGameActivity extends AppCompatActivity {
 
             public void onFinish() {
                 //code voor als ze nog in de zone zitten
+                if(mapItem != null){
+                    mapItem.setTitle("Map");
+                }
             }
         }.start();
     }

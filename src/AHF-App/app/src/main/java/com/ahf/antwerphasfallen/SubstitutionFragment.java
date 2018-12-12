@@ -78,6 +78,9 @@ InGameActivity listener;
                 Key = sub.getKey();
                 Solution = sub.getSolution();
                 Clear = sub.getClearText();
+                cleartext.setText(Clear);
+                key.setText(Key);
+
 
             }
         }
@@ -86,6 +89,8 @@ InGameActivity listener;
         public void onFailure(Call<SubstitutionPuzzles> call, Throwable t) {
 
         }
+
+
     });
 
 

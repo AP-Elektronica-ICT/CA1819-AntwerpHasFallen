@@ -12,5 +12,6 @@ namespace DataLayer.Model
         }
         public int Id { get; set; }
         public List<Team> Teams { get; set; }
+        public List<Location> Locations { get; set; }
     }
 }

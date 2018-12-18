@@ -20,7 +20,7 @@ namespace BusinessLayer
 
         public List<Game> getGames()
         {
-            return context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).ToList(); //.ThenInclude(t => t.Players)
+            return context.Games.Include(l => l.Locations).Include(g => g.Teams).ThenInclude(t => t.Players).ToList(); //.ThenInclude(t => t.Players)
         }
 
         public Game GetGame(int id)

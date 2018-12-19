@@ -9,6 +9,7 @@ namespace DataLayer.Model
         public Game()
         {
             Teams = new List<Team>();
+            Locations = new List<Location>();
         }
         public int Id { get; set; }
         public List<Team> Teams { get; set; }

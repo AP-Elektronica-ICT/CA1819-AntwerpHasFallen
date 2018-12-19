@@ -25,7 +25,7 @@ namespace BusinessLayer
 
         public Game GetGame(int id)
         {
-            return context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == id);
+            return context.Games.Include(g => g.Locations).Include(g => g.Teams).SingleOrDefault(g => g.Id == id);
         }
 
         public bool deleteGame(int id)

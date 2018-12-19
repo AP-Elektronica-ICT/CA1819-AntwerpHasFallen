@@ -49,6 +49,8 @@ public class InGameActivity extends AppCompatActivity {
     private InventoryFragment inventoryFragment;
     private MenuItem mapItem;
     private Fragment puzzleFragment;
+    private int teamId;
+    private int locationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,6 @@ public class InGameActivity extends AppCompatActivity {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
-            loadLocations();
         }
 
         TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
@@ -130,25 +131,20 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public int getRandomLocation(){
-
-        Random rand = new Random();
-        int id = rand.nextInt(3) + 1;
-        return id;
-    }
-
-    public void loadLocations(){
-        Call<LocationList> locationListCall = service.getLocations();
-        locationListCall.enqueue(new Callback<LocationList>() {
+        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+        randomLocationCall.enqueue(new Callback<Location>() {
             @Override
-            public void onResponse(Call<LocationList> call, Response<LocationList> response) {
-                Log.e("onResponse", response.toString());
+            public void onResponse(Call<Location> call, Response<Location> response) {
+                locationId = response.body().getId();
             }
 
             @Override
-            public void onFailure(Call<LocationList> call, Throwable t) {
-                Log.e("onFailure" , t.toString());
+            public void onFailure(Call<Location> call, Throwable t) {
+                locationId = -1;
             }
         });
+
+        return locationId;
     }
 
     public void ShowPuzzles(int timer){
@@ -202,6 +198,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
+                                teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {

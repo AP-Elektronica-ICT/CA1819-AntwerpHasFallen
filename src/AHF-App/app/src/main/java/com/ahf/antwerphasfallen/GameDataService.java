@@ -37,6 +37,9 @@ public interface GameDataService {
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);
 
+    @GET("teams/randomlocation/{id}")
+    Call<Location> getRandomLocation(@Path("id") int id);
+
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);
 

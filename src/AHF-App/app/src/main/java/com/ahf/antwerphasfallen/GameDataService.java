@@ -1,5 +1,7 @@
 package com.ahf.antwerphasfallen;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -30,6 +32,9 @@ public interface GameDataService {
 
     @GET("teams/{id}")
     Call<Team> getTeam(@Path("id") int id);
+
+    @GET("inventory")
+    Call<ArrayList<ShopItem>> getShopItems();
 
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);

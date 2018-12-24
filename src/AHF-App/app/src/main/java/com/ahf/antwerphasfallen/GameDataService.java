@@ -33,7 +33,7 @@ public interface GameDataService {
     @GET("teams/{id}")
     Call<Team> getTeam(@Path("id") int id);
 
-    @GET("inventory")
+    @GET("shop")
     Call<ArrayList<ShopItem>> getShopItems();
 
     @GET("inventory/{id}")

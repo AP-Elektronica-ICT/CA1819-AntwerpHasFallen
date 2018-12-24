@@ -1,25 +1,24 @@
 package com.ahf.antwerphasfallen;
 
 /**
- * Created by Jorren on 16/11/2018.
+ * Created by Jorren on 24/12/2018.
  */
 
-public class ShopItem extends Item {
+public class ShopItem {
 
-    private String description;
+    private int id;
+    private int price;
+    private Item item;
 
-    public ShopItem() {
+    public int getId() {
+        return id;
     }
 
-    public void Use(){
-        //TODO: api call for use method
+    public int getPrice() {
+        return price;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Item getItem() {
+        return item;
     }
 }

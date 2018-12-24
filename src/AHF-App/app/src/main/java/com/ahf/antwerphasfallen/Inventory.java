@@ -9,7 +9,7 @@ import java.util.List;
 public class Inventory {
     private int id;
     private List<InventoryItem> ingredients;
-    private List<InventoryItem> shopItems;
+    private List<InventoryItem> items;
 
     public Inventory() {
     }
@@ -18,23 +18,11 @@ public class Inventory {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<InventoryItem> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<InventoryItem> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public List<InventoryItem> getShopItems() {
-        return shopItems;
-    }
-
-    public void setShopItems(List<InventoryItem> shopItems) {
-        this.shopItems = shopItems;
+    public List<InventoryItem> getItems() {
+        return items;
     }
 }

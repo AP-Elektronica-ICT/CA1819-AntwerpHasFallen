@@ -11,14 +11,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/lbl_item_shop_name"
+            android:id="@+id/lbl_item_name"
             android:text="testname: "
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/lbl_item_shop_quantity"
+            android:id="@+id/lbl_item_quantity"
             android:text="5"
             android:textSize="20sp"
             android:textAlignment="textEnd"
@@ -28,7 +28,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/lbl_description"
+        android:id="@+id/lbl_item_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -20,7 +20,7 @@ namespace BusinessLayer
 
         public List<Game> getGames()
         {
-            return context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).ToList(); //.ThenInclude(t => t.Players)
+            return context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).ToList(); 
         }
 
         public Game GetGame(int id)
@@ -45,11 +45,11 @@ namespace BusinessLayer
                     return false;
                 if (t.Inventory != null)
                 {             // !!Conflict in db, door mapping EF van list!!
-                    Inventory inventory = context.Inventories.Include(i => i.Ingredients).Include(i => i.ShopItems).SingleOrDefault(i => i.Id == t.Inventory.Id);
+                    Inventory inventory = context.Inventories.Include(i => i.Ingredients).Include(i => i.Items).SingleOrDefault(i => i.Id == t.Inventory.Id);
                     foreach (InventoryItem ingredient in inventory.Ingredients)
-                        context.Items.Remove(ingredient);
-                    foreach (InventoryItem shopItem in inventory.ShopItems)
-                        context.Items.Remove(shopItem);
+                        context.InventoryItems.Remove(ingredient);
+                    foreach (InventoryItem shopItem in inventory.Items)
+                        context.InventoryItems.Remove(shopItem);
                     context.Inventories.Remove(t.Inventory);
                 }
                 if (t.Players != null)

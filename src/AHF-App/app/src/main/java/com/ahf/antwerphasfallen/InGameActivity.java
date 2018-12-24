@@ -47,6 +47,7 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtMoney;
     private TextView txtTimer;
     private InventoryFragment inventoryFragment;
+    private ShopFragment shopFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class InGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_game);
 
         inventoryFragment = new InventoryFragment();
+        shopFragment = new ShopFragment();
 
         int gameId = 0;
         int playerId = 0;
@@ -93,14 +95,17 @@ public class InGameActivity extends AppCompatActivity {
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                            fr =inventoryFragment;
+                            fr = inventoryFragment;
+                        break;
+                    case "Shop":
+                        fr = shopFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
                         dialog.show(getSupportFragmentManager(), "confirm end game");
                         break;
                 }
-                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
+                if(!item.toString().equals("Exit Game") && !item.toString().equals("Team")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();
@@ -127,6 +132,7 @@ public class InGameActivity extends AppCompatActivity {
         int id = rand.nextInt(3) + 1;
         return id;
     }
+
     public void ShowQuiz(){
         txtTimer.setVisibility(View.VISIBLE);
         fr = new QuizFragment();
@@ -134,6 +140,7 @@ public class InGameActivity extends AppCompatActivity {
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
     }
+
     public void Showsub(){
         txtTimer.setVisibility(View.VISIBLE);
         fr = new SubstitutionFragment();
@@ -214,7 +221,7 @@ public class InGameActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Team> call, Throwable t) {
-
+                            Toast.makeText(InGameActivity.this, "Error getting team information", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -223,7 +230,7 @@ public class InGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-
+                Toast.makeText(InGameActivity.this, "Error getting player information", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -50,22 +50,7 @@ public class ShopFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_shop, container, false);
 
         lv_shopItems = fragmentView.findViewById(R.id.lv_shop_shopItems);
-        if(shopItems == null){
-            Call<ArrayList<ShopItem>> getList = service.getShopItems();
-            getList.enqueue(new Callback<ArrayList<ShopItem>>() {
-                @Override
-                public void onResponse(Call<ArrayList<ShopItem>> call, Response<ArrayList<ShopItem>> response) {
-                    shopItems = response.body();
-                    shopListAdapter = new ShopListAdapter(getContext(), shopItems);
-                    lv_shopItems.setAdapter(shopListAdapter);
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<ShopItem>> call, Throwable t) {
-                    Toast.makeText(host, "Failed getting items", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        LoadItems();
 
         return fragmentView;
     }
@@ -82,7 +67,27 @@ public class ShopFragment extends Fragment {
         }
     }
 
-    public void setAdapters(){
+    public void setAdapters() {
+        if (lv_shopItems != null && shopListAdapter != null) {
+            lv_shopItems.setAdapter(shopListAdapter);
+            shopListAdapter.notifyDataSetChanged();
+        }
+    }
 
+    public void LoadItems() {
+        Call<ArrayList<ShopItem>> getList = service.getShopItems();
+        getList.enqueue(new Callback<ArrayList<ShopItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ShopItem>> call, Response<ArrayList<ShopItem>> response) {
+                shopItems = response.body();
+                shopListAdapter = new ShopListAdapter(getContext(), shopItems);
+                setAdapters();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ShopItem>> call, Throwable t) {
+                Toast.makeText(host, "Failed getting items", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

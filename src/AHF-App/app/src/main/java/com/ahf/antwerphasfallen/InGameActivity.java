@@ -39,15 +39,15 @@ public class InGameActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Fragment fr;
 
-
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
     private TextView txtMoney;
     private TextView txtTimer;
-    private InventoryFragment inventoryFragment;
-    private ShopFragment shopFragment;
+
+    public InventoryFragment inventoryFragment;
+    public ShopFragment shopFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +186,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
 
-    private void loadPlayer(int id) {
+    public void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {
             @Override

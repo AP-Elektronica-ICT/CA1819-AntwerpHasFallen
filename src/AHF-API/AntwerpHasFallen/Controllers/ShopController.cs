@@ -13,10 +13,12 @@ namespace AntwerpHasFallen.Controllers
     public class ShopController : Controller
     {
         private readonly ShopService shopService;
+        private readonly InventoryService inventoryService;
 
-        public ShopController(ShopService shopService)
+        public ShopController(ShopService shopService, InventoryService inventoryService)
         {
             this.shopService = shopService;
+            this.inventoryService = inventoryService;
         }
 
         public IActionResult getAllShopItems()
@@ -26,6 +28,17 @@ namespace AntwerpHasFallen.Controllers
                 inventoryItems.Add(item));
 
             return Ok(inventoryItems);
+        }
+
+        [Route("buy/{shopItemId}")]
+        [HttpPut]
+        public IActionResult buyShopItem(int shopItemId, [FromBody] int teamId)
+        {
+            Inventory inventory = shopService.buyShopItem(shopItemId, teamId);
+            if (inventory == null)
+                return NotFound("item or team does not exist, or team money is insufficient");
+            else
+                return Ok(inventory);
         }
 
         [Route("items")]

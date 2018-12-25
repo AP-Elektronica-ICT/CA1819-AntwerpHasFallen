@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -36,6 +37,9 @@ public interface GameDataService {
     @GET("shop")
     Call<ArrayList<ShopItem>> getShopItems();
 
+    @PUT("shop/buy/{shopItemId}")
+    Call<Inventory> buyShopItem(@Path("shopItemId") int shopItemId, @Body int teamId);
+
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 
@@ -50,7 +54,6 @@ public interface GameDataService {
 
     @POST("games/join/{gameId}")
     Call<Player> joinGame(@Path("gameId") int gameId, @Body int teamId);
-
 
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);

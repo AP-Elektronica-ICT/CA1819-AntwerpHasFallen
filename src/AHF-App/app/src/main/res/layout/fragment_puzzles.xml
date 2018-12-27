@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ahf.antwerphasfallen.QuizFragment">
+    tools:context="com.ahf.antwerphasfallen.QuizFragment"
+    android:background="@drawable/puzzlelayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,16 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Quizpuzzle"
-            android:background="#0091EA"
+            android:background="@drawable/btnlayout"
             android:textColor="#fff"
             android:padding="8dp"
+
             android:layout_marginBottom="24dp"
             android:id="@+id/Quiz"/>
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SubstitutionPuzzle"
-            android:background="#0091EA"
+            android:background="@drawable/btnlayout"
             android:textColor="#fff"
             android:padding="8dp"
             android:layout_marginBottom="24dp"
@@ -36,11 +38,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nog een andere puzzel"
-            android:background="#0091EA"
+            android:background="@drawable/btnlayout"
             android:textColor="#fff"
             android:padding="8dp"
             android:layout_marginBottom="24dp"
             android:id="@+id/keuze3"/>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nog een andere "
+            android:background="@drawable/btnlayout"
+            android:textColor="#fff"
+            android:padding="8dp"
+
+            android:layout_marginBottom="24dp"
+            android:id="@+id/keuze4"/>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="En dan nog eentje voor het af te maken "
+            android:background="@drawable/btnlayout"
+            android:textColor="#fff"
+            android:padding="8dp"
+
+            android:layout_marginBottom="24dp"
+            android:id="@+id/keuze5"/>
 
 
 

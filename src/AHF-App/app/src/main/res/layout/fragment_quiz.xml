@@ -2,79 +2,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ahf.antwerphasfallen.QuizFragment">
+    tools:context="com.ahf.antwerphasfallen.QuizFragment"
+    android:background="@drawable/quiz">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding ="8dp"
-        android:layout_marginBottom="40dp">
+        android:paddingTop="16dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:padding="8dp">
+
+
+            <TextView
+                android:id="@+id/gold_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Gold" />
+
+            <TextView
+                android:id="@+id/gold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="0" />
+
+
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/question"
             android:layout_width="wrap_content"
+            android:layout_height="78dp"
+            android:layout_marginBottom="40dp"
+            android:autoText="true"
+            android:padding="8dp"
+            android:text="Voorbeeldvraag"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/keuze1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gold"
-            android:id="@+id/gold_text"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btnlayout"
+            android:padding="8dp"
+            android:text="Antwoord 1"
+            android:textColor="#fff" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/keuze2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:id="@+id/gold"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btnlayout"
+            android:padding="8dp"
+            android:text="Antwoord 2"
+            android:textColor="#fff" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/keuze3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btnlayout"
+            android:padding="8dp"
+            android:text="Antwoord 3"
+            android:textColor="#fff" />
 
 
-
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="78dp"
-        android:text="Voorbeeldvraag"
-        android:padding="8dp"
-        android:textSize="20sp"
-        android:layout_marginBottom="40dp"
-        android:id="@+id/question"/>
-
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Antwoord 1"
-        android:background="#0091EA"
-        android:textColor="#fff"
-        android:padding="8dp"
-        android:layout_marginBottom="24dp"
-        android:id="@+id/keuze1"/>
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Antwoord 2"
-        android:background="#0091EA"
-        android:textColor="#fff"
-        android:padding="8dp"
-        android:layout_marginBottom="24dp"
-        android:id="@+id/keuze2"/>
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Antwoord 3"
-        android:background="#0091EA"
-        android:textColor="#fff"
-        android:padding="8dp"
-        android:layout_marginBottom="24dp"
-        android:id="@+id/keuze3"/>
-
-
-
-</LinearLayout>
+    </LinearLayout>
 </FrameLayout>

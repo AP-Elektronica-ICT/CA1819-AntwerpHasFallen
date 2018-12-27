@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ahf.antwerphasfallen.InventoryFragment">
+    tools:context="com.ahf.antwerphasfallen.InventoryFragment"
+    android:background="@drawable/inventorybackground">
 
     <TextView
         android:text="Ingredients"
@@ -11,10 +12,11 @@
         android:layout_height="wrap_content" />
 
     <ListView
-        android:layout_below="@id/lbl_ingredients"
         android:id="@+id/lv_ingredients"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl_ingredients"
+        android:dividerHeight="0dp"></ListView>
 
     <TextView
         android:layout_below="@id/lv_ingredients"

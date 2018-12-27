@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/subs"
     tools:context="com.ahf.antwerphasfallen.QuizFragment">
 
     <LinearLayout
@@ -54,23 +55,23 @@
 
 
             <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Check solution"
-                android:background="#0091EA"
-                android:textColor="#fff"
-                android:padding="8dp"
-                android:layout_marginBottom="24dp"
                 android:id="@+id/checksolution"
-                android:layout_alignParentRight="true"/>
+                android:layout_width="176dp"
+                android:layout_height="55dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/btnlayout"
+                android:padding="8dp"
+                android:text="Check solution"
+                android:textColor="#fff" />
 
         </LinearLayout>
 
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="423dp"
+            android:layout_height="418dp"
             app:srcCompat="@drawable/substitutie" />
 
 

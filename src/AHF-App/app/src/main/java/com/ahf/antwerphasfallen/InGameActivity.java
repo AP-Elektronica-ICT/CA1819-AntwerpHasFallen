@@ -160,13 +160,27 @@ public class InGameActivity extends AppCompatActivity {
 
         return locationId;
     }
+    public void ShowQuiz(){
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new QuizFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
+    }
+    public void Showsub(){
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new SubstitutionFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fr);
+        ft.commit();
+    }
 
     public void ShowPuzzles(int timer){
         txtTimer.setVisibility(View.VISIBLE);
+        fr = new Puzzles();
         if(mapItem != null){
             mapItem.setTitle("Puzzle");
         }
-        fr = new QuizFragment();
         puzzleFragment = fr;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
@@ -190,12 +204,18 @@ public class InGameActivity extends AppCompatActivity {
 
         final int MINUTES_IN_AN_HOUR = 60;
         final int SECONDS_IN_A_MINUTE = 60;
+        String sec;
 
         long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
         long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
         long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+        if (seconds < 10){
+            sec = "0" + seconds;
+        }else{
+            sec = String.valueOf(seconds);
+        }
 
-        return minutes + ":" + seconds;
+        return minutes + ":" + sec;
     }
 
 
@@ -206,6 +226,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if (response.body() != null) {
                     CurrentPlayer = response.body();
+                    PlayerHandler.getInstance(getApplicationContext()).putPlayerInfo(CurrentPlayer);
                     Call<Team> teamCall = service.getTeam(CurrentPlayer.getTeamId());
                     teamCall.enqueue(new Callback<Team>() {
                         @Override
@@ -238,6 +259,7 @@ public class InGameActivity extends AppCompatActivity {
                         }
                     });
                 }
+                else startMainActivity();
             }
 
             @Override
@@ -247,6 +269,11 @@ public class InGameActivity extends AppCompatActivity {
         });
     }
 
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public void EndGame(){
         Call<Boolean> call = service.endGame(CurrentPlayer.getGameId());
         call.enqueue(new Callback<Boolean>() {
@@ -254,6 +281,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.body() != null) {
                     Toast.makeText(InGameActivity.this, "Game ended", Toast.LENGTH_SHORT).show();
+                    PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
                     Intent intent = new Intent(InGameActivity.this, MainActivity.class);
                     startActivity(intent);
                 }

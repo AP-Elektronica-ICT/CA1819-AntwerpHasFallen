@@ -13,7 +13,10 @@ namespace DataLayer.Model
             Name = name;
             Time = time;
         }
+
         public int Id { get; set; }
+        public List<Quizpuzzles> Quiz {get; set;}
+        public List<SubstitionPuzzles> subs { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
         public string Name { get; set; }

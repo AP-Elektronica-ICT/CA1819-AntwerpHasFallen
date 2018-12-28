@@ -1,28 +1,67 @@
 package com.ahf.antwerphasfallen;
 
-public abstract class Puzzles {
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-String question;
-String solution;
+public class Puzzles extends Fragment {
 
-public String Checksolution(String sol){
-    String solution = sol;
-    if (this.solution == solution) {
-        return ("Antwoord is correct");
-    }
-    else
-        {
-           return("Antwoord is fout, probeer opnieuw voor 100 euro");
+    private Button quiz;
+    private Button sub;
+    private int targetLocationTime;
+    InGameActivity listener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof InGameActivity) {
+            this.listener = (InGameActivity) context;
         }
+
+
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
 
-    public void setSolution(String solution) {
-        this.solution = solution;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_puzzles, container, false);
+        quiz = (Button) rootView.findViewById(R.id.Quiz);
+        sub = (Button) rootView.findViewById(R.id.substitution);
+
+        quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                listener.ShowQuiz();
+
+                }
+
+                });
+
+        sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                listener.Showsub();
+
+            }
+
+        });
+
+
+
+
+        return rootView;
     }
 }
+
 
 

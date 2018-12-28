@@ -12,7 +12,7 @@ namespace DataLayer
         public static void Initialize(GameContext context)
         {
             context.Database.EnsureCreated();
-
+            
             if (!context.Games.Any())
             {
                 Team t1 = new Team("testTeam", 100);
@@ -81,6 +81,20 @@ namespace DataLayer
                 context.Quizpuzzles.Add(quiz);
                 //context.SaveChanges();
             }
+
+            if (!context.SubstitionPuzzles.Any())
+            {
+                SubstitionPuzzles sub = new SubstitionPuzzles();
+                sub.Key = "MAS";
+                sub.ClearText = "museumant";
+                sub.Solution = "dead skull";
+                context.SubstitionPuzzles.Add(sub);
+                context.SaveChanges();
+
+               
+                
+            }
+            
 
             context.SaveChanges();
         }

@@ -7,72 +7,46 @@
     android:orientation="vertical"
     tools:context="com.ahf.antwerphasfallen.MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Antwerp Has Fallen"
-        android:textAlignment="center"
-        android:textSize="36sp" />
-
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/hotelfirean_antwerpen_02" />
-
+        android:layout_height="wrap_content"
+        android:background="@drawable/start">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="3"></LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1">
+
                 <Button
                     android:id="@+id/btn_start"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="START" />
-            </LinearLayout>
+                    android:background="@drawable/button" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
+
                 <Button
                     android:id="@+id/btn_join"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:text="JOIN" />
+                    android:background="@drawable/join" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-                <Button
-                    android:id="@+id/btn_quiz"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="GoToPuzzles"
-                    android:text="QUIZ" />
-
-            </LinearLayout>
 
 
         </LinearLayout>

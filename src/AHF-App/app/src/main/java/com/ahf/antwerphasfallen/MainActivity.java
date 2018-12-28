@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,7 +47,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
 
     private Button btnStart;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -117,6 +117,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*File file = new File(getFilesDir(), PlayerHandler.SAVED_PLAYER);
+        file.delete();*/
+        Player p = PlayerHandler.getInstance(getApplicationContext()).checkPlayer();
+        if(p != null)
+            startInGameAcitivity(p);
+    }
+
     @NonNull
     private String[] getTeamNames(Game game) {
         List<Team> teams = game.getTeams();
@@ -124,6 +134,16 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < teams.size(); i++)
             teamNames[i] = teams.get(i).getName();
         return teamNames;
+    }
+
+
+
+    private void startInGameAcitivity(Player p){
+        Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+        intent.putExtra("gameId", p.getGameId());
+        intent.putExtra("playerId", p.getId());
+        intent.putExtra("teamId", p.getTeamId());
+        startActivity(intent);
     }
 
     public void createNewGame(Game game) {
@@ -134,9 +154,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 Game game = response.body();
                 Log.d(TAG, "onResponse: " + game.getId());
-                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
-                intent.putExtra("gameId", game.getId());
-                startActivity(intent);
+                Bundle data = new Bundle();
+                data.putInt("gameId", game.getId());
+                JoinTeamDialog joinTeamDialog = new JoinTeamDialog();
+                joinTeamDialog.setArguments(data);
+                joinTeamDialog.show(getSupportFragmentManager(), "JoinTeam");
             }
 
             @Override
@@ -152,11 +174,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Player>() {
             @Override
             public void onResponse(Call<Player> call, Response<Player> response) {
-                Intent intent = new Intent(MainActivity.this, InGameActivity.class);
-                intent.putExtra("gameId", response.body().getGameId());
-                intent.putExtra("playerId", response.body().getId());
-                intent.putExtra("teamId", response.body().getTeamId());
-                startActivity(intent);
+                startInGameAcitivity(response.body());
             }
 
             @Override
@@ -165,11 +183,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-    public void GoToPuzzles(View view) {
-        startActivity(new Intent(MainActivity.this, QuizActivity.class));
-    }
-
 }

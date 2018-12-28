@@ -23,7 +23,6 @@ public class QuizActivity extends AppCompatActivity {
 
     private String answer;
     private int gold = 0;
-    private int questionnumber = 0;
 
 
     @Override
@@ -39,7 +38,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (quiz != null) {
 
                     answer = quiz.getCorrectAnswer();
-                    Toast.makeText(QuizActivity.this, answer,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizActivity.this, answer, Toast.LENGTH_SHORT).show();
                     question.setText(quiz.getQuestion());
                     String[] answers = quiz.answers.split(",");
                     choice1.setText(answers[0]);
@@ -70,52 +69,56 @@ public class QuizActivity extends AppCompatActivity {
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (choice1.getText().equals(answer)){
-                    gold = gold+1;
+                if (choice1.getText().equals(answer)) {
+                    gold = gold + 5;
 
-                   // updateQuestion();
-                    Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
-                }
-                else Toast.makeText(QuizActivity.this, "Wrong",Toast.LENGTH_SHORT).show();{
-                    gold -=1;
+
+                    // updateQuestion();
+                    Toast.makeText(QuizActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(QuizActivity.this, "Wrong", Toast.LENGTH_SHORT).show();
+                {
+                    gold -= 1;
 
                 }
-                }
+            }
 
         });
         choice2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (choice2.getText().equals(answer)){
-                    gold = gold+1;
+                if (choice2.getText().equals(answer)) {
+                    gold = gold + 5;
 
-                   // updateQuestion();
-                    Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
-                }
-                else Toast.makeText(QuizActivity.this, "Wrong",Toast.LENGTH_SHORT).show();{
+                    // updateQuestion();
+                    Toast.makeText(QuizActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(QuizActivity.this, "Wrong", Toast.LENGTH_SHORT).show();
+                {
                     gold -= 1;
 
+
                 }
-                }
+            }
 
         });
         choice3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (choice3.getText().equals(answer)){
-                    gold = gold+1;
+                if (choice3.getText().equals(answer)) {
+                    gold = gold + 5;
 
-                   // updateQuestion();
-                    Toast.makeText(QuizActivity.this, "Correct",Toast.LENGTH_SHORT).show();
-                }
-                else {
+
+                    // updateQuestion();
+                    Toast.makeText(QuizActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(QuizActivity.this, "Wrong", Toast.LENGTH_SHORT).show();
-                    gold = gold-1;
+                    gold = gold - 1;
+
                 }
             }
         });
 
     }
+}
 
    /* private void updateQuestion(){
         question.setText(puzzles.getQuestion(questionnumber));
@@ -125,13 +128,12 @@ public class QuizActivity extends AppCompatActivity {
         answer = puzzles.getCorrectAnswer(questionnumber);
         questionnumber++;
     }
-
-    private void updateGold(int punt){
-        reward.setText("" + gold);
-    }
-
     */
 
 
-    }
+
+
+
+
+
 

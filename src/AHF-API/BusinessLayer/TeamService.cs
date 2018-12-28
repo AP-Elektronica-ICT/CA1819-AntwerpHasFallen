@@ -51,5 +51,17 @@ namespace BusinessLayer
             context.SaveChanges();
             return player;
         }
+
+        public Location getRandomLocation(int teamId)
+        {
+            Random rand = new Random();
+            int id = 0;
+            LocationService locationService = new LocationService(context);
+            List<Location> locations = locationService.getLocations();
+            Team team = GetTeam(teamId);
+            id = rand.Next(locations.Count());
+
+            return locations[id];
+        }
     }
 }

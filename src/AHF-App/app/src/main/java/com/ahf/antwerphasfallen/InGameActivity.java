@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -47,6 +48,12 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtMoney;
     private TextView txtTimer;
     private InventoryFragment inventoryFragment;
+    private MenuItem mapItem;
+    private Fragment puzzleFragment;
+    private int teamId;
+    private int locationId;
+    private boolean checking;
+    private List<Location> previousLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +94,21 @@ public class InGameActivity extends AppCompatActivity {
                 //update UI
                 switch(item.toString()){
                     case "Map":
+                        mapItem = item;
                         fr = new MapFragment();
                         Bundle bundle = new Bundle();
                         bundle.putInt("locationId", getRandomLocation());
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                            fr =inventoryFragment;
+                        fr = inventoryFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
                         dialog.show(getSupportFragmentManager(), "confirm end game");
+                        break;
+                    case "Puzzle":
+                        fr = puzzleFragment;
                         break;
                 }
                 if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
@@ -123,9 +134,31 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public int getRandomLocation(){
-        Random rand = new Random();
-        int id = rand.nextInt(3) + 1;
-        return id;
+        checking = true;
+
+        while(checking){
+            Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+            randomLocationCall.enqueue(new Callback<Location>() {
+                @Override
+                public void onResponse(Call<Location> call, Response<Location> response) {
+                    locationId = response.body().getId();
+                    if(previousLocations.contains(response.body())){
+                        checking = true;
+                    }
+                    else{
+                        previousLocations.add(response.body());
+                        checking = false;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Location> call, Throwable t) {
+                    locationId = -1;
+                }
+            });
+        }
+
+        return locationId;
     }
     public void ShowQuiz(){
         txtTimer.setVisibility(View.VISIBLE);
@@ -145,6 +178,10 @@ public class InGameActivity extends AppCompatActivity {
     public void ShowPuzzles(int timer){
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
+        if(mapItem != null){
+            mapItem.setTitle("Puzzle");
+        }
+        puzzleFragment = fr;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
@@ -156,6 +193,9 @@ public class InGameActivity extends AppCompatActivity {
 
             public void onFinish() {
                 //code voor als ze nog in de zone zitten
+                if(mapItem != null){
+                    mapItem.setTitle("Map");
+                }
             }
         }.start();
     }
@@ -193,6 +233,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if(response.body() != null) {
                                 CurrentTeam = response.body();
+                                teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {

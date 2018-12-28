@@ -19,6 +19,7 @@ namespace AntwerpHasFallen.Controllers
             this.locationService = locationService;
         }
 
+        [HttpGet]
         public IActionResult getAllLocations()
         {
             return Ok(locationService.getLocations());

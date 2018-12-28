@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-
+                Log.e("onFailure2", t.toString());
             }
         });
     }

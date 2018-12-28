@@ -32,6 +32,14 @@ namespace AntwerpHasFallen.Controllers
                 return Ok(teamService.GetTeam(id));
             return NotFound();
         }
+
+        [Route("randomlocation/{id}")]
+        [HttpGet]
+        public IActionResult getRandomLocation(int id)
+        {
+            return Ok(teamService.getRandomLocation(id));
+        }
+            
         
     }
 }

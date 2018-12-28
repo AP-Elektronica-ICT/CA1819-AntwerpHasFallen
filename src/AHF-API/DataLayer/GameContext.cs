@@ -14,6 +14,22 @@ namespace DataLayer
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PreviousLocations>()
+                .HasKey(t => new { t.TeamId, t.LocationId });
+
+            modelBuilder.Entity<PreviousLocations>()
+                .HasOne(pt => pt.Team)
+                .WithMany(p => p.PreviousLocations)
+                .HasForeignKey(pt => pt.TeamId);
+
+            modelBuilder.Entity<PreviousLocations>()
+                .HasOne(pt => pt.Location)
+                .WithMany(t => t.PreviousLocations)
+                .HasForeignKey(pt => pt.LocationId);
+        }
+
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -24,6 +40,5 @@ namespace DataLayer
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ShopItem> ShopItems { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Location> PreviousLocations { get; set; }
     }
 }

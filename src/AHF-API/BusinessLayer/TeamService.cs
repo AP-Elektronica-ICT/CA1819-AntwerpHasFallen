@@ -54,12 +54,38 @@ namespace BusinessLayer
 
         public Location getRandomLocation(int teamId)
         {
+            bool checking = true;
             Random rand = new Random();
             int id = 0;
             LocationService locationService = new LocationService(context);
             List<Location> locations = locationService.getLocations();
             Team team = GetTeam(teamId);
+            List<PreviousLocations> previousLocations = team.PreviousLocations;
             id = rand.Next(locations.Count());
+
+            while (checking)
+            {
+                foreach (PreviousLocations prevLoc in previousLocations)
+                {
+                    if (prevLoc.Location == locations[id])
+                    {
+                        id = rand.Next(locations.Count());
+                    }
+                    else
+                    {
+                        checking = false;
+                        break;
+                    }
+                }
+            }
+
+            PreviousLocations currentLocation = new PreviousLocations();
+            currentLocation.LocationId = id;
+            currentLocation.Location = locations[id];
+            currentLocation.Team = team;
+            currentLocation.TeamId = teamId;
+
+            context.SaveChanges();
 
             return locations[id];
         }

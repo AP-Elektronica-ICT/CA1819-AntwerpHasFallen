@@ -11,19 +11,19 @@ namespace DataLayer.Model
         {
             Name = name;
             Money = money;
-            Players = new List<Player>();            
-            PreviousLocations = new List<Location>();
+            Players = new List<Player>();
+            PreviousLocations = new List<PreviousLocations>();
         }
         public Team()
         {
             Players = new List<Player>();
-            PreviousLocations = new List<Location>();
+            PreviousLocations = new List<PreviousLocations>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Player> Players { get; set; }
         public Inventory Inventory { get; set; }
         public int Money { get; set; }
-        public List<Location> PreviousLocations { get; set; }
+        public List<PreviousLocations> PreviousLocations { get; set; }
     }
 }

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -51,6 +52,8 @@ public class InGameActivity extends AppCompatActivity {
     private Fragment puzzleFragment;
     private int teamId;
     private int locationId;
+    private boolean checking;
+    private List<Location> previousLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,18 +134,29 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public int getRandomLocation(){
-        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
-        randomLocationCall.enqueue(new Callback<Location>() {
-            @Override
-            public void onResponse(Call<Location> call, Response<Location> response) {
-                locationId = response.body().getId();
-            }
+        checking = true;
 
-            @Override
-            public void onFailure(Call<Location> call, Throwable t) {
-                locationId = -1;
-            }
-        });
+        while(checking){
+            Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+            randomLocationCall.enqueue(new Callback<Location>() {
+                @Override
+                public void onResponse(Call<Location> call, Response<Location> response) {
+                    locationId = response.body().getId();
+                    if(previousLocations.contains(response.body())){
+                        checking = true;
+                    }
+                    else{
+                        previousLocations.add(response.body());
+                        checking = false;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Location> call, Throwable t) {
+                    locationId = -1;
+                }
+            });
+        }
 
         return locationId;
     }

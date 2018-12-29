@@ -57,7 +57,6 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
-    private int[] pastLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +100,11 @@ public class InGameActivity extends AppCompatActivity {
                         fr.setArguments(bundle);
                         break;
                     case "Map":
+                        getRandomLocation();
                         mapItem = item;
                         fr = new MapFragment();
                         bundle = new Bundle();
-                        bundle.putInt("locationId", getRandomLocation());
+                        bundle.putInt("locationId", 1);
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
@@ -140,32 +140,27 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getRandomLocation(){
-        checking = true;
-
-        while(checking){
-            Call<Location> randomLocationCall = service.getRandomLocation(teamId);
-            randomLocationCall.enqueue(new Callback<Location>() {
-                @Override
-                public void onResponse(Call<Location> call, Response<Location> response) {
-                    locationId = response.body().getId();
-                    if(previousLocations.contains(response.body())){
-                        checking = true;
-                    }
-                    else{
-                        previousLocations.add(response.body());
-                        checking = false;
-                    }
+    public void getRandomLocation(){
+        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+        randomLocationCall.enqueue(new Callback<Location>() {
+            @Override
+            public void onResponse(Call<Location> call, Response<Location> response) {
+                locationId = response.body().getId();
+                if(previousLocations.contains(response.body())){
+                    checking = true;
                 }
-
-                @Override
-                public void onFailure(Call<Location> call, Throwable t) {
-                    locationId = -1;
+                else{
+                    previousLocations.add(response.body());
+                    checking = false;
                 }
-            });
-        }
+            }
 
-        return locationId;
+            @Override
+            public void onFailure(Call<Location> call, Throwable t) {
+                locationId = -1;
+            }
+        });
+        //return locationId;
     }
     public void ShowQuiz(){
         txtTimer.setVisibility(View.VISIBLE);

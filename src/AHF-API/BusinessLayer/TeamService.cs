@@ -72,12 +72,13 @@ namespace BusinessLayer
                     {
                         if (prevLoc.Location == locations[id])
                         {
+                            checking = true;
                             id = rand.Next(locations.Count());
+                            break;
                         }
                         else
                         {
                             checking = false;
-                            break;
                         }
                     }
                 }

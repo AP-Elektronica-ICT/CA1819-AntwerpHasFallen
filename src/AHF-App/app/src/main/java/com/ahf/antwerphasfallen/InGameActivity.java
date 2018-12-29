@@ -100,11 +100,10 @@ public class InGameActivity extends AppCompatActivity {
                         fr.setArguments(bundle);
                         break;
                     case "Map":
-                        getRandomLocation();
                         mapItem = item;
                         fr = new MapFragment();
                         bundle = new Bundle();
-                        bundle.putInt("locationId", 1);
+                        bundle.putInt("locationId", getRandomLocation());
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
@@ -140,19 +139,12 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getRandomLocation(){
+    public int getRandomLocation(){
         Call<Location> randomLocationCall = service.getRandomLocation(teamId);
         randomLocationCall.enqueue(new Callback<Location>() {
             @Override
             public void onResponse(Call<Location> call, Response<Location> response) {
                 locationId = response.body().getId();
-                if(previousLocations.contains(response.body())){
-                    checking = true;
-                }
-                else{
-                    previousLocations.add(response.body());
-                    checking = false;
-                }
             }
 
             @Override
@@ -160,7 +152,8 @@ public class InGameActivity extends AppCompatActivity {
                 locationId = -1;
             }
         });
-        //return locationId;
+
+        return locationId;
     }
     public void ShowQuiz(){
         txtTimer.setVisibility(View.VISIBLE);

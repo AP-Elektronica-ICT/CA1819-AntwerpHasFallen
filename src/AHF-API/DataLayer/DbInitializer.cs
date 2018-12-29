@@ -30,7 +30,7 @@ namespace DataLayer
                 Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
                 Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
-
+                l1.Quiz = initialiseQuizMas(context);
                 Game g1 = new Game();
                 g1.Teams.Add(t1);
                 g1.Teams.Add(t2);
@@ -70,17 +70,7 @@ namespace DataLayer
 
             }*/
 
-            if (!context.Quizpuzzles.Any())
-            {
-                Quizpuzzles quiz = new Quizpuzzles();
-
-
-                quiz.Answers = "1008,1420,1052";
-                quiz.Question = "Wanneer heeft Antwerpen zijn Stadszegel gekregen";
-                quiz.CorrectAnswer = "1008";
-                context.Quizpuzzles.Add(quiz);
-                //context.SaveChanges();
-            }
+            
 
             if (!context.SubstitionPuzzles.Any())
             {
@@ -99,6 +89,28 @@ namespace DataLayer
             context.SaveChanges();
         }
 
+        private static List<Quizpuzzles> initialiseQuizMas (GameContext context)
+        {
+            List<Quizpuzzles> qmas = new List<Quizpuzzles>();
+            Quizpuzzles q1 = new Quizpuzzles();
+            Quizpuzzles q2 =  new Quizpuzzles();
+            q1.Question = "Wanneer heeft Antwerpen zijn stadszegel gekregen?";
+            q1.Answers = "1008,1052,1485";
+            q1.CorrectAnswer = "1008";
+
+            q2.Question = "Hoe hoog is het mas juist?";
+            q2.Answers = "54 meter,68 meter,65 meter";
+            q2.CorrectAnswer = "65 meter";
+
+            context.Quizpuzzles.Add(q1);
+            context.Quizpuzzles.Add(q2);
+            
+            qmas.Add(q1);
+            qmas.Add(q2);
+            context.SaveChanges();
+
+            return qmas;
+        }
         private static void createTestInventoryItems(GameContext context)
         {
             ShopItem s1 = new ShopItem()

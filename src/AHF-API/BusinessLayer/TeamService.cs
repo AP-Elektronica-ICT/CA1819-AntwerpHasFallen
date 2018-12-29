@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
@@ -26,7 +27,7 @@ namespace BusinessLayer
         {
             try
             {
-                return context.Teams.Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
+                return context.Teams.Include(p => p.PreviousLocations).Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
             }catch (ArgumentNullException)
             {
                 return null;
@@ -60,14 +61,14 @@ namespace BusinessLayer
             LocationService locationService = new LocationService(context);
             List<Location> locations = locationService.getLocations();
             Team team = GetTeam(teamId);
-            List<PreviousLocations> previousLocations = team.PreviousLocations;
+            List<PreviousLocation> previousLocations = team.PreviousLocations;
             id = rand.Next(locations.Count());
 
             while (checking)
             {
                 if(previousLocations != null && previousLocations.Count > 0)
                 {
-                    foreach (PreviousLocations prevLoc in previousLocations)
+                    foreach (PreviousLocation prevLoc in previousLocations)
                     {
                         if (prevLoc.Location == locations[id])
                         {
@@ -86,8 +87,8 @@ namespace BusinessLayer
                 }
             }
 
-            PreviousLocations currentLocation = new PreviousLocations();
-            currentLocation.LocationId = id;
+            PreviousLocation currentLocation = new PreviousLocation();
+            currentLocation.LocationId = locations[id].Id;
             currentLocation.Location = locations[id];
             currentLocation.Team = team;
             currentLocation.TeamId = teamId;
@@ -96,7 +97,7 @@ namespace BusinessLayer
 
             context.SaveChanges();
 
-            return locations[id];
+            return currentLocation.Location;
         }
     }
 }

@@ -65,17 +65,24 @@ namespace BusinessLayer
 
             while (checking)
             {
-                foreach (PreviousLocations prevLoc in previousLocations)
+                if(previousLocations != null && previousLocations.Count > 0)
                 {
-                    if (prevLoc.Location == locations[id])
+                    foreach (PreviousLocations prevLoc in previousLocations)
                     {
-                        id = rand.Next(locations.Count());
+                        if (prevLoc.Location == locations[id])
+                        {
+                            id = rand.Next(locations.Count());
+                        }
+                        else
+                        {
+                            checking = false;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        checking = false;
-                        break;
-                    }
+                }
+                else
+                {
+                    checking = false;
                 }
             }
 
@@ -84,6 +91,8 @@ namespace BusinessLayer
             currentLocation.Location = locations[id];
             currentLocation.Team = team;
             currentLocation.TeamId = teamId;
+
+            team.PreviousLocations.Add(currentLocation);
 
             context.SaveChanges();
 

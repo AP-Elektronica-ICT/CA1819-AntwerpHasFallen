@@ -17,9 +17,9 @@ namespace BusinessLayer
             this.context = context;
         }
 
-        public  Quizpuzzles GetQuestions()
+        public List<Quizpuzzles> GetQuestions()
         {
-            return context.Quizpuzzles.Find(1);
+            return context.Quizpuzzles.ToList();
         }
 
       

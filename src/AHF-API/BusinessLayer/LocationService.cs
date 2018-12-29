@@ -2,6 +2,7 @@
 using DataLayer.Model;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace BusinessLayer
 
         public List<Location> getLocations()
         {
-            return context.Locations.ToList();
+            return context.Locations.Include(q => q.Quiz).Include(s => s.subs).ToList();
         }
 
         public Location GetLocation(int id)

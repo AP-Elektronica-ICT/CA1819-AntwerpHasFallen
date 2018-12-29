@@ -31,6 +31,7 @@ namespace DataLayer
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
                 Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
                 l1.Quiz = initialiseQuizMas(context);
+                l1.subs = initialiseSubMas(context);
                 Game g1 = new Game();
                 g1.Teams.Add(t1);
                 g1.Teams.Add(t2);
@@ -72,23 +73,23 @@ namespace DataLayer
 
             
 
-            if (!context.SubstitionPuzzles.Any())
-            {
-                SubstitionPuzzles sub = new SubstitionPuzzles();
-                sub.Key = "MAS";
-                sub.ClearText = "museumant";
-                sub.Solution = "dead skull";
-                context.SubstitionPuzzles.Add(sub);
-                context.SaveChanges();
-
-               
-                
-            }
-            
-
-            context.SaveChanges();
+           
         }
+        private static List<SubstitionPuzzles> initialiseSubMas(GameContext context)
+        {
+            List<SubstitionPuzzles> submas = new List<SubstitionPuzzles>();
 
+            SubstitionPuzzles sub = new SubstitionPuzzles();
+            sub.Key = "MAS";
+            sub.ClearText = "pespscgld";
+            sub.Solution = "dead skull";
+            context.SubstitionPuzzles.Add(sub);
+
+            submas.Add(sub);
+            context.SaveChanges();
+
+            return submas;
+        }
         private static List<Quizpuzzles> initialiseQuizMas (GameContext context)
         {
             List<Quizpuzzles> qmas = new List<Quizpuzzles>();

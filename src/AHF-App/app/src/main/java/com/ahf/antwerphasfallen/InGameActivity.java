@@ -213,11 +213,6 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
-    private void loadLocations(){
-        Call<LocationList> call = service.getLocations();
-    }
-
-
     private void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {

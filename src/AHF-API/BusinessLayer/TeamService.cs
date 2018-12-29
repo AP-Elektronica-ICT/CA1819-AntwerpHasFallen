@@ -66,25 +66,32 @@ namespace BusinessLayer
 
             while (checking)
             {
-                if(previousLocations != null && previousLocations.Count > 0)
+                if (previousLocations.Count != locations.Count)
                 {
-                    foreach (PreviousLocation prevLoc in previousLocations)
+                    if (previousLocations != null && previousLocations.Count > 0)
                     {
-                        if (prevLoc.Location == locations[id])
+                        foreach (PreviousLocation prevLoc in previousLocations)
                         {
-                            checking = true;
-                            id = rand.Next(locations.Count());
-                            break;
+                            if (prevLoc.Location == locations[id])
+                            {
+                                checking = true;
+                                id = rand.Next(locations.Count());
+                                break;
+                            }
+                            else
+                            {
+                                checking = false;
+                            }
                         }
-                        else
-                        {
-                            checking = false;
-                        }
+                    }
+                    else
+                    {
+                        checking = false;
                     }
                 }
                 else
                 {
-                    checking = false;
+                    return null;
                 }
             }
 

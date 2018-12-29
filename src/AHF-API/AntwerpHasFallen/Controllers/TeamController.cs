@@ -39,7 +39,14 @@ namespace AntwerpHasFallen.Controllers
         public IActionResult getRandomLocation(int id)
         {
             Location locatie = teamService.getRandomLocation(id);
-            return Ok(locatie);
+            if(locatie != null)
+            {
+                return Ok(locatie);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
             
         

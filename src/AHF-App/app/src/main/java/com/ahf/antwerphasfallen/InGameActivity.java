@@ -67,7 +67,7 @@ public class InGameActivity extends AppCompatActivity {
         shopFragment = new ShopFragment();
 
         txtTimer = findViewById(R.id.txt_timer);
-        fr = new TeamFragment();
+        fr = new InfoFragment();
         bundle = new Bundle();
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
@@ -241,7 +241,7 @@ public class InGameActivity extends AppCompatActivity {
                                 fr.setArguments(bundle);
                                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                                 ft.replace(R.id.fragment_container, fr);
-                                ft.commit();
+                                ft.commitAllowingStateLoss();
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {
                                     @Override

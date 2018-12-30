@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -66,14 +67,15 @@ public class InGameActivity extends AppCompatActivity {
         inventoryFragment = new InventoryFragment();
         shopFragment = new ShopFragment();
 
-        txtTimer = findViewById(R.id.txt_timer);
         fr = new InfoFragment();
+
+        txtTimer = findViewById(R.id.txt_timer);
         bundle = new Bundle();
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
@@ -93,7 +95,7 @@ public class InGameActivity extends AppCompatActivity {
                 mDrawer.closeDrawers();
 
                 //update UI
-                switch(item.toString()){
+                switch (item.toString()) {
                     case "Team":
                         fr = new TeamFragment();
                         bundle = new Bundle();
@@ -122,7 +124,7 @@ public class InGameActivity extends AppCompatActivity {
                         fr = puzzleFragment;
                         break;
                 }
-                if(!item.toString().equals("Exit Game")) {
+                if (!item.toString().equals("Exit Game")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();
@@ -144,7 +146,7 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getRandomLocation(){
+    public int getRandomLocation() {
         Call<Location> randomLocationCall = service.getRandomLocation(teamId);
         randomLocationCall.enqueue(new Callback<Location>() {
             @Override
@@ -161,7 +163,7 @@ public class InGameActivity extends AppCompatActivity {
         return locationId;
     }
 
-    public void ShowQuiz(){
+    public void ShowQuiz() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new QuizFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -169,7 +171,7 @@ public class InGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void Showsub(){
+    public void Showsub() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new SubstitutionFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -177,25 +179,25 @@ public class InGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void ShowPuzzles(int timer){
+    public void ShowPuzzles(int timer) {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
-        if(mapItem != null){
+        if (mapItem != null) {
             mapItem.setTitle("Puzzle");
         }
         puzzleFragment = fr;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
-        new CountDownTimer(timer*1000, 1000) {
+        new CountDownTimer(timer * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
             }
 
             public void onFinish() {
                 //code voor als ze nog in de zone zitten
-                if(mapItem != null){
+                if (mapItem != null) {
                     mapItem.setTitle("Map");
                 }
             }
@@ -211,9 +213,9 @@ public class InGameActivity extends AppCompatActivity {
         long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
         long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
         long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
-        if (seconds < 10){
+        if (seconds < 10) {
             sec = "0" + seconds;
-        }else{
+        } else {
             sec = String.valueOf(seconds);
         }
 
@@ -232,7 +234,7 @@ public class InGameActivity extends AppCompatActivity {
                     teamCall.enqueue(new Callback<Team>() {
                         @Override
                         public void onResponse(Call<Team> call, Response<Team> response) {
-                            if(response.body() != null) {
+                            if (response.body() != null) {
                                 CurrentTeam = response.body();
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
@@ -265,8 +267,7 @@ public class InGameActivity extends AppCompatActivity {
                             Toast.makeText(InGameActivity.this, "Error getting team information", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else startMainActivity();
+                } else startMainActivity();
             }
 
             @Override
@@ -281,7 +282,7 @@ public class InGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void EndGame(){
+    public void EndGame() {
         Call<Boolean> call = service.endGame(CurrentPlayer.getGameId());
         call.enqueue(new Callback<Boolean>() {
             @Override

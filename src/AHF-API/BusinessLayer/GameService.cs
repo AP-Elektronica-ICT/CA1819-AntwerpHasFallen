@@ -36,7 +36,7 @@ namespace BusinessLayer
             List<Team> teams = new List<Team>();
             foreach (Team team in game.Teams)
             {
-                teams.Add(context.Teams.Include(t => t.Players).Include(t => t.Inventory).SingleOrDefault(t => t.Id == team.Id));
+                teams.Add(context.Teams.Include(t => t.Players).Include(t => t.Inventory).Include(t => t.PreviousLocations).SingleOrDefault(t => t.Id == team.Id));
             }
 
             foreach(Team t in teams)
@@ -51,6 +51,10 @@ namespace BusinessLayer
                     foreach (InventoryItem shopItem in inventory.ShopItems)
                         context.Items.Remove(shopItem);
                     context.Inventories.Remove(t.Inventory);
+                }
+                if(t.PreviousLocations != null)
+                {
+                    t.PreviousLocations = new List<PreviousLocation>();
                 }
                 if (t.Players != null)
                 {

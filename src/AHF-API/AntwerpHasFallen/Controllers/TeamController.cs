@@ -29,8 +29,9 @@ namespace AntwerpHasFallen.Controllers
         [HttpGet]
         public IActionResult getTeam(int id)
         {
-            if (teamService.GetTeam(id) != null)
-                return Ok(teamService.GetTeam(id));
+            Team team = teamService.GetTeam(id);
+            if (team != null)
+                return Ok(team);
             return NotFound();
         }
 

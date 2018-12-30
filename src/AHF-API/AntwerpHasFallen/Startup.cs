@@ -26,15 +26,15 @@ namespace AntwerpHasFallen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<GameContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")
-                )
-            );
-
-            /*services.AddDbContext<GameContext>(options => options.UseMySql(
+            /*services.AddDbContext<GameContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
                 )
             );*/
+
+            services.AddDbContext<GameContext>(options => options.UseMySql(
+                Configuration.GetConnectionString("DefaultConnection")
+                )
+            );
 
             services.AddScoped<GameService>();
             services.AddScoped<TeamService>();

@@ -107,7 +107,7 @@ public class InGameActivity extends AppCompatActivity {
                         mapItem = item;
                         fr = new MapFragment();
                         bundle = new Bundle();
-                        bundle.putInt("locationId", getRandomLocation());
+                        getRandomLocation();
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
@@ -146,12 +146,15 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getRandomLocation() {
+    public void getRandomLocation(){
         Call<Location> randomLocationCall = service.getRandomLocation(teamId);
         randomLocationCall.enqueue(new Callback<Location>() {
             @Override
             public void onResponse(Call<Location> call, Response<Location> response) {
-                locationId = response.body().getId();
+                bundle.putString("locationTitle", response.body().getName());
+                bundle.putDouble("lat", response.body().getLat());
+                bundle.putDouble("lon", response.body().getLon());
+                bundle.putInt("locationTime", response.body().getTime());
             }
 
             @Override
@@ -159,8 +162,6 @@ public class InGameActivity extends AppCompatActivity {
                 locationId = -1;
             }
         });
-
-        return locationId;
     }
 
     public void ShowQuiz() {

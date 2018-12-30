@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
@@ -26,7 +27,7 @@ namespace BusinessLayer
         {
             try
             {
-                return context.Teams.Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
+                return context.Teams.Include(p => p.PreviousLocations).Include(t => t.Players).Include(t => t.Inventory).Single(t => t.Id == id);
             }catch (ArgumentNullException)
             {
                 return null;
@@ -50,6 +51,61 @@ namespace BusinessLayer
             team.Players.Add(player);
             context.SaveChanges();
             return player;
+        }
+
+        public Location getRandomLocation(int teamId)
+        {
+            bool checking = true;
+            Random rand = new Random();
+            int id = 0;
+            LocationService locationService = new LocationService(context);
+            List<Location> locations = locationService.getLocations();
+            Team team = GetTeam(teamId);
+            List<PreviousLocation> previousLocations = team.PreviousLocations;
+            id = rand.Next(locations.Count());
+
+            while (checking)
+            {
+                if (previousLocations.Count != locations.Count)
+                {
+                    if (previousLocations != null && previousLocations.Count > 0)
+                    {
+                        foreach (PreviousLocation prevLoc in previousLocations)
+                        {
+                            if (prevLoc.Location == locations[id])
+                            {
+                                checking = true;
+                                id = rand.Next(locations.Count());
+                                break;
+                            }
+                            else
+                            {
+                                checking = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        checking = false;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            PreviousLocation currentLocation = new PreviousLocation();
+            currentLocation.LocationId = locations[id].Id;
+            currentLocation.Location = locations[id];
+            currentLocation.Team = team;
+            currentLocation.TeamId = teamId;
+
+            team.PreviousLocations.Add(currentLocation);
+
+            context.SaveChanges();
+
+            return currentLocation.Location;
         }
     }
 }

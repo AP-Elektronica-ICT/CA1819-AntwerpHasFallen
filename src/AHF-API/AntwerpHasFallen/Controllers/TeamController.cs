@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using DataLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,22 @@ namespace AntwerpHasFallen.Controllers
                 return Ok(teamService.GetTeam(id));
             return NotFound();
         }
+
+        [Route("randomlocation/{id}")]
+        [HttpGet]
+        public IActionResult getRandomLocation(int id)
+        {
+            Location locatie = teamService.getRandomLocation(id);
+            if(locatie != null)
+            {
+                return Ok(locatie);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+            
         
     }
 }

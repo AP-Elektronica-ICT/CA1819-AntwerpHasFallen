@@ -58,6 +58,8 @@ public class MapFragment extends Fragment {
     private GoogleMap googleMap;
     private int locationId;
 
+    private int x = 60;
+
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     @Override
@@ -76,8 +78,10 @@ public class MapFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            locationId = bundle.getInt("locationId");
-            getTargetLocation(locationId);
+            targetLocationTime = bundle.getInt("locationTime");
+            targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("long"));
+            targetLocationTitle = bundle.getString("locationTitle");
+            //getTargetLocation(locationId);
         }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -85,8 +89,8 @@ public class MapFragment extends Fragment {
         mMapView.onResume();
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(3000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(listener);
@@ -105,12 +109,14 @@ public class MapFragment extends Fragment {
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                Log.e("locationcallback", "locationcallback is called and location = " + locationResult);
                 if (locationResult == null) {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
+                    x -= 5;
                     currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    //calculateDistance(currentLocation, targetLocation);
+                    calculateDistance(currentLocation, targetLocation);
                 }
             };
         };
@@ -133,8 +139,8 @@ public class MapFragment extends Fragment {
                                 public void onSuccess(Location location) {
                                     if (location != null) {
                                         //demo
-                                        targetLocation = new LatLng(51.229852, 4.423083);
-                                        //startLocationUpdates();
+                                        //targetLocation = new LatLng(51.229852, 4.423083);
+                                        startLocationUpdates();
                                         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                         googleMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
                                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
@@ -201,13 +207,13 @@ public class MapFragment extends Fragment {
         d = Math.round(d*1000);
         Log.e("distance", d + "m");
         //txt_distance.setText(d + "m");
-        d = 40;
+        //d = 40;
         if(d <= 50){
             builder.show();
         }
     }
 
-    private void getTargetLocation(int id){
+    /*private void getTargetLocation(int id){
         Call<com.ahf.antwerphasfallen.Location> call = service.getLocation(id);
         call.enqueue(new Callback<com.ahf.antwerphasfallen.Location>() {
             @Override
@@ -222,7 +228,5 @@ public class MapFragment extends Fragment {
 
             }
         });
-    }
-
-
+    }*/
 }

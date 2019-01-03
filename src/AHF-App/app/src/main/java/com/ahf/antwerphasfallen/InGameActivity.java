@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -39,14 +41,23 @@ public class InGameActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Fragment fr;
 
-
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
     private TextView txtMoney;
     private TextView txtTimer;
-    private InventoryFragment inventoryFragment;
+
+    public InventoryFragment inventoryFragment;
+    public ShopFragment shopFragment;
+
+    private MenuItem mapItem;
+    private Fragment puzzleFragment;
+    private int teamId;
+    private int locationId;
+    private Bundle bundle;
+    private int gameId;
+    private int playerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +65,27 @@ public class InGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_game);
 
         inventoryFragment = new InventoryFragment();
+        shopFragment = new ShopFragment();
 
-        int gameId = 0;
-        int playerId = 0;
+        fr = new InfoFragment();
+
+        txtTimer = findViewById(R.id.txt_timer);
+        bundle = new Bundle();
+        mDrawer = findViewById(R.id.drawer_layout);
+        txtMoney = findViewById(R.id.txt_money);
+
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
         }
-
-        TextView txtGameId = (TextView)findViewById(R.id.txt_gameId);
-        txtGameId.setText("Game id: " + gameId + "\nPlayer id: " + playerId);
-        txtTimer = findViewById(R.id.txt_timer);
-        txtMoney = findViewById(R.id.txt_money);
-        txtMoney.setText("Game id: " + gameId);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        mDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -85,22 +95,36 @@ public class InGameActivity extends AppCompatActivity {
                 mDrawer.closeDrawers();
 
                 //update UI
-                switch(item.toString()){
+                switch (item.toString()) {
+                    case "Team":
+                        fr = new TeamFragment();
+                        bundle = new Bundle();
+                        bundle.putString("teamName", CurrentTeam.getName());
+                        bundle.putInt("gameId", gameId);
+                        fr.setArguments(bundle);
+                        break;
                     case "Map":
+                        mapItem = item;
                         fr = new MapFragment();
-                        Bundle bundle = new Bundle();
+                        bundle = new Bundle();
                         bundle.putInt("locationId", getRandomLocation());
                         fr.setArguments(bundle);
                         break;
                     case "Inventory":
-                            fr =inventoryFragment;
+                        fr = inventoryFragment;
+                        break;
+                    case "Shop":
+                        fr = shopFragment;
                         break;
                     case "Exit Game":
                         ConfirmEndGameDialog dialog = new ConfirmEndGameDialog();
                         dialog.show(getSupportFragmentManager(), "confirm end game");
                         break;
+                    case "Puzzle":
+                        fr = puzzleFragment;
+                        break;
                 }
-                if(!item.toString().equals("Exit Game") && !item.toString().equals("Shop") && !item.toString().equals("Team")) {
+                if (!item.toString().equals("Exit Game")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();
@@ -122,19 +146,32 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getRandomLocation(){
-        Random rand = new Random();
-        int id = rand.nextInt(3) + 1;
-        return id;
+    public int getRandomLocation() {
+        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+        randomLocationCall.enqueue(new Callback<Location>() {
+            @Override
+            public void onResponse(Call<Location> call, Response<Location> response) {
+                locationId = response.body().getId();
+            }
+
+            @Override
+            public void onFailure(Call<Location> call, Throwable t) {
+                locationId = -1;
+            }
+        });
+
+        return locationId;
     }
-    public void ShowQuiz(){
+
+    public void ShowQuiz() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new QuizFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
     }
-    public void Showsub(){
+
+    public void Showsub() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new SubstitutionFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -142,20 +179,27 @@ public class InGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void ShowPuzzles(int timer){
+    public void ShowPuzzles(int timer) {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
+        if (mapItem != null) {
+            mapItem.setTitle("Puzzle");
+        }
+        puzzleFragment = fr;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
-        new CountDownTimer(timer*1000, 1000) {
+        new CountDownTimer(timer * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished/1000));
+                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
             }
 
             public void onFinish() {
                 //code voor als ze nog in de zone zitten
+                if (mapItem != null) {
+                    mapItem.setTitle("Map");
+                }
             }
         }.start();
     }
@@ -169,17 +213,16 @@ public class InGameActivity extends AppCompatActivity {
         long seconds = totalSeconds % SECONDS_IN_A_MINUTE;
         long totalMinutes = (totalSeconds - seconds) / SECONDS_IN_A_MINUTE;
         long minutes = totalMinutes % MINUTES_IN_AN_HOUR;
-        if (seconds < 10){
+        if (seconds < 10) {
             sec = "0" + seconds;
-        }else{
+        } else {
             sec = String.valueOf(seconds);
         }
 
         return minutes + ":" + sec;
     }
 
-
-    private void loadPlayer(int id) {
+    public void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {
             @Override
@@ -191,9 +234,16 @@ public class InGameActivity extends AppCompatActivity {
                     teamCall.enqueue(new Callback<Team>() {
                         @Override
                         public void onResponse(Call<Team> call, Response<Team> response) {
-                            if(response.body() != null) {
+                            if (response.body() != null) {
                                 CurrentTeam = response.body();
+                                teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
+                                bundle.putString("teamName", CurrentTeam.getName());
+                                bundle.putInt("gameId", gameId);
+                                fr.setArguments(bundle);
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.fragment_container, fr);
+                                ft.commitAllowingStateLoss();
                                 Call<Inventory> inventoryCall = service.getInventory(CurrentTeam.getInventory().getId());
                                 inventoryCall.enqueue(new Callback<Inventory>() {
                                     @Override
@@ -214,16 +264,15 @@ public class InGameActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Team> call, Throwable t) {
-
+                            Toast.makeText(InGameActivity.this, "Error getting team information", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else startMainActivity();
+                } else startMainActivity();
             }
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-
+                Toast.makeText(InGameActivity.this, "Error getting player information", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -233,7 +282,7 @@ public class InGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void EndGame(){
+    public void EndGame() {
         Call<Boolean> call = service.endGame(CurrentPlayer.getGameId());
         call.enqueue(new Callback<Boolean>() {
             @Override

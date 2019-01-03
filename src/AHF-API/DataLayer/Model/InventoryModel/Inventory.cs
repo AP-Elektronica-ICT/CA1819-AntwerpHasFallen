@@ -8,12 +8,12 @@ namespace DataLayer.Model.InventoryModel
     {
         public Inventory()
         {
-            ShopItems = new List<InventoryItem>();
+            Items = new List<InventoryItem>();
             Ingredients = new List<InventoryItem>();
         }
 
         public int Id { get; set; }
-        public List<InventoryItem> ShopItems { get; set; }
+        public List<InventoryItem> Items { get; set; }
         public List<InventoryItem> Ingredients { get; set; }
     }
 }

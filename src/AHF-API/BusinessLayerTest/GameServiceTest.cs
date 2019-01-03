@@ -8,22 +8,68 @@ using Microsoft.Extensions.DependencyInjection;
 using DataLayer;
 using System.Linq;
 using DataLayer.Model;
+using DataLayer.Model.InventoryModel;
+using System.Collections.Generic;
 
 namespace BusinessLayerTest
 {
     public class GameServiceTest
     {
-        private GameContext gameContext;
+        private static GameContext gameContext;
+        private static readonly GameService service;
 
-        public GameServiceTest()
+        static GameServiceTest()
         {
             InitContext();
+            service = new GameService(gameContext);
         }
 
-        private void InitContext()
+        private static void InitContext()
         {
             var builder = new DbContextOptionsBuilder<GameContext>().UseInMemoryDatabase();
             var context = new GameContext(builder.Options);
+            List<Item> items = new List<Item>()
+            {
+                new Item()
+                {
+                    Description = "TestDescription 1",
+                    Name = "item 1",
+                    Type = Item.TYPE_ITEM
+                },
+                new Item()
+                {
+                    Description = "TestDescription 2",
+                    Name = "item 2",
+                    Type = Item.TYPE_ITEM
+                },
+                new Item()
+                {
+                    Description = "TestDescription 3",
+                    Name = "item 3",
+                    Type = Item.TYPE_ITEM
+                }
+            };
+            List<Item> ingredients = new List<Item>()
+            {
+                new Item()
+                {
+                    Description = "TestDescription 1",
+                    Name = "ingredient 1",
+                    Type = Item.TYPE_INGREDIENT
+                },
+                new Item()
+                {
+                    Description = "TestDescription 2",
+                    Name = "ingredient 2",
+                    Type = Item.TYPE_INGREDIENT
+                },
+                new Item()
+                {
+                    Description = "TestDescription 3",
+                    Name = "ingredient 3",
+                    Type = Item.TYPE_INGREDIENT
+                }
+            };
             var games = Enumerable.Range(1, 5).Select(i =>
                  new Game
                  {
@@ -33,19 +79,40 @@ namespace BusinessLayerTest
                         {
                             //Id = i + j - 2,
                             Name = $"Team{i}{j}",
+                            Money = 100,
                             Players = Enumerable.Range(1, 2).Select(k =>
                                 new Player {
                                     //Id = i + j + k - 3,
                                     GameId = i,
                                     TeamId = j
-                            }).ToList()
+                            }).ToList(),
+                            Inventory = new Inventory()
+                            {
+                                Ingredients = Enumerable.Range(1,3).Select(l => 
+                                    new InventoryItem()
+                                    {
+                                        Quantity = l,
+                                        Item = ingredients[l - 1]
+                                    }).ToList(),
+                                Items = Enumerable.Range(1,3).Select(l =>
+                                    new InventoryItem()
+                                    {
+                                        Quantity = l,
+                                        Item = items[l - 1]
+                                    }).ToList()
+                            }
                         }).ToList()
                  });
-            foreach(Game g in games)
+            foreach (Item i in items)
+                context.Items.Add(i);
+            foreach (Item i in ingredients)
+                context.Items.Add(i);
+            foreach (Game g in games)
                 foreach(Team t in g.Teams)
                 {
                     foreach (Player p in t.Players)
                         context.Players.Add(p);
+                    context.Inventories.Add(t.Inventory);
                     context.Teams.Add(t);
                 }
             context.Games.AddRange(games);
@@ -71,9 +138,50 @@ namespace BusinessLayerTest
         [InlineData(new string[] { "team 1", "Team 1" }, true)]
         public void IsDifferentTest(string[] array, bool expected)
         {
-            GameService service = new GameService(gameContext);
             bool result = service.isDifferent(array);
             Assert.Equal(result, expected);
+        }
+
+        //FAILS WHEN DELETEGAMETEST RAN FIRST!!
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        public void GetExistingGameByIdTest(int id)
+        {
+            Game game = service.GetGame(id);
+            Assert.Equal(id, game.Id);
+        }
+
+        [Theory]
+        [InlineData(6)]
+        [InlineData(7)]
+        [InlineData(8)]
+        [InlineData(9)]
+        [InlineData(10)]
+        public void GetNotExistingGameByIdTest(int id)
+        {
+            Game game = service.GetGame(id);
+            Assert.Null(game);
+        }
+
+        [Theory]
+        [InlineData(1, true)]
+        [InlineData(2, true)]
+        [InlineData(3, true)]
+        [InlineData(4, true)]
+        [InlineData(5, true)]
+        [InlineData(6, false)]
+        [InlineData(7, false)]
+        [InlineData(8, false)]
+        [InlineData(9, false)]
+        [InlineData(10, false)]
+        public void DeleteGameTest(int id, bool expected)
+        {
+            bool result = service.deleteGame(id);
+            Assert.Equal(expected, result);
         }
     }
 }

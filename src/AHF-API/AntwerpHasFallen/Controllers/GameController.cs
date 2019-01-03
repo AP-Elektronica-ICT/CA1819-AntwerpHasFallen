@@ -33,7 +33,7 @@ namespace AntwerpHasFallen.Controllers
         {
             Game game = gameService.GetGame(id);
             if (game != null)
-                return Ok(gameService.GetGame(id));
+                return Ok(game);
             return NotFound();
         }
 

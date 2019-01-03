@@ -19,6 +19,12 @@ namespace AntwerpHasFallen.Controllers
         {
             this.substitionService = substitionService;
         }
+
+        [HttpGet]
+        public IActionResult Allsubstitutionpuzzles()
+        {
+            return Ok(substitionService.GetAllsubs());
+        }
         [Route("{id}")]
         [HttpGet]
         public IActionResult SubstitionPuzzle(int id)

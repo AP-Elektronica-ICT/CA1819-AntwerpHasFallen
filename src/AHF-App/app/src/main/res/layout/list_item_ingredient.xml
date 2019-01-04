@@ -7,18 +7,21 @@
 
     <TextView
         android:id="@+id/lbl_name"
-        android:text="testname: "
-        android:textSize="20sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="testname: "
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/lbl_quantity"
-        android:text="5"
-        android:textSize="20sp"
-        android:textAlignment="textEnd"
-        android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="5"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
 
 </LinearLayout>

@@ -46,7 +46,7 @@
             android:autoText="true"
             android:padding="8dp"
             android:text="Voorbeeldvraag"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#fbf8f8"
             android:textSize="20sp"
             android:textStyle="bold" />
 

@@ -75,7 +75,7 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
+        listener.ShowPuzzles(targetLocationTime);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             targetLocationTime = bundle.getInt("locationTime");

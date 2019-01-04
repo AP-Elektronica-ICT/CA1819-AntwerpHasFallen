@@ -6,10 +6,13 @@
     android:background="@drawable/inventorybackground">
 
     <TextView
-        android:text="Ingredients"
         android:id="@+id/lbl_ingredients"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Ingredients"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lv_ingredients"
@@ -23,7 +26,10 @@
         android:text="Shop inventory"
         android:id="@+id/lbl_shopItems"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30dp"
+        android:textStyle="bold"/>
 
     <ListView
         android:layout_below="@id/lbl_shopItems"

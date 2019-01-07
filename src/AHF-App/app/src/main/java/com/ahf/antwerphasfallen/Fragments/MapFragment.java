@@ -97,6 +97,7 @@ public class MapFragment extends Fragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         listener.ShowPuzzles(targetLocationTime);
                     }
                 });

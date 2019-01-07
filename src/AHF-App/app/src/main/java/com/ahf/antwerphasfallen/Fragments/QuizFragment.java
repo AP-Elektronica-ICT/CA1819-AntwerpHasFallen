@@ -31,6 +31,7 @@ public class QuizFragment extends Fragment {
     InGameActivity listener;
     private String answer;
     private int gold;
+    private InGameActivity host;
 
 
     @Override
@@ -86,17 +87,18 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
-                    gold++;
 
-                    reward.setText(String.valueOf(gold));
+                    updateGold(true);
+
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();
-                    gold -=1;
-                    updateGold();
+                    updateGold(false);
+
+
 
                 }
             }
@@ -106,15 +108,14 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
-                    gold = gold+1;
-                    updateGold();
+
+                    updateGold(true);
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
-                    gold -=1;
-                    updateGold();
+                    updateGold(false);
 
                 }
             }
@@ -124,15 +125,15 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
-                    gold = gold+1;
-                    updateGold();
+                    updateGold(true);
+
 
                     // updateQuestion();
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
-                    gold -=1;
-                    updateGold();
+
+                    updateGold(false);
 
                 }
             }
@@ -145,8 +146,25 @@ public class QuizFragment extends Fragment {
 
     }
 
-    private void updateGold(){
-        reward.setText(String.valueOf(gold));
+    private void updateGold(boolean status)
+    {  final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
+        call.enqueue(new Callback<QuizPuzzles>() {
+            @Override
+            public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
+                QuizPuzzles quiz = response.body();
+
+            }
+
+
+            @Override
+            public void onFailure(Call<QuizPuzzles> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        listener.ShowPuzzles(0);
+
     }
 }
 

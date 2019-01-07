@@ -2,31 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/inventorybackground"
     tools:context="com.ahf.antwerphasfallen.Fragments.InventoryFragment">
 
     <TextView
-        android:text="Ingredients"
         android:id="@+id/lbl_ingredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/inventory"
+
+        android:text="Ingredients"
+        android:textAlignment="center"
+        android:textColor="@color/custom"
+        android:textSize="30dp"
+        android:textStyle="bold|italic" />
 
     <ListView
-        android:layout_below="@id/lbl_ingredients"
         android:id="@+id/lv_ingredients"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl_ingredients"
+        android:dividerHeight="0dp"></ListView>
 
     <TextView
-        android:layout_below="@id/lv_ingredients"
-        android:text="Shop inventory"
         android:id="@+id/lbl_shopItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lv_ingredients"
+        android:layout_marginTop="20dp"
+        android:background="@color/inventory"
+        android:text="Shop inventory"
+        android:textAlignment="center"
+        android:textColor="@color/custom"
+        android:textSize="30dp"
+        android:textStyle="bold|italic" />
 
     <ListView
-        android:layout_below="@id/lbl_shopItems"
         android:id="@+id/lv_shopItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl_shopItems"></ListView>
 
 </RelativeLayout>

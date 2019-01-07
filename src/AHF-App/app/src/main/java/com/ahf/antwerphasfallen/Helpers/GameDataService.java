@@ -49,6 +49,9 @@ public interface GameDataService {
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 
+    @GET("quiz/{teamid}/{status}")
+    Call<QuizPuzzles> updatePrice(@Path("status") boolean status, @Path("teamid") int teamid);
+
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);
 

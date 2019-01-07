@@ -22,7 +22,7 @@ import retrofit2.Response;
  * Use the {@link ShopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopFragment extends Fragment {
+public class    ShopFragment extends Fragment {
 
     private InGameActivity host;
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);

@@ -46,6 +46,8 @@ public interface GameDataService {
     @GET("locations")
     Call<LocationList> getLocations();
 
+
+
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);
 

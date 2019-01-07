@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="testname: "
-            android:textColor="#d14444"
+            android:textAlignment="center"
+            android:textColor="@color/custom"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
 
@@ -26,7 +27,7 @@
             android:layout_weight="1"
             android:text="5"
             android:textAlignment="textEnd"
-            android:textColor="#d14444"
+            android:textColor="@color/custom"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
     </LinearLayout>

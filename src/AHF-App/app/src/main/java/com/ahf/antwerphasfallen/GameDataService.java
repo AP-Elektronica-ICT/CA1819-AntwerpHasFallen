@@ -46,7 +46,8 @@ public interface GameDataService {
     @GET("locations")
     Call<LocationList> getLocations();
 
-
+    @GET("quiz/{teamid}/{status}")
+    Call<QuizPuzzles> updatePrice(@Path("status") boolean status, @Path("teamid") int teamid);
 
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);

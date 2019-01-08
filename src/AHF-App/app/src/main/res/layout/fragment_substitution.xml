@@ -4,21 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/subs"
-    tools:context="com.ahf.antwerphasfallen.QuizFragment">
+    tools:context="com.ahf.antwerphasfallen.Fragments.QuizFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:orientation="vertical">
+        android:paddingTop="16dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding ="8dp"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="40dp"
+            android:padding="8dp">
 
 
             <TextView
@@ -42,9 +43,8 @@
                 android:textStyle="bold" />
 
 
-
-
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -82,10 +82,6 @@
             android:layout_width="423dp"
             android:layout_height="418dp"
             app:srcCompat="@drawable/substitutie" />
-
-
-
-
 
 
     </LinearLayout>

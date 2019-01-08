@@ -1,16 +1,14 @@
 package com.ahf.antwerphasfallen;
 
-import android.app.Instrumentation;
-import android.content.pm.InstrumentationInfo;
 import android.test.mock.MockContext;
 
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoint;
+import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
+import com.ahf.antwerphasfallen.Model.Player;
+
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import static org.junit.Assert.*;
 

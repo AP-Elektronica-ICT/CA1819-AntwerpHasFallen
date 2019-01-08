@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ahf.antwerphasfallen.QuizFragment"
-    android:background="@drawable/quiz">
+    android:background="@drawable/quiz"
+    tools:context="com.ahf.antwerphasfallen.Fragments.QuizFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

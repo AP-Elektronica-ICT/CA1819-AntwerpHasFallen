@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shop"
-    tools:context="com.ahf.antwerphasfallen.TeamFragment">
+    tools:context="com.ahf.antwerphasfallen.Fragments.TeamFragment"
+    android:background="@drawable/shop">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

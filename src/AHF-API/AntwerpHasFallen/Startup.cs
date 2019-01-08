@@ -30,14 +30,8 @@ namespace AntwerpHasFallen
                 Configuration.GetConnectionString("DefaultConnection")
                 )
             );*/
-
-<<<<<<< HEAD
-
-            /*services.AddDbContext<GameContext>(options => options.UseMySql(
-
-=======
+            
             services.AddDbContext<GameContext>(options => options.UseMySql(
->>>>>>> master
                 Configuration.GetConnectionString("DefaultConnection")
                 )
             );

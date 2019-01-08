@@ -27,19 +27,20 @@ namespace DataLayer
                 Inventory inventoryT3 = new Inventory();
                 t3.Inventory = inventoryT3;
 
-                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
+                /*Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
-                l1.Quiz = initialiseQuizMas(context);
-                l1.subs = initialiseSubMas(context);
+                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);*/
+
+         
+
                 Game g1 = new Game();
                 g1.Teams.Add(t1);
                 g1.Teams.Add(t2);
                 g1.Teams.Add(t3);
 
-                g1.Locations.Add(l1);
+                /*g1.Locations.Add(l1);
                 g1.Locations.Add(l2);
-                g1.Locations.Add(l3);
+                g1.Locations.Add(l3);*/
 
                 createTestInventoryItems(context);
 
@@ -51,27 +52,27 @@ namespace DataLayer
                 context.Teams.Add(t2);
                 context.Teams.Add(t3);
 
-                context.Locations.Add(l1);
+                /*context.Locations.Add(l1);
                 context.Locations.Add(l2);
-                context.Locations.Add(l3);
+                context.Locations.Add(l3);*/
 
                 context.Games.Add(g1);
 
                 //context.SaveChanges();
             }
-            /*if (!context.Locations.Any())
+            if (!context.Locations.Any())
             {
                 Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
                 Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
-
+                l1.Quiz = initialiseQuizMas(context);
+                l1.subs = initialiseSubMas(context);
                 context.Locations.Add(l1);
                 context.Locations.Add(l2);
                 context.Locations.Add(l3);
 
-            }*/
+            }
 
-            
 
            
         }
@@ -84,6 +85,7 @@ namespace DataLayer
             sub.ClearText = "pespscgld";
             sub.Solution = "dead skull";
             context.SubstitionPuzzles.Add(sub);
+
 
             submas.Add(sub);
             context.SaveChanges();
@@ -114,45 +116,93 @@ namespace DataLayer
         }
         private static void createTestInventoryItems(GameContext context)
         {
-            ShopItem s1 = new ShopItem()
+            Item i1 = new Item()
             {
                 Description = "testDescription for a shopItem that has a certain lenght, filled with some random characters. zzçu'tàé ",
-                Name = "TestItem1"
+                Name = "TestItem1",
+                Type = Item.TYPE_ITEM
             };
-            ShopItem s2 = new ShopItem()
+            Item i2 = new Item()
             {
                 Description = "testDescription for a shopItem with a different length",
-                Name = "TestItem2"
+                Name = "TestItem2",
+                Type = Item.TYPE_ITEM
             };
-            ShopItem s3 = new ShopItem()
+            Item i3 = new Item()
             {
                 Description = "testDescription for a shopItem that has a certain lenght, filled with some random characters. zzçu'tàé. \n and added a new line ",
-                Name = "TestItem3"
+                Name = "TestItem3",
+                Type = Item.TYPE_ITEM
             };
 
-            Ingredient i1 = new Ingredient()
+            Item i4 = new Item()
             {
-                Name = "TestIngredient1"
+                Name = "TestIngredient1",
+                Type = Item.TYPE_INGREDIENT
             };
 
-            Ingredient i2 = new Ingredient()
+            Item i5 = new Item()
             {
-                Name = "TestIngredient2"
+                Name = "TestIngredient2",
+                Type = Item.TYPE_INGREDIENT
             };
 
-            Ingredient i3 = new Ingredient()
+            Item i6 = new Item()
             {
-                Name = "TestIngredient3"
+                Name = "TestIngredient3",
+                Type = Item.TYPE_INGREDIENT
             };
+
+            ShopItem s1 = new ShopItem()
+            {
+                Item = i1,
+                Price = 10
+            };
+
+            ShopItem s2 = new ShopItem()
+            {
+                Item = i2,
+                Price = 20
+            };
+
+            ShopItem s3 = new ShopItem()
+            {
+                Item = i3,
+                Price = 30
+            };
+
+            ShopItem s4 = new ShopItem()
+            {
+                Item = i4,
+                Price = 400
+            };
+
+            ShopItem s5 = new ShopItem()
+            {
+                Item = i5,
+                Price = 500
+            };
+
+            ShopItem s6 = new ShopItem()
+            {
+                Item = i6,
+                Price = 600
+            };
+
+            context.Items.Add(i1);
+            context.Items.Add(i2);
+            context.Items.Add(i3);
+
+            context.Ingredients.Add(i4);
+            context.Ingredients.Add(i5);
+            context.Ingredients.Add(i6);
 
             context.ShopItems.Add(s1);
             context.ShopItems.Add(s2);
             context.ShopItems.Add(s3);
-
-            context.Ingredients.Add(i1);
-            context.Ingredients.Add(i2);
-            context.Ingredients.Add(i3);
-
+            context.ShopItems.Add(s4);
+            context.ShopItems.Add(s5);
+            context.ShopItems.Add(s6);
         }
     }
 }

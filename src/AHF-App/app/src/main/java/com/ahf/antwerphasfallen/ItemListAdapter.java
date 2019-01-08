@@ -15,8 +15,8 @@ import java.util.ArrayList;
  * Created by Jorren on 16/11/2018.
  */
 
-public class ShopInventoryListAdapter extends ArrayAdapter<InventoryItem> {
-    public ShopInventoryListAdapter(@NonNull Context context, @NonNull ArrayList<InventoryItem> objects) {
+public class ItemListAdapter extends ArrayAdapter<InventoryItem> {
+    public ItemListAdapter(@NonNull Context context, @NonNull ArrayList<InventoryItem> objects) {
         super(context, -1, objects);
     }
 
@@ -24,16 +24,16 @@ public class ShopInventoryListAdapter extends ArrayAdapter<InventoryItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.list_item_shop_inventory, null);
+        View itemView = inflater.inflate(R.layout.list_item_item, null);
 
-        TextView lblName = itemView.findViewById(R.id.lbl_item_shop_name);
-        TextView lblQuantity = itemView.findViewById(R.id.lbl_item_shop_quantity);
-        TextView lblDescription = itemView.findViewById(R.id.lbl_description);
+        TextView lblName = itemView.findViewById(R.id.lbl_item_name);
+        TextView lblQuantity = itemView.findViewById(R.id.lbl_item_quantity);
+        TextView lblDescription = itemView.findViewById(R.id.lbl_item_description);
 
         Item item = getItem(position).getItem();
         lblName.setText(item.getName());
         lblQuantity.setText(Integer.toString(getItem(position).getQuantity()));
-        //lblDescription.setText(((ShopItem)item).getDescription());
+        //lblDescription.setText(item.getDescription());
 
         return itemView;
     }

@@ -40,6 +40,20 @@ namespace AntwerpHasFallen.Controllers
                 return NotFound();
         }
 
+        [Route("quiz/{name}")]
+        [HttpGet()]
+        public IActionResult getLocationByName(string name)
+        {
+            return Ok(locationService.GetQuizByName(name));
+        }
+        [Route("subs/{name}")]
+        [HttpGet()]
+        public IActionResult getSubsByName(string name)
+        {
+            return Ok(locationService.GetSubByName(name));
+        }
+
+
 
     }
 }

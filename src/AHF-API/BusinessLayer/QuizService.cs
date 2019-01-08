@@ -22,6 +22,22 @@ namespace BusinessLayer
             return context.Quizpuzzles.ToList();
         }
 
+        public void updatePrice(bool status, int teamId)
+        {
+            Team team = context.Teams.SingleOrDefault(t => t.Id == teamId);
+            if (team != null)
+            {
+                if(status)
+                {
+                    team.Money += 20;
+                }
+                else
+                {
+                    team.Money -= 10;
+                }
+            }
+        }
+
       
 
     }

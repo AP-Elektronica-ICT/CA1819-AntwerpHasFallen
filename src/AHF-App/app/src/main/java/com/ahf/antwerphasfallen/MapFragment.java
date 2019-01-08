@@ -78,8 +78,10 @@ public class MapFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            locationId = bundle.getInt("locationId");
-            getTargetLocation(locationId);
+            targetLocationTime = bundle.getInt("locationTime");
+            targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("long"));
+            targetLocationTitle = bundle.getString("locationTitle");
+            //getTargetLocation(locationId);
         }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -100,6 +102,7 @@ public class MapFragment extends Fragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         listener.ShowPuzzles(targetLocationTime);
                     }
                 });
@@ -211,7 +214,7 @@ public class MapFragment extends Fragment {
         }
     }
 
-    private void getTargetLocation(int id){
+   /*d private void getTargetLocation(int id){
         Call<com.ahf.antwerphasfallen.Location> call = service.getLocation(id);
         call.enqueue(new Callback<com.ahf.antwerphasfallen.Location>() {
             @Override
@@ -226,7 +229,5 @@ public class MapFragment extends Fragment {
 
             }
         });
-    }
-
-
+    }*/
 }

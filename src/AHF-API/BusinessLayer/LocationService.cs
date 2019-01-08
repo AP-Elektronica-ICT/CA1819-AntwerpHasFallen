@@ -26,5 +26,20 @@ namespace BusinessLayer
         {
             return context.Locations.SingleOrDefault(g => g.Id == id);
         }
+
+        public List<Quizpuzzles> GetQuizByName(string name)
+        {
+            Location location = context.Locations.Include(q => q.Quiz).SingleOrDefault(g => g.Name == name);
+
+
+            return location.Quiz.ToList();            
+         }
+
+        public List<SubstitionPuzzles> GetSubByName(string name)
+        {
+            Location location = context.Locations.Include(s => s.subs).SingleOrDefault(g => g.Name == name);
+
+            return location.subs.ToList();
+        }
     }
 }

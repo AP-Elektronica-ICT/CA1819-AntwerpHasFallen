@@ -28,13 +28,13 @@ namespace AntwerpHasFallen
         {
             services.AddDbContext<GameContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
-                //Configuration["Connectionstring"]
                 )
             );
 
-           /* services.AddDbContext<GameContext>(options => options.UseMySql(
+
+            /*services.AddDbContext<GameContext>(options => options.UseMySql(
+
                 Configuration.GetConnectionString("DefaultConnection")
-                //Configuration["Connectionstring"]
                 )
             );*/
 
@@ -45,6 +45,7 @@ namespace AntwerpHasFallen
             services.AddScoped<QuizService>();
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
+            services.AddScoped<ShopService>();
             services.AddScoped<LocationService>();
             services.AddScoped<SubstitionService>();
 

@@ -1,7 +1,6 @@
 package com.ahf.antwerphasfallen;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ public class InventoryFragment extends Fragment {
 
     private InGameActivity host;
     private IngredientsListAdapter ingredientsAdapter;
-    private ShopInventoryListAdapter shopInventoryAdapter;
+    private ItemListAdapter shopInventoryAdapter;
     private ListView lvIngredients;
     private ListView lvShopItems;
 
@@ -43,14 +42,14 @@ public class InventoryFragment extends Fragment {
                 if (host.CurrentTeam.getInventory() != null) {
                     if (host.CurrentTeam.getInventory().getIngredients() != null)
                         ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
-                    if (host.CurrentTeam.getInventory().getShopItems() != null)
-                        shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getShopItems());
+                    if (host.CurrentTeam.getInventory().getItems() != null)
+                        shopInventoryAdapter = new ItemListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getItems());
                     ingredientsAdapter.notifyDataSetChanged();
                     shopInventoryAdapter.notifyDataSetChanged();
                 }
             } else {
                 ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<InventoryItem>());
-                shopInventoryAdapter = new ShopInventoryListAdapter(getContext(), new ArrayList<InventoryItem>());
+                shopInventoryAdapter = new ItemListAdapter(getContext(), new ArrayList<InventoryItem>());
             }
 //            lvIngredients.setAdapter(ingredientsAdapter);
 //            lvShopItems.setAdapter(shopInventoryAdapter);

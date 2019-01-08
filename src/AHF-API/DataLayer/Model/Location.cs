@@ -12,7 +12,7 @@ namespace DataLayer.Model
             Lon = lon;
             Name = name;
             Time = time;
-            PreviousLocations = new List<PreviousLocations>();
+            PreviousLocations = new List<PreviousLocation>();
         }
 
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace DataLayer.Model
         public double Lon { get; set; }
         public string Name { get; set; }
         public int Time { get; set; }
-        public List<PreviousLocations> PreviousLocations { get; set; }
+        public List<PreviousLocation> PreviousLocations { get; set; }
 
     }
 }

@@ -19,35 +19,6 @@ namespace AntwerpHasFallen.Controllers
             this.inventoryService = inventoryService;
         }
 
-        public IActionResult getAllInventoryItems()
-        {
-            List<Item> inventoryItems = new List<Item>();
-            inventoryService.GetShopItems().ForEach(item =>
-                inventoryItems.Add(item));
-            inventoryService.GetIngredients().ForEach(item =>
-                inventoryItems.Add(item));
-
-            return Ok(inventoryItems);
-        }
-
-        [Route("shopItems")]
-        [HttpGet]
-        public IActionResult getAllShopItems()
-        {
-            if (inventoryService.GetShopItems() != null)
-                return Ok(inventoryService.GetShopItems());
-            return NotFound();
-        }
-
-        [Route("ingredients")]
-        [HttpGet]
-        public IActionResult getAllIngredients()
-        {
-            if (inventoryService.GetIngredients() != null)
-                return Ok(inventoryService.GetIngredients());
-            return NotFound();
-        }
-
         [Route("{id}")]
         [HttpGet]
         public IActionResult getInventory(int id)
@@ -57,11 +28,11 @@ namespace AntwerpHasFallen.Controllers
             return NotFound();
         }
 
-        [Route("{id}/shopItems/{itemId}")]
+        [Route("{id}/Items/{itemId}")]
         [HttpPut]
-        public IActionResult addShopItem(int id, int itemId)
+        public IActionResult addItem(int id, int itemId)
         {
-            Inventory inventory = inventoryService.addShopItem(id, itemId);
+            Inventory inventory = inventoryService.addItem(id, itemId);
             if (inventory != null)
                 return Ok(inventory);
             return NotFound();

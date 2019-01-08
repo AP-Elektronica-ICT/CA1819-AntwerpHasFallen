@@ -1,10 +1,13 @@
 package com.ahf.antwerphasfallen;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -31,11 +34,20 @@ public interface GameDataService {
     @GET("teams/{id}")
     Call<Team> getTeam(@Path("id") int id);
 
+    @GET("shop")
+    Call<ArrayList<ShopItem>> getShopItems();
+
+    @PUT("shop/buy/{shopItemId}")
+    Call<Inventory> buyShopItem(@Path("shopItemId") int shopItemId, @Body int teamId);
+
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 
     @GET("locations")
     Call<LocationList> getLocations();
+
+    @GET("quiz/{teamid}/{status}")
+    Call<QuizPuzzles> updatePrice(@Path("status") boolean status, @Path("teamid") int teamid);
 
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);
@@ -48,7 +60,6 @@ public interface GameDataService {
 
     @POST("games/join/{gameId}")
     Call<Player> joinGame(@Path("gameId") int gameId, @Body int teamId);
-
 
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);

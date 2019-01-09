@@ -30,10 +30,12 @@ namespace BusinessLayer
                 if(status)
                 {
                     team.Money += 20;
+                    context.SaveChanges();
                 }
                 else
                 {
                     team.Money -= 10;
+                    context.SaveChanges();
                 }
             }
         }

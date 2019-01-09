@@ -98,7 +98,7 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.ShowPuzzles(targetLocationTime);
+                        listener.ShowPuzzles();
                     }
                 });
 
@@ -134,14 +134,11 @@ public class MapFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Location location) {
                                     if (location != null) {
-                                        //demo
-                                        //targetLocation = new LatLng(51.229852, 4.423083);
                                         startLocationUpdates();
                                         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("current location"));
+                                        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Previous location"));
                                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                                        googleMap.addMarker(new MarkerOptions().position(targetLocation).title(/*targetLocationTitle*/ "target location"));
-                                        //demo
+                                        googleMap.addMarker(new MarkerOptions().position(targetLocation).title(targetLocationTitle));
                                         calculateDistance(currentLocation,targetLocation);
                                     }
                                 }

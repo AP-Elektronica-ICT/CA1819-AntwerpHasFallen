@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -55,10 +56,12 @@ public class InGameActivity extends AppCompatActivity {
     private MenuItem mapItem;
     private Fragment puzzleFragment;
     private int teamId;
-    private int locationId;
+    private String locationName;
     private Bundle bundle;
     private int gameId;
     private int playerId;
+    private int locationTime;
+    private boolean canStartTimer = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,6 @@ public class InGameActivity extends AppCompatActivity {
                         fr = new MapFragment();
                         bundle = new Bundle();
                         getRandomLocation();
-                        fr.setArguments(bundle);
                         break;
                     case "Inventory":
                         fr = inventoryFragment;
@@ -125,7 +127,7 @@ public class InGameActivity extends AppCompatActivity {
                         fr = puzzleFragment;
                         break;
                 }
-                if (!item.toString().equals("Exit Game")) {
+                if (!item.toString().equals("Exit Game")&& !item.toString().equals("Map")) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_container, fr);
                     ft.commit();
@@ -152,17 +154,30 @@ public class InGameActivity extends AppCompatActivity {
         randomLocationCall.enqueue(new Callback<Location>() {
             @Override
             public void onResponse(Call<Location> call, Response<Location> response) {
-                bundle.putString("locationTitle", response.body().getName());
-                bundle.putDouble("lat", response.body().getLat());
-                bundle.putDouble("lon", response.body().getLon());
-                bundle.putInt("locationTime", response.body().getTime());
+                if(response.body() != null){
+                    locationTime = response.body().getTime();
+                    locationName = response.body().getName();
+                    bundle.putString("locationTitle", response.body().getName());
+                    bundle.putDouble("lat", response.body().getLat());
+                    bundle.putDouble("lon", response.body().getLon());
+                    bundle.putInt("locationTime", response.body().getTime());
+                    fr.setArguments(bundle);
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fr);
+                    ft.commit();
+                }
+                else{
+                    //game ending
+                }
+
             }
 
             @Override
             public void onFailure(Call<Location> call, Throwable t) {
-                locationId = -1;
+                //locationId = -1;
             }
         });
+
     }
 
     public void ShowQuiz() {
@@ -181,7 +196,7 @@ public class InGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void ShowPuzzles(int timer) {
+    public void ShowPuzzles() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
         if (mapItem != null) {
@@ -191,19 +206,24 @@ public class InGameActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
-        new CountDownTimer(timer * 1000, 1000) {
+        if(canStartTimer)
+        {
+            canStartTimer = false;
+            new CountDownTimer(locationTime * 1000, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
-            }
-
-            public void onFinish() {
-                //code voor als ze nog in de zone zitten
-                if (mapItem != null) {
-                    mapItem.setTitle("Map");
+                public void onTick(long millisUntilFinished) {
+                    txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
                 }
-            }
-        }.start();
+
+                public void onFinish() {
+                    //code voor als ze nog in de zone zitten
+                    canStartTimer = true;
+                    if (mapItem != null) {
+                        mapItem.setTitle("Map");
+                    }
+                }
+            }.start();
+        }
     }
 
     private static String timeConversion(long totalSeconds) {

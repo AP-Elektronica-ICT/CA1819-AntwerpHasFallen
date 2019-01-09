@@ -74,7 +74,7 @@ public class MapFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             targetLocationTime = bundle.getInt("locationTime");
-            targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("long"));
+            targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("lon"));
             targetLocationTitle = bundle.getString("locationTitle");
             //getTargetLocation(locationId);
         }

@@ -13,10 +13,14 @@ namespace AntwerpHasFallen.Controllers
     public class LocationController : Controller
     {
         private readonly LocationService locationService;
+        private readonly QuizService quizService;
+        private readonly SubstitionService substitionService;
 
-        public LocationController(LocationService locationService)
+        public LocationController(LocationService locationService, QuizService quizService, SubstitionService substitutionService)
         {
             this.locationService = locationService;
+            this.quizService = quizService;
+            this.substitionService = substitutionService;
         }
 
         [HttpGet]
@@ -35,6 +39,21 @@ namespace AntwerpHasFallen.Controllers
             else
                 return NotFound();
         }
+
+        [Route("quiz/{name}")]
+        [HttpGet()]
+        public IActionResult getLocationByName(string name)
+        {
+            return Ok(locationService.GetQuizByName(name));
+        }
+        [Route("subs/{name}")]
+        [HttpGet()]
+        public IActionResult getSubsByName(string name)
+        {
+            return Ok(locationService.GetSubByName(name));
+        }
+
+
 
     }
 }

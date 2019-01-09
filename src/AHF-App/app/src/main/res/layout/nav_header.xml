@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Menu"
+        android:fontFamily="@font/scorched"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 

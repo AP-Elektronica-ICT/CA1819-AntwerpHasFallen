@@ -17,9 +17,25 @@ namespace BusinessLayer
             this.context = context;
         }
 
-        public  Quizpuzzles GetQuestions()
+        public List<Quizpuzzles> GetQuestions()
         {
-            return context.Quizpuzzles.Find(1);
+            return context.Quizpuzzles.ToList();
+        }
+
+        public void updatePrice(bool status, int teamId)
+        {
+            Team team = context.Teams.SingleOrDefault(t => t.Id == teamId);
+            if (team != null)
+            {
+                if(status)
+                {
+                    team.Money += 20;
+                }
+                else
+                {
+                    team.Money -= 10;
+                }
+            }
         }
 
       

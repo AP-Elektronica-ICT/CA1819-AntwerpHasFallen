@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Model;
 
 namespace AntwerpHasFallen.Controllers
 {
@@ -13,10 +14,12 @@ namespace AntwerpHasFallen.Controllers
 	public class QuizPuzzleController: Controller
     {
         private readonly QuizService quizService;
+        private readonly TeamService teamService;
 
-		public QuizPuzzleController(QuizService quizService)
+		public QuizPuzzleController(QuizService quizService, TeamService teamService)
         {
             this.quizService = quizService;
+            this.teamService = teamService;
         }
 
         [HttpGet]
@@ -24,6 +27,16 @@ namespace AntwerpHasFallen.Controllers
         {
             return Ok(quizService.GetQuestions());
         }
+
+        [Route("{teamid}/{status}")]
+        [HttpGet]
+        public IActionResult updategold(int teamid, bool status)
+        {
+            QuizService quiz = quizService;
+            quiz.updatePrice(status, teamid);
+            return Ok();
+        }
+  
 
       
     }

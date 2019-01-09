@@ -1,36 +1,37 @@
 package com.ahf.antwerphasfallen;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toolbar;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
-import java.util.Random;
+import com.ahf.antwerphasfallen.Dialogs.ConfirmEndGameDialog;
+import com.ahf.antwerphasfallen.Fragments.InfoFragment;
+import com.ahf.antwerphasfallen.Fragments.InventoryFragment;
+import com.ahf.antwerphasfallen.Fragments.MapFragment;
+import com.ahf.antwerphasfallen.Fragments.QuizFragment;
+import com.ahf.antwerphasfallen.Fragments.ShopFragment;
+import com.ahf.antwerphasfallen.Fragments.SubstitutionFragment;
+import com.ahf.antwerphasfallen.Fragments.TeamFragment;
+import com.ahf.antwerphasfallen.Helpers.GameDataService;
+import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
+import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
+import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.Location;
+import com.ahf.antwerphasfallen.Model.Player;
+import com.ahf.antwerphasfallen.Model.Puzzles;
+import com.ahf.antwerphasfallen.Model.Team;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -27,12 +27,10 @@ namespace DataLayer
                 Inventory inventoryT3 = new Inventory();
                 t3.Inventory = inventoryT3;
 
-                /*Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
+                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
                 Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);*/
-
-         
-
+                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
+                
                 Game g1 = new Game();
                 g1.Teams.Add(t1);
                 g1.Teams.Add(t2);
@@ -41,6 +39,9 @@ namespace DataLayer
                 /*g1.Locations.Add(l1);
                 g1.Locations.Add(l2);
                 g1.Locations.Add(l3);*/
+                
+                l1.Quiz = initialiseQuizMas(context);
+                l1.subs = initialiseSubMas(context);
 
                 createTestInventoryItems(context);
 
@@ -52,14 +53,14 @@ namespace DataLayer
                 context.Teams.Add(t2);
                 context.Teams.Add(t3);
 
-                /*context.Locations.Add(l1);
+                context.Locations.Add(l1);
                 context.Locations.Add(l2);
-                context.Locations.Add(l3);*/
+                context.Locations.Add(l3);
 
                 context.Games.Add(g1);
 
                 //context.SaveChanges();
-            }
+            }/*
             if (!context.Locations.Any())
             {
                 Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
@@ -71,9 +72,9 @@ namespace DataLayer
                 context.Locations.Add(l2);
                 context.Locations.Add(l3);
 
-            }
+            }*/
 
-
+            context.SaveChanges();
            
         }
         private static List<SubstitionPuzzles> initialiseSubMas(GameContext context)

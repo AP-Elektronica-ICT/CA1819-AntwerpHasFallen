@@ -180,6 +180,25 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
+    public void UpdateUI() {
+
+        Call<Team> update = InGameActivity.service.getTeam(CurrentTeam.getId());
+        update.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                if (response.body() != null) {
+                    CurrentTeam = response.body();
+                    txtMoney.setText("G: " + CurrentTeam.getMoney());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void ShowQuiz() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new QuizFragment();
@@ -197,6 +216,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowPuzzles() {
+        UpdateUI();
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
         if (mapItem != null) {

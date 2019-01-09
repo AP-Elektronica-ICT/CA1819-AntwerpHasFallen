@@ -10,6 +10,7 @@ import com.ahf.antwerphasfallen.Model.SubstitutionPuzzles;
 import com.ahf.antwerphasfallen.Model.Team;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,7 +27,7 @@ import retrofit2.http.Path;
 public interface GameDataService {
 
     @GET("quiz")
-    Call<QuizPuzzles> GetQuestions();
+    Call<List<QuizPuzzles>> GetQuestions();
 
     @GET("puzzles/substitution/{id}")
     Call<SubstitutionPuzzles> getQuestionbyId(@Path("id") int id);

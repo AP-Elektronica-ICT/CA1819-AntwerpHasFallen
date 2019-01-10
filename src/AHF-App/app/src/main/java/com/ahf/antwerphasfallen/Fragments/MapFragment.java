@@ -110,7 +110,7 @@ public class MapFragment extends Fragment {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    x -= 5;
+                    //x -= 5;
                     currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     calculateDistance(currentLocation, targetLocation);
                 }
@@ -200,9 +200,10 @@ public class MapFragment extends Fragment {
         d = Math.round(d*1000);
         Log.e("distance", d + "m");
         //txt_distance.setText(d + "m");
-        //d = 40;
+        d = 40;
         if(d <= 50){
             builder.show();
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
 

@@ -60,11 +60,15 @@ public class InGameActivity extends AppCompatActivity {
     private Fragment puzzleFragment;
     private int teamId;
     private String locationName;
+    private int locationTime;
+    private double locationLat;
+    private double locationLon;
     private Bundle bundle;
     private int gameId;
     private int playerId;
-    private int locationTime;
     private boolean canStartTimer = true;
+    private boolean canGetLocation = true;
+    private boolean newLocation = true;
     private ArrayList<String> missingIngredients;
 
     @Override
@@ -157,34 +161,52 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void getRandomLocation(){
-        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
-        randomLocationCall.enqueue(new Callback<Location>() {
-            @Override
-            public void onResponse(Call<Location> call, Response<Location> response) {
-                if(response.body() != null){
-                    locationTime = response.body().getTime();
-                    locationName = response.body().getName();
-                    bundle.putString("locationTitle", response.body().getName());
-                    bundle.putDouble("lat", response.body().getLat());
-                    bundle.putDouble("lon", response.body().getLon());
-                    bundle.putInt("locationTime", response.body().getTime());
-                    fr.setArguments(bundle);
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_container, fr);
-                    ft.commit();
+        if(canGetLocation){
+            Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+            randomLocationCall.enqueue(new Callback<Location>() {
+                @Override
+                public void onResponse(Call<Location> call, Response<Location> response) {
+                    if(response.body() != null){
+                        canGetLocation = false;
+                        newLocation = true;
+                        locationTime = response.body().getTime();
+                        locationName = response.body().getName();
+                        locationLat = response.body().getLat();
+                        locationLon = response.body().getLon();
+                        bundle.putString("locationTitle", locationName);
+                        bundle.putDouble("lat", locationLat);
+                        bundle.putDouble("lon", locationLon);
+                        bundle.putInt("locationTime", locationTime);
+                        bundle.putBoolean("newLocation", newLocation);
+                        fr.setArguments(bundle);
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragment_container, fr);
+                        ft.commit();
+                    }
+                    else{
+                        //game ending
+                    }
+
                 }
-                else{
-                    //game ending
+
+                @Override
+                public void onFailure(Call<Location> call, Throwable t) {
+                    //locationId = -1;
                 }
-
-            }
-
-            @Override
-            public void onFailure(Call<Location> call, Throwable t) {
-                //locationId = -1;
-            }
-        });
-
+            });
+        }
+        else{
+            newLocation = false;
+            bundle.putString("locationTitle", locationName);
+            bundle.putDouble("lat", locationLat);
+            bundle.putDouble("lon", locationLon);
+            bundle.putInt("locationTime", locationTime);
+            bundle.putBoolean("newLocation", newLocation);
+            fr.setArguments(bundle);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, fr);
+            ft.commit();
+        }
     }
 
     public void UpdateUI() {
@@ -244,6 +266,7 @@ public class InGameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
+                    canGetLocation = true;
                     canStartTimer = true;
                     if (mapItem != null) {
                         mapItem.setTitle("Map");

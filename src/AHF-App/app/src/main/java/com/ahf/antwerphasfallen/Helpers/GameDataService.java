@@ -2,6 +2,7 @@ package com.ahf.antwerphasfallen.Helpers;
 
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.QuizPuzzles;
@@ -57,6 +58,9 @@ public interface GameDataService {
 
     @GET("teams/randomlocation/{id}")
     Call<Location> getRandomLocation(@Path("id") int id);
+
+    @GET("shop/ingredients")
+    Call<ArrayList<Item>> getIngredients();
 
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);

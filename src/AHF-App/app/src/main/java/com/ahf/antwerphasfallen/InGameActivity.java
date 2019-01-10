@@ -29,10 +29,13 @@ import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.Puzzles;
 import com.ahf.antwerphasfallen.Model.Team;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,6 +65,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private int locationTime;
     private boolean canStartTimer = true;
+    private ArrayList<String> missingIngredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class InGameActivity extends AppCompatActivity {
 
         inventoryFragment = new InventoryFragment();
         shopFragment = new ShopFragment();
+        missingIngredients = new ArrayList<String>();
 
         fr = new InfoFragment();
 
@@ -83,6 +88,7 @@ public class InGameActivity extends AppCompatActivity {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
+
         }
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -105,6 +111,7 @@ public class InGameActivity extends AppCompatActivity {
                         bundle = new Bundle();
                         bundle.putString("teamName", CurrentTeam.getName());
                         bundle.putInt("gameId", gameId);
+                        bundle.putStringArrayList("ingredients" , missingIngredients);
                         fr.setArguments(bundle);
                         break;
                     case "Map":
@@ -244,6 +251,31 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
+    public void checkIngredients(){
+        Call<ArrayList<Item>> ingredientCall = service.getIngredients();
+        ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+                try{
+                    for (Item ingredient: response.body())
+                    {
+                        if(!CurrentTeam.getInventory().getIngredients().contains(ingredient)){
+                            missingIngredients.add(ingredient.getName());
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Log.e("error", e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {
@@ -273,6 +305,7 @@ public class InGameActivity extends AppCompatActivity {
                                         if (response.body() != null) {
                                             CurrentTeam.setInventory(response.body());
                                             inventoryFragment.setAdapters();
+                                            checkIngredients();
                                         }
                                     }
 
@@ -297,6 +330,7 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Error getting player information", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void startMainActivity() {

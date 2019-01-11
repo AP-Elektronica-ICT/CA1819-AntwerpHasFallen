@@ -32,6 +32,9 @@ import retrofit2.Response;
 
 public class JoinTeamDialog extends DialogFragment {
     private static final String TAG = "JoinTeamDialog";
+    public static final String POSITIVE_BTN_TEXT = "positiveButton";
+    public static final String NEGATIVE_BTN_TEXT = "negativeButton";
+    public static final String TITLE_TEXT = "title";
 
     final protected Game game = new Game();
     protected TeamNamesRBListAdapter adapter;
@@ -57,16 +60,16 @@ public class JoinTeamDialog extends DialogFragment {
         if(getArguments() != null) {
             if (getArguments().getInt("gameId") != 0)
                 gameId = getArguments().getInt("gameId");
-            if(getArguments().getString("title") != null)
-                title = getArguments().getString("title");
+            if(getArguments().getString(JoinTeamDialog.TITLE_TEXT) != null)
+                title = getArguments().getString(JoinTeamDialog.TITLE_TEXT);
             else
                 title = "Choose your team";
-            if(getArguments().getString("positiveButton") != null)
-                positiveBtnText = getArguments().getString("positiveButton");
+            if(getArguments().getString(JoinTeamDialog.POSITIVE_BTN_TEXT) != null)
+                positiveBtnText = getArguments().getString(JoinTeamDialog.POSITIVE_BTN_TEXT);
             else
                 positiveBtnText = "Join";
-            if(getArguments().getString("negativeButton") != null)
-                negativeBtnText = getArguments().getString("negativeButton");
+            if(getArguments().getString(JoinTeamDialog.NEGATIVE_BTN_TEXT) != null)
+                negativeBtnText = getArguments().getString(JoinTeamDialog.NEGATIVE_BTN_TEXT);
             else
                 negativeBtnText = "Cancel";
         }

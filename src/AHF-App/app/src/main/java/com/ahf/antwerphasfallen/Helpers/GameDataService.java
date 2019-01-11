@@ -40,14 +40,17 @@ public interface GameDataService {
     @GET("teams/{id}")
     Call<Team> getTeam(@Path("id") int id);
 
+    @PUT("teams/{id}/blackout")
+    Call<Team> stopBlackout(@Path("id") int teamId);
+
+    @POST("teams/{id}/use/{ItemId}")
+    Call<Inventory> useShopItem(@Path("id") int teamId, @Path("ItemId") int InventoryItemId, @Body int targetTeamId);
+
     @GET("shop")
     Call<ArrayList<ShopItem>> getShopItems();
 
     @PUT("shop/buy/{shopItemId}")
     Call<Inventory> buyShopItem(@Path("shopItemId") int shopItemId, @Body int teamId);
-
-    @PUT("teams/{id}/blackout")
-    Call<Team> stopBlackout(@Path("id") int teamId);
 
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);

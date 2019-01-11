@@ -26,7 +26,7 @@ import com.ahf.antwerphasfallen.Fragments.QuizFragment;
 import com.ahf.antwerphasfallen.Fragments.ShopFragment;
 import com.ahf.antwerphasfallen.Fragments.SubstitutionFragment;
 import com.ahf.antwerphasfallen.Fragments.TeamFragment;
-import com.ahf.antwerphasfallen.Helpers.BackgroundChecker;
+import com.ahf.antwerphasfallen.Helpers.CheckerThread;
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
@@ -68,7 +68,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private int locationTime;
     private boolean canStartTimer = true;
-    private BackgroundChecker checker;
+    private CheckerThread backgroundChecker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,12 +257,12 @@ public class InGameActivity extends AppCompatActivity {
     public void StartBlackout(String enemyTeam){
         txtBlackout.setText("Your team has been sent a blackout by " + enemyTeam);
         blackout.setVisibility(View.VISIBLE);
-        content.setVisibility(View.GONE);
+        content.setVisibility(View.INVISIBLE);
     }
 
     public void StopBlackout(){
         content.setVisibility(View.VISIBLE);
-        blackout.setVisibility(View.GONE);
+        blackout.setVisibility(View.INVISIBLE);
     }
 
     public void loadPlayer(int id) {
@@ -279,7 +279,8 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if (response.body() != null) {
                                 CurrentTeam = response.body();
-                                BackgroundChecker.getInstance(InGameActivity.this).StartChecking(CurrentTeam.getId());
+                                backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+                                backgroundChecker.start();
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 bundle.putString("teamName", CurrentTeam.getName());
@@ -349,13 +350,16 @@ public class InGameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(CurrentTeam != null)
-            BackgroundChecker.getInstance(this).StartChecking(CurrentTeam.getId());
+        if(CurrentTeam != null && backgroundChecker != null){
+            backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+            backgroundChecker.start();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        BackgroundChecker.getInstance(this).StopChecking();
+        if(backgroundChecker != null)
+            backgroundChecker.Stop();
     }
 }

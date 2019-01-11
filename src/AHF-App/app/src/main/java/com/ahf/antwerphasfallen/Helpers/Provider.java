@@ -14,6 +14,9 @@ public class Provider {
     private static boolean Different;
     private static List<Subscriber> isDifferentSubscribers = new ArrayList<>();
 
+    private static boolean BlackoutRunning;
+    private static List<Subscriber> isBlackoutRunningSubscribers = new ArrayList<>();
+
     /*public static Provider GetProvider(){
         if(provider == null)
             provider = new Provider();
@@ -30,11 +33,29 @@ public class Provider {
             s.Update();
     }
 
-    public static boolean subscribeIsDifferent(Subscriber subscriber){
+    public static boolean subscribeIsDifferent(Subscriber subscriber) {
         return isDifferentSubscribers.add(subscriber);
     }
 
-    public static boolean unsubscribeIsDifferent(Subscriber subscriber){
+    public static boolean unsubscribeIsDifferent(Subscriber subscriber) {
         return isDifferentSubscribers.remove(subscriber);
+    }
+
+    public static boolean isBlackoutRunning() {
+        return BlackoutRunning;
+    }
+
+    public static void setIsBlackoutRunning(boolean isBlackoutRunning) {
+        Provider.BlackoutRunning = isBlackoutRunning;
+        for (Subscriber s : isBlackoutRunningSubscribers)
+            s.Update();
+    }
+
+    public static boolean subscribeIsBlackoutRunning(Subscriber subscriber) {
+        return isBlackoutRunningSubscribers.add(subscriber);
+    }
+
+    public static boolean unsubscribeIsBlackoutRunning(Subscriber subscriber) {
+        return isBlackoutRunningSubscribers.remove(subscriber);
     }
 }

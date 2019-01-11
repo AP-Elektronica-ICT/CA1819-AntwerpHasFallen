@@ -46,6 +46,9 @@ public interface GameDataService {
     @PUT("shop/buy/{shopItemId}")
     Call<Inventory> buyShopItem(@Path("shopItemId") int shopItemId, @Body int teamId);
 
+    @PUT("teams/{id}/blackout")
+    Call<Team> stopBlackout(@Path("id") int teamId);
+
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 

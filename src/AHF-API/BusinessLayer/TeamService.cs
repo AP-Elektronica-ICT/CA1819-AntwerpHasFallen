@@ -109,13 +109,15 @@ namespace BusinessLayer
             return currentLocation.Location;
         }
 
+        public Team StopBlackout(int teamId)
+        {
+            Team team = GetTeam(teamId);
+            team.Blackout = null;
+            context.SaveChanges();
+            return team;
+        }
+
         public Inventory UseShopItem(int shopItemId, int teamId, int targetTeamId)
-            /* check if item exists in inventory
-             * check if quantity is enough
-             * get item
-             * check item type
-             * call use method for type
-            */
         {
             Team team = GetTeam(teamId);
             Team target = GetTeam(targetTeamId);

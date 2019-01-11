@@ -46,6 +46,16 @@ namespace AntwerpHasFallen.Controllers
             return NotFound();
         }
 
+        [Route("{id}/blackout")]
+        [HttpPut]
+        public IActionResult StopBlackout(int id)
+        {
+            Team team = teamService.StopBlackout(id);
+            if (team != null)
+                return Ok(team);
+            return NotFound();
+        }
+
         [Route("randomlocation/{id}")]
         [HttpGet]
         public IActionResult getRandomLocation(int id)

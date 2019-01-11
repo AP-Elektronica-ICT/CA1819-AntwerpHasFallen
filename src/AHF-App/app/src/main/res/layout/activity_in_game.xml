@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/textview_border"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:text="Time left: "
                     android:padding="7dp"
                     android:layout_marginRight="10dp"/>

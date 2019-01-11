@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Model;
+using DataLayer.Model.InventoryModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -107,5 +108,47 @@ namespace BusinessLayer
 
             return currentLocation.Location;
         }
+
+        public Inventory UseShopItem(int shopItemId, int teamId, int targetTeamId)
+            /* check if item exists in inventory
+             * check if quantity is enough
+             * get item
+             * check item type
+             * call use method for type
+            */
+        {
+            Team team = GetTeam(teamId);
+            Team target = GetTeam(targetTeamId);
+            if (team != null && target != null)
+            {
+                Inventory inventory = context.Inventories.Include(i => i.Items).ThenInclude(i => i.Item).SingleOrDefault(i => i.Id == team.Inventory.Id);
+                if(inventory != null)
+                {
+                    ShopItem shopItem = context.ShopItems.Include(s => s.Item).SingleOrDefault(s => s.Id == shopItemId);
+                    if (shopItem != null) {
+                        InventoryItem usedItem = null;
+                        foreach (InventoryItem item in inventory.Items)
+                            if (item.Item.Id == shopItem.Item.Id && item.Quantity >= 1) usedItem = item;
+                        if (usedItem != null)
+                        {
+                            if(usedItem.Item.Name.ToLower() == "blackout")
+                            {
+                                Blackout(team, target);
+                            }
+                            inventory.Items.Remove(usedItem);
+                        }
+                    }
+                }
+                context.SaveChanges();
+                return inventory;
+            }
+            return null;
+        }
+        #region shopItem use methods
+        private void Blackout(Team team, Team targetTeam)
+        {
+            targetTeam.Blackout = team.Name;
+        }
+        #endregion
     }
 }

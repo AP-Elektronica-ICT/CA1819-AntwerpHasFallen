@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer.Model;
+using DataLayer.Model.InventoryModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,16 @@ namespace AntwerpHasFallen.Controllers
             Team team = teamService.GetTeam(id);
             if (team != null)
                 return Ok(team);
+            return NotFound();
+        }
+
+        [Route("{id}/use/{shopItemId}")]
+        [HttpPost]
+        public IActionResult useShopItem(int id, int shopItemId, [FromBody] int targetTeamId)
+        {
+            Inventory inventory = teamService.UseShopItem(shopItemId, id, targetTeamId);
+            if (inventory != null)
+                return Ok(inventory);
             return NotFound();
         }
 

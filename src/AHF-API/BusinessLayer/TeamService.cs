@@ -117,7 +117,7 @@ namespace BusinessLayer
             return team;
         }
 
-        public Inventory UseShopItem(int shopItemId, int teamId, int targetTeamId)
+        public Inventory UseShopItem(int inventoryItemId, int teamId, int targetTeamId)
         {
             Team team = GetTeam(teamId);
             Team target = GetTeam(targetTeamId);
@@ -126,11 +126,11 @@ namespace BusinessLayer
                 Inventory inventory = context.Inventories.Include(i => i.Items).ThenInclude(i => i.Item).SingleOrDefault(i => i.Id == team.Inventory.Id);
                 if(inventory != null)
                 {
-                    ShopItem shopItem = context.ShopItems.Include(s => s.Item).SingleOrDefault(s => s.Id == shopItemId);
-                    if (shopItem != null) {
+                    InventoryItem InventoryItem = context.InventoryItems.Include(i => i.Item).SingleOrDefault(i => i.Id == inventoryItemId);
+                    if (InventoryItem != null) {
                         InventoryItem usedItem = null;
-                        foreach (InventoryItem item in inventory.Items)
-                            if (item.Item.Id == shopItem.Item.Id && item.Quantity >= 1) usedItem = item;
+                        foreach (InventoryItem item in inventory.Items) //check if item exist in this teams inventory
+                            if (item.Item.Id == InventoryItem.Item.Id && item.Quantity >= 1) usedItem = item;
                         if (usedItem != null)
                         {
                             if(usedItem.Item.Name.ToLower() == "blackout")

@@ -36,11 +36,11 @@ namespace AntwerpHasFallen.Controllers
             return NotFound();
         }
 
-        [Route("{id}/use/{shopItemId}")]
+        [Route("{id}/use/{inventoryItemId}")]
         [HttpPost]
-        public IActionResult useShopItem(int id, int shopItemId, [FromBody] int targetTeamId)
+        public IActionResult useShopItem(int id, int inventoryItemId, [FromBody] int targetTeamId)
         {
-            Inventory inventory = teamService.UseShopItem(shopItemId, id, targetTeamId);
+            Inventory inventory = teamService.UseShopItem(inventoryItemId, id, targetTeamId);
             if (inventory != null)
                 return Ok(inventory);
             return NotFound();

@@ -11,9 +11,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.ahf.antwerphasfallen.Fragments.QuizFragment;
 import com.ahf.antwerphasfallen.Fragments.ShopFragment;
 import com.ahf.antwerphasfallen.Fragments.SubstitutionFragment;
 import com.ahf.antwerphasfallen.Fragments.TeamFragment;
+import com.ahf.antwerphasfallen.Helpers.BackgroundChecker;
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
@@ -47,8 +49,12 @@ public class InGameActivity extends AppCompatActivity {
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
+
     private TextView txtMoney;
     private TextView txtTimer;
+    private TextView txtBlackout;
+    private LinearLayout content;
+    private RelativeLayout blackout;
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
@@ -62,6 +68,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private int locationTime;
     private boolean canStartTimer = true;
+    private BackgroundChecker checker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,9 @@ public class InGameActivity extends AppCompatActivity {
         bundle = new Bundle();
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
+        txtBlackout = findViewById(R.id.txt_blackout);
+        content = findViewById(R.id.content_linear);
+        blackout = findViewById(R.id.layout_blackout);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -244,6 +254,17 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
+    public void StartBlackout(String enemyTeam){
+        txtBlackout.setText("Your team has been sent a blackout by " + enemyTeam);
+        blackout.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
+    }
+
+    public void StopBlackout(){
+        content.setVisibility(View.VISIBLE);
+        blackout.setVisibility(View.GONE);
+    }
+
     public void loadPlayer(int id) {
         Call<Player> call = service.getPlayer(id);
         call.enqueue(new Callback<Player>() {
@@ -258,6 +279,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if (response.body() != null) {
                                 CurrentTeam = response.body();
+                                BackgroundChecker.getInstance(InGameActivity.this).StartChecking(CurrentTeam.getId());
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 bundle.putString("teamName", CurrentTeam.getName());
@@ -322,5 +344,18 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(CurrentTeam != null)
+            BackgroundChecker.getInstance(this).StartChecking(CurrentTeam.getId());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BackgroundChecker.getInstance(this).StopChecking();
     }
 }

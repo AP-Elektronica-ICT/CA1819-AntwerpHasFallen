@@ -24,13 +24,13 @@ public class TargetTeamDialog extends JoinTeamDialog {
     private InGameActivity host;
 
     @Override
-    protected void positiveButtonClick(DialogInterface dialogInterface, int i) {
+    protected void positiveButtonClick(DialogInterface dialogInterface, int i, Team targetTeam) {
         int itemId = 0;
         if (getArguments() != null) {
             if (getArguments().getInt(TargetTeamDialog.ITEM_ID) != 0)
                 itemId = getArguments().getInt(TargetTeamDialog.ITEM_ID);
         }
-        Team targetTeam = adapter.getItem(adapter.getSelectedPosition());
+        //Team targetTeam = adapter.getItem(adapter.getSelectedPosition());
         if (itemId != 0 && targetTeam != null) {
             Call<Inventory> inventoryCall = InGameActivity.service.useShopItem(host.CurrentTeam.getId(), itemId, targetTeam.getId());
             inventoryCall.enqueue(new Callback<Inventory>() {

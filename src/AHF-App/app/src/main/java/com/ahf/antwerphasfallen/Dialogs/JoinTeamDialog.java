@@ -107,7 +107,8 @@ public class JoinTeamDialog extends DialogFragment {
                 .setPositiveButton(positiveBtnText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        positiveButtonClick(dialogInterface, i);
+                        Team joinTeam = adapter.getItem(adapter.getSelectedPosition());
+                        positiveButtonClick(dialogInterface, i, joinTeam);
                     }
                 })
                 .setNegativeButton(negativeBtnText, new DialogInterface.OnClickListener() {
@@ -125,8 +126,7 @@ public class JoinTeamDialog extends DialogFragment {
         getDialog().cancel();
     }
 
-    protected void positiveButtonClick(DialogInterface dialogInterface, int i){
-        Team joinTeam = adapter.getItem(adapter.getSelectedPosition());
+    protected void positiveButtonClick(DialogInterface dialogInterface, int i, Team joinTeam){
         Toast.makeText(getContext(), "joining game: " + game.getId() + " and team: " + joinTeam.getName(), Toast.LENGTH_SHORT).show();
         try{
             MainActivity host = (MainActivity)getActivity();

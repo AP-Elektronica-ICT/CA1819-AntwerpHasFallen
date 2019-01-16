@@ -43,6 +43,7 @@ namespace DataLayer
                 l1.Quiz = initialiseQuizMas(context);
                 l1.subs = initialiseSubMas(context);
 
+                createShopItems(context);
                 createTestInventoryItems(context);
 
                 context.Inventories.Add(inventoryT1);
@@ -77,6 +78,29 @@ namespace DataLayer
             context.SaveChanges();
            
         }
+
+        private static void createShopItems(GameContext context)
+        {
+            Item blackout = new Item
+            {
+                Name = "Blackout",
+                Type = Item.TYPE_ITEM,
+                Description = "Give one of the other teams a blackout for 30 seconds, so that they cannot do anything on the app during that time."
+            };
+
+            ShopItem shopBlackout = new ShopItem
+            {
+                Item = blackout,
+                Price = 80
+            };
+
+            context.Items.Add(blackout);
+
+            context.ShopItems.Add(shopBlackout);
+
+            context.SaveChanges();
+        }
+
         private static List<SubstitionPuzzles> initialiseSubMas(GameContext context)
         {
             List<SubstitionPuzzles> submas = new List<SubstitionPuzzles>();

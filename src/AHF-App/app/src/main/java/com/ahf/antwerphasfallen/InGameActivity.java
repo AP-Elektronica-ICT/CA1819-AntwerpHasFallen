@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.ahf.antwerphasfallen.Fragments.QuizFragment;
 import com.ahf.antwerphasfallen.Fragments.ShopFragment;
 import com.ahf.antwerphasfallen.Fragments.SubstitutionFragment;
 import com.ahf.antwerphasfallen.Fragments.TeamFragment;
+import com.ahf.antwerphasfallen.Helpers.CheckerThread;
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
@@ -50,8 +53,12 @@ public class InGameActivity extends AppCompatActivity {
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
+
     private TextView txtMoney;
     private TextView txtTimer;
+    private TextView txtBlackout;
+    private LinearLayout content;
+    private RelativeLayout blackout;
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
@@ -66,10 +73,13 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
+
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
     private boolean newLocation = true;
     private ArrayList<String> missingIngredients;
+
+    private CheckerThread backgroundChecker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +96,9 @@ public class InGameActivity extends AppCompatActivity {
         bundle = new Bundle();
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
+        txtBlackout = findViewById(R.id.txt_blackout);
+        content = findViewById(R.id.content_linear);
+        blackout = findViewById(R.id.layout_blackout);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -294,20 +307,18 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
-    public void checkIngredients(){
+    public void checkIngredients() {
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();
         ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
-                try{
-                    for (Item ingredient: response.body())
-                    {
-                        if(!CurrentTeam.getInventory().getIngredients().contains(ingredient)){
+                try {
+                    for (Item ingredient : response.body()) {
+                        if (!CurrentTeam.getInventory().getIngredients().contains(ingredient)) {
                             missingIngredients.add(ingredient.getName());
                         }
                     }
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Log.e("error", e.toString());
                 }
             }
@@ -317,6 +328,17 @@ public class InGameActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void StartBlackout(String enemyTeam){
+        txtBlackout.setText("Your team has been sent a blackout by " + enemyTeam);
+        blackout.setVisibility(View.VISIBLE);
+        content.setVisibility(View.INVISIBLE);
+    }
+
+    public void StopBlackout(){
+        content.setVisibility(View.VISIBLE);
+        blackout.setVisibility(View.INVISIBLE);
     }
 
     public void loadPlayer(int id) {
@@ -333,6 +355,8 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if (response.body() != null) {
                                 CurrentTeam = response.body();
+                                backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+                                backgroundChecker.start();
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 bundle.putString("teamName", CurrentTeam.getName());
@@ -399,5 +423,21 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(CurrentTeam != null && backgroundChecker != null){
+            backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+            backgroundChecker.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(backgroundChecker != null)
+            backgroundChecker.Stop();
     }
 }

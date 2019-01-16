@@ -173,10 +173,6 @@ public class QuizFragment extends Fragment {
         });
 
         listener.ShowPuzzles();
-
-
-
-
     }
 }
 

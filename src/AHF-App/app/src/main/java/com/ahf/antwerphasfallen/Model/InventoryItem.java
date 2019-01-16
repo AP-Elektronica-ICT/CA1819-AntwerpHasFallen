@@ -12,6 +12,10 @@ public class InventoryItem {
     public InventoryItem() {
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getQuantity() {
         return quantity;
     }

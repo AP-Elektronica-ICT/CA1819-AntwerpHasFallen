@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer.Model;
+using DataLayer.Model.InventoryModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,26 @@ namespace AntwerpHasFallen.Controllers
         public IActionResult getTeam(int id)
         {
             Team team = teamService.GetTeam(id);
+            if (team != null)
+                return Ok(team);
+            return NotFound();
+        }
+
+        [Route("{id}/use/{inventoryItemId}")]
+        [HttpPost]
+        public IActionResult useShopItem(int id, int inventoryItemId, [FromBody] int targetTeamId)
+        {
+            Inventory inventory = teamService.UseShopItem(inventoryItemId, id, targetTeamId);
+            if (inventory != null)
+                return Ok(inventory);
+            return NotFound();
+        }
+
+        [Route("{id}/blackout")]
+        [HttpPut]
+        public IActionResult StopBlackout(int id)
+        {
+            Team team = teamService.StopBlackout(id);
             if (team != null)
                 return Ok(team);
             return NotFound();

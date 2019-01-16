@@ -355,7 +355,7 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if (response.body() != null) {
                                 CurrentTeam = response.body();
-                                backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+                                backgroundChecker = new CheckerThread(InGameActivity.this, CurrentPlayer);
                                 backgroundChecker.start();
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
@@ -429,7 +429,7 @@ public class InGameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(CurrentTeam != null && backgroundChecker != null){
-            backgroundChecker = new CheckerThread(InGameActivity.this, CurrentTeam.getId());
+            backgroundChecker = new CheckerThread(InGameActivity.this, CurrentPlayer);
             backgroundChecker.start();
         }
     }

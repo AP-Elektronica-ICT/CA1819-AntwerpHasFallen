@@ -5,6 +5,8 @@ import android.support.annotation.UiThread;
 import android.util.Log;
 
 import com.ahf.antwerphasfallen.InGameActivity;
+import com.ahf.antwerphasfallen.Model.Game;
+import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.Team;
 
 import java.util.ArrayList;
@@ -22,15 +24,17 @@ public class CheckerThread extends Thread implements Subscriber{
     private static final String TAG = "CheckerThread";
 
     private InGameActivity activity;
+    private Player currentPlayer;
     private int teamId;
 
     private boolean pause = false;
     private boolean blackoutRunning = false;
     private List<Boolean> statusList;
 
-    public CheckerThread (InGameActivity activity, int teamId){
+    public CheckerThread (InGameActivity activity, Player currentPlayer){
         this.activity = activity;
-        this.teamId = teamId;
+        this.currentPlayer = currentPlayer;
+        this.teamId = currentPlayer.getTeamId();
         statusList = new ArrayList<>();
         statusList.add(true);
         Provider.subscribeIsBlackoutRunning(this);
@@ -51,8 +55,11 @@ public class CheckerThread extends Thread implements Subscriber{
                             if (team.getBlackout() != null) {
                                 runBlackout(team.getBlackout());
                             }
+                            statusList.set(0, true);
                         }
-                        statusList.set(0, true);
+                        else if (response.code() == 404){
+                            checkGameStillExists();
+                        }
                     }
 
                     @Override
@@ -84,6 +91,39 @@ public class CheckerThread extends Thread implements Subscriber{
                     blackout.execute();
                     Provider.setIsBlackoutRunning(true);
                 }
+            }
+        });
+    }
+
+    private void checkGameStillExists(){
+        Call<List<Game>> gamesCall = InGameActivity.service.getGames();
+        gamesCall.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                if(response.body() != null){
+                    List<Game> games = response.body();
+                    boolean found = false;
+                    for(Game g : games){
+                        if(g.getId() == currentPlayer.getGameId()){
+                            found = true;
+                        }
+                    }
+                    if(!found){
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                PlayerHandler.getInstance(activity).deleteFile(PlayerHandler.SAVED_PLAYER);
+                            }
+                        });
+                    }
+                }
+                statusList.set(0, true);
+            }
+
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Log.e(TAG, "onFailure: connection with api failed", t);
+                statusList.set(0, true);
             }
         });
     }

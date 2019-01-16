@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,10 +32,13 @@ import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.Puzzles;
 import com.ahf.antwerphasfallen.Model.Team;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,11 +67,18 @@ public class InGameActivity extends AppCompatActivity {
     private Fragment puzzleFragment;
     private int teamId;
     private String locationName;
+    private int locationTime;
+    private double locationLat;
+    private double locationLon;
     private Bundle bundle;
     private int gameId;
     private int playerId;
-    private int locationTime;
+
     private boolean canStartTimer = true;
+    private boolean canGetLocation = true;
+    private boolean newLocation = true;
+    private ArrayList<String> missingIngredients;
+
     private CheckerThread backgroundChecker = null;
 
     @Override
@@ -77,6 +88,7 @@ public class InGameActivity extends AppCompatActivity {
 
         inventoryFragment = new InventoryFragment();
         shopFragment = new ShopFragment();
+        missingIngredients = new ArrayList<String>();
 
         fr = new InfoFragment();
 
@@ -93,6 +105,7 @@ public class InGameActivity extends AppCompatActivity {
             gameId = extras.getInt("gameId");
             playerId = extras.getInt("playerId");
             loadPlayer(playerId);
+
         }
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
@@ -115,6 +128,7 @@ public class InGameActivity extends AppCompatActivity {
                         bundle = new Bundle();
                         bundle.putString("teamName", CurrentTeam.getName());
                         bundle.putInt("gameId", gameId);
+                        bundle.putStringArrayList("ingredients" , missingIngredients);
                         fr.setArguments(bundle);
                         break;
                     case "Map":
@@ -160,34 +174,71 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void getRandomLocation(){
-        Call<Location> randomLocationCall = service.getRandomLocation(teamId);
-        randomLocationCall.enqueue(new Callback<Location>() {
-            @Override
-            public void onResponse(Call<Location> call, Response<Location> response) {
-                if(response.body() != null){
-                    locationTime = response.body().getTime();
-                    locationName = response.body().getName();
-                    bundle.putString("locationTitle", response.body().getName());
-                    bundle.putDouble("lat", response.body().getLat());
-                    bundle.putDouble("lon", response.body().getLon());
-                    bundle.putInt("locationTime", response.body().getTime());
-                    fr.setArguments(bundle);
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_container, fr);
-                    ft.commit();
-                }
-                else{
-                    //game ending
+        if(canGetLocation){
+            Call<Location> randomLocationCall = service.getRandomLocation(teamId);
+            randomLocationCall.enqueue(new Callback<Location>() {
+                @Override
+                public void onResponse(Call<Location> call, Response<Location> response) {
+                    if(response.body() != null){
+                        canGetLocation = false;
+                        newLocation = true;
+                        locationTime = response.body().getTime();
+                        locationName = response.body().getName();
+                        locationLat = response.body().getLat();
+                        locationLon = response.body().getLon();
+                        bundle.putString("locationTitle", locationName);
+                        bundle.putDouble("lat", locationLat);
+                        bundle.putDouble("lon", locationLon);
+                        bundle.putInt("locationTime", locationTime);
+                        bundle.putBoolean("newLocation", newLocation);
+                        fr.setArguments(bundle);
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragment_container, fr);
+                        ft.commit();
+                    }
+                    else{
+                        //game ending
+                    }
+
                 }
 
+                @Override
+                public void onFailure(Call<Location> call, Throwable t) {
+                    //locationId = -1;
+                }
+            });
+        }
+        else{
+            newLocation = false;
+            bundle.putString("locationTitle", locationName);
+            bundle.putDouble("lat", locationLat);
+            bundle.putDouble("lon", locationLon);
+            bundle.putInt("locationTime", locationTime);
+            bundle.putBoolean("newLocation", newLocation);
+            fr.setArguments(bundle);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, fr);
+            ft.commit();
+        }
+    }
+
+    public void UpdateUI() {
+
+        Call<Team> update = InGameActivity.service.getTeam(CurrentTeam.getId());
+        update.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                if (response.body() != null) {
+                    CurrentTeam = response.body();
+                    txtMoney.setText("G: " + CurrentTeam.getMoney());
+                }
             }
 
             @Override
-            public void onFailure(Call<Location> call, Throwable t) {
-                //locationId = -1;
+            public void onFailure(Call<Team> call, Throwable t) {
+
             }
         });
-
     }
 
     public void ShowQuiz() {
@@ -207,6 +258,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowPuzzles() {
+        UpdateUI();
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
         if (mapItem != null) {
@@ -227,6 +279,7 @@ public class InGameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
+                    canGetLocation = true;
                     canStartTimer = true;
                     if (mapItem != null) {
                         mapItem.setTitle("Map");
@@ -252,6 +305,29 @@ public class InGameActivity extends AppCompatActivity {
         }
 
         return minutes + ":" + sec;
+    }
+
+    public void checkIngredients() {
+        Call<ArrayList<Item>> ingredientCall = service.getIngredients();
+        ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+                try {
+                    for (Item ingredient : response.body()) {
+                        if (!CurrentTeam.getInventory().getIngredients().contains(ingredient)) {
+                            missingIngredients.add(ingredient.getName());
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("error", e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+
+            }
+        });
     }
 
     public void StartBlackout(String enemyTeam){
@@ -296,6 +372,7 @@ public class InGameActivity extends AppCompatActivity {
                                         if (response.body() != null) {
                                             CurrentTeam.setInventory(response.body());
                                             inventoryFragment.setAdapters();
+                                            checkIngredients();
                                         }
                                     }
 
@@ -320,6 +397,7 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Error getting player information", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void startMainActivity() {

@@ -1,13 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ahf.antwerphasfallen.Fragments.TeamFragment"
-    android:background="@drawable/shop">
+    android:background="@drawable/shop"
+    android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,10 +69,33 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="Om de Vignere cijferpuzzel op te lossen, heeft u een cijfercode en een key nodig. U noteert de key onder de cijfercode en blijft dit herhalen tot al de letters van de cijfercode een bijhorende Key letter hebben. Dan zoekt u de kruising van de beide letters op in het diagram. Als u dit bij alle letters doet krijgt u een woord, dit woord is de oplossing.">
-
             </TextView>
         </LinearLayout>
-
     </ScrollView>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/lbl_mingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/inventory"
+
+            android:text="Missing Ingredients"
+            android:textAlignment="center"
+            android:textColor="@color/custom"
+            android:textSize="30dp"
+            android:textStyle="bold|italic" />
+        <ListView
+            android:id="@+id/lv_mingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lbl_mingredients"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

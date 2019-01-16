@@ -51,7 +51,7 @@ public class MapFragment extends Fragment {
     InGameActivity listener;
     MapView mMapView;
     private GoogleMap googleMap;
-    private int locationId;
+    private boolean newLocation;
 
     private int x = 60;
 
@@ -76,6 +76,7 @@ public class MapFragment extends Fragment {
             targetLocationTime = bundle.getInt("locationTime");
             targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("lon"));
             targetLocationTitle = bundle.getString("locationTitle");
+            newLocation = bundle.getBoolean("newLocation");
             //getTargetLocation(locationId);
         }
 
@@ -110,7 +111,7 @@ public class MapFragment extends Fragment {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    x -= 5;
+                    //x -= 5;
                     currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     calculateDistance(currentLocation, targetLocation);
                 }
@@ -134,7 +135,9 @@ public class MapFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Location location) {
                                     if (location != null) {
-                                        startLocationUpdates();
+                                        if(newLocation){
+                                            startLocationUpdates();
+                                        }
                                         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                         googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Previous location"));
                                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
@@ -203,6 +206,7 @@ public class MapFragment extends Fragment {
         //d = 40;
         if(d <= 50){
             builder.show();
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
 

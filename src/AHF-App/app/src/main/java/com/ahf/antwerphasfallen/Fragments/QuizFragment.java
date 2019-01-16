@@ -16,6 +16,8 @@ import com.ahf.antwerphasfallen.Model.QuizPuzzles;
 import com.ahf.antwerphasfallen.R;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,22 +40,22 @@ public class QuizFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof InGameActivity){
-            this.listener = (InGameActivity) context;
+            this.host = (InGameActivity) context;
         }
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-       Call<QuizPuzzles> call = service.GetQuestions();
-       call.enqueue(new Callback<QuizPuzzles>() {
+       Call<List<QuizPuzzles>> call = service.GetQuestions();
+       call.enqueue(new Callback<List<QuizPuzzles>>() {
            @Override
-           public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
-               QuizPuzzles quiz = response.body();
+           public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
+               List<QuizPuzzles> quiz = response.body();
                if (quiz != null) {
-                   answer = quiz.getCorrectAnswer();
-                   question.setText(quiz.getQuestion());
-                   String[] answers = quiz.getAnswers().split(",");
+                   answer = quiz.get(0).getCorrectAnswer();
+                   question.setText(quiz.get(0).getQuestion());
+                   String[] answers = quiz.get(0).getAnswers().split(",");
                    choice1.setText(answers[0]);
                    choice2.setText(answers[1]);
                    choice3.setText(answers[2]);
@@ -63,7 +65,7 @@ public class QuizFragment extends Fragment {
 
 
            @Override
-           public void onFailure(Call<QuizPuzzles> call, Throwable t) {
+           public void onFailure(Call<List<QuizPuzzles>> call, Throwable t) {
                 t.printStackTrace();
            }
        });
@@ -89,15 +91,16 @@ public class QuizFragment extends Fragment {
                 if (choice1.getText().equals(answer)){
 
                     updateGold(true);
+                    host.ShowPuzzles();
 
 
-                    // updateQuestion();
-                    Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-
+                    host.ShowPuzzles();
 
 
                 }
@@ -110,13 +113,14 @@ public class QuizFragment extends Fragment {
                 if (choice2.getText().equals(answer)){
 
                     updateGold(true);
+                    host.ShowPuzzles();
 
-                    // updateQuestion();
-                    Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
+                else {
+                    Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-
+                    host.ShowPuzzles();
                 }
             }
 
@@ -126,15 +130,14 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     updateGold(true);
+                    host.ShowPuzzles();
 
-
-                    // updateQuestion();
-                    Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();{
-
-                    updateGold(false);
-
+                else {
+                    Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
+                        updateGold(false);
+                    host.ShowPuzzles();
                 }
             }
 
@@ -147,8 +150,11 @@ public class QuizFragment extends Fragment {
     }
 
     private void updateGold(boolean status)
-    {  final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-        Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
+    {
+        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+
+
+    Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
         call.enqueue(new Callback<QuizPuzzles>() {
             @Override
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
@@ -161,9 +167,15 @@ public class QuizFragment extends Fragment {
             public void onFailure(Call<QuizPuzzles> call, Throwable t) {
                 t.printStackTrace();
             }
+
+
+
         });
 
-        listener.ShowPuzzles(0);
+        listener.ShowPuzzles();
+
+
+
 
     }
 }

@@ -2,6 +2,7 @@ package com.ahf.antwerphasfallen.Helpers;
 
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.QuizPuzzles;
@@ -10,6 +11,7 @@ import com.ahf.antwerphasfallen.Model.SubstitutionPuzzles;
 import com.ahf.antwerphasfallen.Model.Team;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,7 +28,7 @@ import retrofit2.http.Path;
 public interface GameDataService {
 
     @GET("quiz")
-    Call<QuizPuzzles> GetQuestions();
+    Call<List<QuizPuzzles>> GetQuestions();
 
     @GET("puzzles/substitution/{id}")
     Call<SubstitutionPuzzles> getQuestionbyId(@Path("id") int id);
@@ -57,6 +59,9 @@ public interface GameDataService {
 
     @GET("teams/randomlocation/{id}")
     Call<Location> getRandomLocation(@Path("id") int id);
+
+    @GET("shop/ingredients")
+    Call<ArrayList<Item>> getIngredients();
 
     @POST("games/newgame/{teams}")
     Call<Game> newGame(@Path("teams") int teams,@Body String[] teamNames);

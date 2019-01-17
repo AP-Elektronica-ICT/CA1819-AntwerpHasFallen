@@ -73,33 +73,30 @@ namespace BusinessLayerTest
             var games = Enumerable.Range(1, 5).Select(i =>
                  new Game
                  {
-                     //Id = i - 1,
                      Teams = Enumerable.Range(1, 3).Select(j =>
                         new Team
                         {
-                            //Id = i + j - 2,
                             Name = $"Team{i}{j}",
                             Money = 100,
                             Players = Enumerable.Range(1, 2).Select(k =>
                                 new Player {
-                                    //Id = i + j + k - 3,
                                     GameId = i,
                                     TeamId = j
-                            }).ToList(),
+                                }).ToList(),
                             Inventory = new Inventory()
                             {
-                                Ingredients = Enumerable.Range(1,3).Select(l => 
-                                    new InventoryItem()
-                                    {
-                                        Quantity = l,
-                                        Item = ingredients[l - 1]
-                                    }).ToList(),
-                                Items = Enumerable.Range(1,3).Select(l =>
-                                    new InventoryItem()
-                                    {
-                                        Quantity = l,
-                                        Item = items[l - 1]
-                                    }).ToList()
+                                Ingredients = Enumerable.Range(1, j).Select(l =>
+                                     new InventoryItem()
+                                     {
+                                         Quantity = l,
+                                         Item = ingredients[l - 1]
+                                     }).ToList(),
+                                Items = Enumerable.Range(1, 3).Select(l =>
+                                     new InventoryItem()
+                                     {
+                                         Quantity = l,
+                                         Item = items[l - 1]
+                                     }).ToList()
                             }
                         }).ToList()
                  });
@@ -108,7 +105,7 @@ namespace BusinessLayerTest
             foreach (Item i in ingredients)
                 context.Items.Add(i);
             foreach (Game g in games)
-                foreach(Team t in g.Teams)
+                foreach (Team t in g.Teams)
                 {
                     foreach (Player p in t.Players)
                         context.Players.Add(p);
@@ -182,6 +179,24 @@ namespace BusinessLayerTest
         {
             bool result = service.deleteGame(id);
             Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        public void CreateFinishedGameTest(int gameId)
+        {
+            Game inputGame = gameContext.Games.Include(g => g.Teams).ThenInclude(t => t.Inventory).SingleOrDefault(g => g.Id == gameId);
+            FinishedGame result = service.saveGameStats(inputGame, inputGame.Teams);
+            Assert.Equal(gameId, result.GameId);
+            string expectedLeaderboard = "";
+            for(int i = 0; i<3; i++)
+                expectedLeaderboard += inputGame.Teams[i].Name + ":" + inputGame.Teams[i].Inventory.Ingredients.Count + "/";
+            Assert.Equal(expectedLeaderboard, result.TeamsLeaderboard);
+            Assert.Equal(inputGame.Teams[2].Name, result.Winner);
         }
     }
 }

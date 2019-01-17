@@ -111,8 +111,10 @@ namespace BusinessLayer
                     while (finishedGame.TeamsLeaderboard.IndexOf('/', beginSearch) > 0)
                     {
                         int start = finishedGame.TeamsLeaderboard.IndexOf(':', beginSearch);
+                        if (start == -1) break;
                         int end = finishedGame.TeamsLeaderboard.IndexOf('/', beginSearch);
-                        int count = Convert.ToInt32(finishedGame.TeamsLeaderboard.Substring(start + 1, end - (start + 1)));
+                        string countString = finishedGame.TeamsLeaderboard.Substring(start + 1, end - (start + 1));
+                        int count = Convert.ToInt32(countString);
                         if (teamCount > count)
                         {
                             finishedGame.TeamsLeaderboard.Insert(beginSearch, t.Name + ":" + teamCount + "/");

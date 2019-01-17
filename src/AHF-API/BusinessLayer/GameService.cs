@@ -27,6 +27,16 @@ namespace BusinessLayer
             return context.Games.Include(g => g.Teams).ThenInclude(t => t.Players).ToList(); 
         }
 
+        public List<FinishedGame> GetFinishedGames()
+        {
+            return context.FinishedGames.ToList();
+        }
+
+        public FinishedGame GetFinishedGame(int gameId)
+        {
+            return context.FinishedGames.SingleOrDefault(f => f.GameId == gameId);
+        }
+
         public Game GetGame(int id)
         {
             return context.Games.Include(g => g.Teams).SingleOrDefault(g => g.Id == id);
@@ -42,8 +52,8 @@ namespace BusinessLayer
             {
                 teams.Add(context.Teams.Include(t => t.Players).Include(t => t.Inventory).Include(t => t.PreviousLocations).SingleOrDefault(t => t.Id == team.Id));
             }
-
-            saveGameStats(game, teams);
+            
+            context.FinishedGames.Add(createFinishedGame(game, teams));
 
             foreach(Team t in teams)
             {
@@ -78,7 +88,7 @@ namespace BusinessLayer
             return true;            
         }
 
-        public FinishedGame saveGameStats(Game game, List<Team> teams)
+        public FinishedGame createFinishedGame(Game game, List<Team> teams)
         {
             FinishedGame finishedGame = new FinishedGame(game.Id);
             finishedGame.TeamsLeaderboard = "";

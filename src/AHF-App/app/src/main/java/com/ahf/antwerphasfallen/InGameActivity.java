@@ -412,9 +412,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.body() != null) {
                     Toast.makeText(InGameActivity.this, "Game ended", Toast.LENGTH_SHORT).show();
-                    PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
-                    Intent intent = new Intent(InGameActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    ShowEndScreen();
                 }
             }
 
@@ -423,6 +421,12 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void ShowEndScreen(){
+        PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
+        Intent intent = new Intent(InGameActivity.this, EndActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.ahf.antwerphasfallen.Helpers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.UiThread;
 import android.util.Log;
 
 import com.ahf.antwerphasfallen.InGameActivity;
+import com.ahf.antwerphasfallen.MainActivity;
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Player;
 import com.ahf.antwerphasfallen.Model.Team;
@@ -112,7 +114,7 @@ public class CheckerThread extends Thread implements Subscriber{
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                PlayerHandler.getInstance(activity).deleteFile(PlayerHandler.SAVED_PLAYER);
+                                activity.ShowEndScreen();
                             }
                         });
                     }

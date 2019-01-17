@@ -37,7 +37,7 @@ public interface GameDataService {
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
 
-    @GET("history/{id}")
+    @GET("games/history/{id}")
     Call<FinishedGame> getFinishedGame(@Path("id") int gameId);
 
     @GET("games/")

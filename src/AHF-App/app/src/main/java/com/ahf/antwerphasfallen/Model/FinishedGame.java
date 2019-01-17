@@ -7,7 +7,7 @@ package com.ahf.antwerphasfallen.Model;
 public class FinishedGame {
     private int id;
     private int gameId;
-    private String TeamsLeaderboard;
+    private String teamsLeaderboard;
     private String winner;
 
     public int getGameId() {
@@ -15,7 +15,7 @@ public class FinishedGame {
     }
 
     public String getTeamsLeaderboard() {
-        return TeamsLeaderboard;
+        return teamsLeaderboard;
     }
 
     public String getWinner() {

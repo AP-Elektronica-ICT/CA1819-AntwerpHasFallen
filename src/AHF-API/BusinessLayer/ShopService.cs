@@ -14,10 +14,10 @@ namespace BusinessLayer
         private readonly GameContext context;
         private readonly InventoryService inventoryService;
 
-        public ShopService(GameContext context, InventoryService inventoryService)
+        public ShopService(GameContext context)
         {
             this.context = context;
-            this.inventoryService = inventoryService;
+            this.inventoryService = new InventoryService(context);
         }
 
         public List<ShopItem> GetShopItems()

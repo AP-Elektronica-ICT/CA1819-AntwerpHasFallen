@@ -80,6 +80,7 @@ public class InGameActivity extends AppCompatActivity {
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,7 +272,7 @@ public class InGameActivity extends AppCompatActivity {
         if(canStartTimer)
         {
             canStartTimer = false;
-            new CountDownTimer(locationTime * 1000, 1000) {
+            timer = new CountDownTimer(locationTime * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
@@ -305,6 +306,18 @@ public class InGameActivity extends AppCompatActivity {
         }
 
         return minutes + ":" + sec;
+    }
+
+    public void LeavePuzzles(){
+        timer.cancel();
+        canGetLocation = true;
+        canStartTimer = true;
+        if (mapItem != null)
+            mapItem.setTitle("Map");
+
+        fr = new MapFragment();
+        bundle = new Bundle();
+        getRandomLocation();
     }
 
     public void checkIngredients() {

@@ -58,14 +58,13 @@
             android:textColor="#fff" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/keuze5"
+            android:id="@+id/btn_leaveLoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/btnlayout"
             android:padding="8dp"
-
-            android:text="En dan nog eentje voor het af te maken "
+            android:text="verlaat locatie"
             android:textColor="#fff" />
 
 

@@ -1,5 +1,6 @@
 package com.ahf.antwerphasfallen.Helpers;
 
+import com.ahf.antwerphasfallen.Model.FinishedGame;
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Inventory;
 import com.ahf.antwerphasfallen.Model.Item;
@@ -35,6 +36,9 @@ public interface GameDataService {
 
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
+
+    @GET("history/{id}")
+    Call<FinishedGame> getFinishedGame(@Path("id") int gameId);
 
     @GET("games/")
     Call<List<Game>> getGames();

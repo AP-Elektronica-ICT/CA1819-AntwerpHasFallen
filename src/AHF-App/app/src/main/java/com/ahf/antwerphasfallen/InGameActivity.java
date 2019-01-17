@@ -426,6 +426,9 @@ public class InGameActivity extends AppCompatActivity {
     public void ShowEndScreen(){
         PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
         Intent intent = new Intent(InGameActivity.this, EndActivity.class);
+        intent.putExtra("gameId", CurrentPlayer.getGameId());
+        intent.putExtra("playerId", CurrentPlayer.getId());
+        intent.putExtra("teamId", CurrentPlayer.getTeamId());
         startActivity(intent);
     }
 

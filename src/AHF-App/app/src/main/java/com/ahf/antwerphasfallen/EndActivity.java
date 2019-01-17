@@ -8,10 +8,21 @@ import android.widget.Button;
 
 public class EndActivity extends AppCompatActivity {
 
+    private int gameId;
+    private int teamId;
+    private int playerId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            gameId = extras.getInt("gameId");
+            teamId = extras.getInt("teamId");
+            playerId = extras.getInt("playerId");
+        }
 
         Button bntContinue = findViewById(R.id.btn_continue);
         bntContinue.setOnClickListener(new View.OnClickListener() {

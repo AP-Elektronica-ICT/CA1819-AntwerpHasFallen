@@ -68,7 +68,7 @@ public class EndActivity extends AppCompatActivity {
         for (String team : teams) {
             team = team.replace(":", ":\t");
         }
-        String endText = "The game has been won by " + game.getWinner() + "!\n\nLeaderboard: \n";
+        String endText = "The game has been won by " + game.getWinner() != null? game.getWinner() : "more than one team" + "!\n\nLeaderboard: \n";
         for(int i=0; i<teams.length; i++){
             endText += (i + 1) + ".\t" + teams[i] + "\n";
         }

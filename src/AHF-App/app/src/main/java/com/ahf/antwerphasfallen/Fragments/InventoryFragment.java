@@ -69,23 +69,27 @@ public class InventoryFragment extends Fragment {
     }
 
     public void UpdateInventory(){
-        Call<Inventory> inventoryCall = InGameActivity.service.getInventory(host.CurrentTeam.getInventory().getId());
-        inventoryCall.enqueue(new Callback<Inventory>() {
-            @Override
-            public void onResponse(Call<Inventory> call, Response<Inventory> response) {
-                if(response.body() != null){
-                    host.CurrentTeam.setInventory(response.body());
-                    setAdapters();
-                }
-                else
-                    Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
-            }
+        if(host != null)
+            if(host.CurrentTeam != null)
+                if(host.CurrentTeam.getInventory() != null){
+                    Call<Inventory> inventoryCall = InGameActivity.service.getInventory(host.CurrentTeam.getInventory().getId());
+                    inventoryCall.enqueue(new Callback<Inventory>() {
+                        @Override
+                        public void onResponse(Call<Inventory> call, Response<Inventory> response) {
+                            if(response.body() != null){
+                                host.CurrentTeam.setInventory(response.body());
+                                setAdapters();
+                            }
+                            else
+                                Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+                        }
 
-            @Override
-            public void onFailure(Call<Inventory> call, Throwable t) {
-                Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        @Override
+                        public void onFailure(Call<Inventory> call, Throwable t) {
+                            Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
     }
 
     @Override

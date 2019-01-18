@@ -45,6 +45,7 @@ public class ShopListAdapter extends ArrayAdapter<ShopItem> {
         Button btnPrice = itemView.findViewById(R.id.btn_shopItem_price);
 
         lblName.setText(item.getItem().getName());
+        lblDescription.setText(item.getItem().getDescription());
         btnPrice.setText(Integer.toString(item.getPrice()));
         btnPrice.setOnClickListener(new View.OnClickListener() {
             @Override

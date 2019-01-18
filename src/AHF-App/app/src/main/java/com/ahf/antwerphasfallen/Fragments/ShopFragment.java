@@ -86,9 +86,11 @@ public class    ShopFragment extends Fragment {
         getList.enqueue(new Callback<ArrayList<ShopItem>>() {
             @Override
             public void onResponse(Call<ArrayList<ShopItem>> call, Response<ArrayList<ShopItem>> response) {
-                shopItems = response.body();
-                shopListAdapter = new ShopListAdapter(getContext(), shopItems);
-                setAdapters();
+                if(response.body() != null){
+                    shopItems = response.body();
+                    shopListAdapter = new ShopListAdapter(getContext(), shopItems);
+                    setAdapters();
+                }
             }
 
             @Override

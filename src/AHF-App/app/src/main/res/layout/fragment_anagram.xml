@@ -1,0 +1,84 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/quiz"
+    tools:context="com.ahf.antwerphasfallen.Fragments.QuizFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="78dp"
+            android:layout_marginBottom="40dp"
+            android:autoText="true"
+            android:padding="8dp"
+            android:text="Hint"
+            android:textColor="#fbf8f8"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <TextView
+                android:id="@+id/anagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_alignParentLeft="true"
+                android:autoText="true"
+                android:padding="8dp"
+                android:text="Voorbeeldvraag"
+                android:textColor="#fbf8f8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="40dp"
+                android:layout_weight="1"
+                android:hint="Solution"
+                android:id="@+id/editSolution"
+                android:padding="8dp"
+                android:text="Oplossing"
+                android:textColor="@color/custom"
+                android:textSize="20sp"
+                />
+
+
+
+
+        </RelativeLayout>
+
+
+
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnsol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btnlayout"
+            android:padding="8dp"
+            android:text="Check solution"
+            android:textColor="#fff" />
+
+
+
+
+    </LinearLayout>
+</FrameLayout>

@@ -1,5 +1,7 @@
 package com.ahf.antwerphasfallen.Helpers;
 
+import com.ahf.antwerphasfallen.Model.Anagrams;
+import com.ahf.antwerphasfallen.Model.DAD;
 import com.ahf.antwerphasfallen.Model.FinishedGame;
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Inventory;
@@ -67,6 +69,18 @@ public interface GameDataService {
     @GET("quiz/{teamid}/{status}")
     Call<QuizPuzzles> updatePrice(@Path("status") boolean status, @Path("teamid") int teamid);
 
+    @GET("locations/anagram/{location}")
+    Call<List<Anagrams>> getAnagramByName(@Path("location") String location);
+
+    @GET("locations/subs/{location}")
+    Call<List<SubstitutionPuzzles>> getSubsByName(@Path("location") String location);
+
+    @GET("locations/dad/{location}")
+    Call<List<DAD>> getDadByName(@Path("location") String location);
+
+    @GET("locations/quiz/{location}")
+    Call<List<QuizPuzzles>> getQuizByName(@Path("location") String location);
+
     @GET("locations/{id}")
     Call<Location> getLocation(@Path("id") int id);
 
@@ -85,6 +99,6 @@ public interface GameDataService {
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
 
-    @POST("teams/{id}/{money}")
+    //@POST("teams/{id}/{money}")
 
 }

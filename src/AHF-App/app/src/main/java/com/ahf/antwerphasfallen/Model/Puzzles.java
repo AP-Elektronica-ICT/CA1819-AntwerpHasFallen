@@ -17,6 +17,7 @@ public class Puzzles extends Fragment {
 
     private Button quiz;
     private Button sub;
+    private Button anagram;
 
     private Boolean IsNew;
     private Boolean opensub;
@@ -45,7 +46,7 @@ public class Puzzles extends Fragment {
         quiz = (Button) rootView.findViewById(R.id.Quiz);
         sub = (Button) rootView.findViewById(R.id.substitution);
         leaveLocation = (Button) rootView.findViewById(R.id.btn_leaveLoc);
-
+        anagram = rootView.findViewById(R.id.anagram);
         Bundle bundle = this.getArguments();
 
 
@@ -105,7 +106,15 @@ public class Puzzles extends Fragment {
                 }
 
             });
+        anagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                listener.ShowAnagram();
+
+            }
+
+        });
 
 
 

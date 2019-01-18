@@ -58,8 +58,7 @@ public class ConfirmBuyDialog extends DialogFragment {
                             public void onResponse(Call<Inventory> call, Response<Inventory> response) {
                                 if (response.body() != null) {
                                     host.CurrentTeam.setInventory(response.body());
-                                    host.loadPlayer(host.CurrentPlayer.getId());
-                                    host.shopFragment.LoadItems();
+                                    host.loadTeam(host.CurrentTeam.getId());
                                 }
                             }
 

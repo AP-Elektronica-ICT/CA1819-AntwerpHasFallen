@@ -383,9 +383,9 @@ namespace DataLayer
             List<DAD> dadruben = new List<DAD>();
 
             DAD dad = new DAD();
-            dad.Question = "Geef de chronologische volgorde van deze levensgebeurtenissen van Rubens";
-            dad.Answers = "Reis naar Italië,Hofschilder van Albrecht en Isabella,Naar Latijnse school,Meester bij Sint-Lucasgilde";
-            dad.CorrectOrder = "Naar Latijnse school,Meester bij Sint-Lucasgilde,Reis naar Italië,Hofschilder van Albrecht en Isabella";
+            dad.Question = "Geef de functionaliteiten van het Steen in chronologische volgorde";
+            dad.Answers = "Woning,Burcht,Museum,Gevangenis";
+            dad.CorrectOrder = "Burcht,Woning,Gevangenis,Museum";
             context.Dadpuzzles.Add(dad);
 
 

@@ -17,10 +17,13 @@ public class Puzzles extends Fragment {
 
     private Button quiz;
     private Button sub;
+
     private Boolean IsNew;
     private Boolean opensub;
     private Boolean openquiz;
     private int targetLocationTime;
+
+    private Button leaveLocation;
     InGameActivity listener;
 
 
@@ -41,6 +44,8 @@ public class Puzzles extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_puzzles, container, false);
         quiz = (Button) rootView.findViewById(R.id.Quiz);
         sub = (Button) rootView.findViewById(R.id.substitution);
+
+
         Bundle bundle = this.getArguments();
 
 
@@ -64,6 +69,9 @@ public class Puzzles extends Fragment {
                         openquiz = true;
                         listener.ShowQuiz();
                         }
+
+
+
 
                         else
                     {
@@ -100,6 +108,13 @@ public class Puzzles extends Fragment {
 
 
 
+
+        /*leaveLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.LeavePuzzles();
+            }
+        });*/
 
 
 

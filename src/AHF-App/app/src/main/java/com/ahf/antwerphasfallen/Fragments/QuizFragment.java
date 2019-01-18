@@ -172,7 +172,9 @@ public class QuizFragment extends Fragment {
 
         });
 
+
         host.ShowPuzzles(false);
+
 
 
 

@@ -1,5 +1,6 @@
 package com.ahf.antwerphasfallen.Helpers;
 
+import com.ahf.antwerphasfallen.Model.FinishedGame;
 import com.ahf.antwerphasfallen.Model.Game;
 import com.ahf.antwerphasfallen.Model.Inventory;
 import com.ahf.antwerphasfallen.Model.Item;
@@ -36,11 +37,23 @@ public interface GameDataService {
     @GET("games/{id}")
     Call<Game> getGame(@Path("id") int id);
 
+    @GET("games/history/{id}")
+    Call<FinishedGame> getFinishedGame(@Path("id") int gameId);
+
+    @GET("games/")
+    Call<List<Game>> getGames();
+
     @GET("players/{id}")
     Call<Player> getPlayer(@Path("id") int id);
 
     @GET("teams/{id}")
     Call<Team> getTeam(@Path("id") int id);
+
+    @PUT("teams/{id}/blackout")
+    Call<Team> stopBlackout(@Path("id") int teamId);
+
+    @POST("teams/{id}/use/{ItemId}")
+    Call<Inventory> useShopItem(@Path("id") int teamId, @Path("ItemId") int InventoryItemId, @Body int targetTeamId);
 
     @GET("shop")
     Call<ArrayList<ShopItem>> getShopItems();

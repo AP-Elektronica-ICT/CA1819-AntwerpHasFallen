@@ -15,6 +15,7 @@ public class Team {
     private List<Player> players;
     private Inventory inventory;
     private int money;
+    private String blackout;
 
     public Team() {
     }
@@ -25,10 +26,6 @@ public class Team {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -42,10 +39,6 @@ public class Team {
     public List<Player> getPlayers() {
         return players;
     }
-
-    public void setPlayers(List<Player> playerCount) {
-        this.players = playerCount;
-    }
     
     public Inventory getInventory() {
         return inventory;
@@ -57,5 +50,7 @@ public class Team {
 
     public int getMoney() { return money;}
 
-    public void setMoney(int money){this.money = money;}
+    public String getBlackout() {
+        return blackout;
+    }
 }

@@ -1,5 +1,6 @@
 package com.ahf.antwerphasfallen;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -9,11 +10,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import com.ahf.antwerphasfallen.Fragments.QuizFragment;
 import com.ahf.antwerphasfallen.Fragments.ShopFragment;
 import com.ahf.antwerphasfallen.Fragments.SubstitutionFragment;
 import com.ahf.antwerphasfallen.Fragments.TeamFragment;
+import com.ahf.antwerphasfallen.Helpers.CheckerThread;
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
@@ -50,8 +55,13 @@ public class InGameActivity extends AppCompatActivity {
 
     public Player CurrentPlayer;
     public Team CurrentTeam;
+
     private TextView txtMoney;
     private TextView txtTimer;
+    private TextView txtBlackout;
+    private LinearLayout content;
+    private RelativeLayout blackout;
+    private TextView txtTitle;
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
@@ -65,12 +75,17 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
+    private AlertDialog.Builder alertBuilder;
+
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
     private boolean newLocation = true;
     public boolean openquiz;
     public boolean opensub;
     private ArrayList<String> missingIngredients;
+
+    private CheckerThread backgroundChecker = null;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +104,10 @@ public class InGameActivity extends AppCompatActivity {
 
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
+        txtBlackout = findViewById(R.id.txt_blackout);
+        content = findViewById(R.id.content_linear);
+        blackout = findViewById(R.id.layout_blackout);
+        txtTitle = findViewById(R.id.txt_title);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -249,7 +268,12 @@ public class InGameActivity extends AppCompatActivity {
         opensub = true;
     }
 
+<<<<<<< HEAD
     public void ShowPuzzles(boolean status) {
+=======
+    public void ShowPuzzles() {
+        txtTitle.setText("Puzzles");
+>>>>>>> master
         UpdateUI();
 
         txtTimer.setVisibility(View.VISIBLE);
@@ -275,7 +299,7 @@ public class InGameActivity extends AppCompatActivity {
         if(canStartTimer)
         {
             canStartTimer = false;
-            new CountDownTimer(locationTime * 1000, 1000) {
+            timer = new CountDownTimer(locationTime * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
@@ -283,11 +307,7 @@ public class InGameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
-                    canGetLocation = true;
-                    canStartTimer = true;
-                    if (mapItem != null) {
-                        mapItem.setTitle("Map");
-                    }
+                    toLongInZone();
                 }
             }.start();
         }
@@ -311,20 +331,43 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
-    public void checkIngredients(){
+    public void toLongInZone(){
+        alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("Alert")
+                .setMessage("Your time is up and you stayed to long! Your team lost G20")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        LeavePuzzles();
+                    }
+                });
+    }
+
+    public void LeavePuzzles(){
+        timer.cancel();
+        canGetLocation = true;
+        canStartTimer = true;
+        if (mapItem != null)
+            mapItem.setTitle("Map");
+
+        fr = new MapFragment();
+        bundle = new Bundle();
+        getRandomLocation();
+    }
+
+    public void checkIngredients() {
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();
         ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
-                try{
-                    for (Item ingredient: response.body())
-                    {
-                        if(!CurrentTeam.getInventory().getIngredients().contains(ingredient)){
+                try {
+                    for (Item ingredient : response.body()) {
+                        if (!CurrentTeam.getInventory().getIngredients().contains(ingredient)) {
                             missingIngredients.add(ingredient.getName());
                         }
                     }
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Log.e("error", e.toString());
                 }
             }
@@ -334,6 +377,17 @@ public class InGameActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void StartBlackout(String enemyTeam){
+        txtBlackout.setText("Your team has been sent a blackout by " + enemyTeam);
+        blackout.setVisibility(View.VISIBLE);
+        content.setVisibility(View.INVISIBLE);
+    }
+
+    public void StopBlackout(){
+        content.setVisibility(View.VISIBLE);
+        blackout.setVisibility(View.INVISIBLE);
     }
 
     public void loadPlayer(int id) {
@@ -350,6 +404,8 @@ public class InGameActivity extends AppCompatActivity {
                         public void onResponse(Call<Team> call, Response<Team> response) {
                             if (response.body() != null) {
                                 CurrentTeam = response.body();
+                                backgroundChecker = new CheckerThread(InGameActivity.this, CurrentPlayer);
+                                backgroundChecker.start();
                                 teamId = CurrentTeam.getId();
                                 txtMoney.setText("G:." + CurrentTeam.getMoney());
                                 bundle.putString("teamName", CurrentTeam.getName());
@@ -405,9 +461,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.body() != null) {
                     Toast.makeText(InGameActivity.this, "Game ended", Toast.LENGTH_SHORT).show();
-                    PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
-                    Intent intent = new Intent(InGameActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    ShowEndScreen();
                 }
             }
 
@@ -416,5 +470,30 @@ public class InGameActivity extends AppCompatActivity {
                 Toast.makeText(InGameActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void ShowEndScreen(){
+        PlayerHandler.getInstance(getApplicationContext()).deleteFile(PlayerHandler.SAVED_PLAYER);
+        Intent intent = new Intent(InGameActivity.this, EndActivity.class);
+        intent.putExtra("gameId", CurrentPlayer.getGameId());
+        intent.putExtra("playerId", CurrentPlayer.getId());
+        intent.putExtra("teamId", CurrentPlayer.getTeamId());
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(CurrentTeam != null && backgroundChecker != null){
+            backgroundChecker = new CheckerThread(InGameActivity.this, CurrentPlayer);
+            backgroundChecker.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(backgroundChecker != null)
+            backgroundChecker.Stop();
     }
 }

@@ -31,7 +31,7 @@ namespace AntwerpHasFallen
                 )
             );
             
-           /* services.AddDbContext<GameContext>(options => options.UseMySql(
+           /*services.AddDbContext<GameContext>(options => options.UseMySql(
                 Configuration.GetConnectionString("DefaultConnection")
                 )
             );*/

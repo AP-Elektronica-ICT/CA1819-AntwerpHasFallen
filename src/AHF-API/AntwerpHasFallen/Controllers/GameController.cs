@@ -27,6 +27,20 @@ namespace AntwerpHasFallen.Controllers
             return Ok(gameService.getGames());
         }
 
+        [Route("history")]
+        [HttpGet()]
+        public IActionResult GetFinishedGames()
+        {
+            return Ok(gameService.GetFinishedGames());
+        }
+
+        [Route("history/{gameId}")]
+        [HttpGet()]
+        public IActionResult GetFinishedGames(int gameId)
+        {
+            return Ok(gameService.GetFinishedGame(gameId));
+        }
+
         [Route("{id}")]
         [HttpGet()]
         public IActionResult getGame(int id)

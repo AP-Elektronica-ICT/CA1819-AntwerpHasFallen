@@ -32,6 +32,16 @@ import retrofit2.Response;
 
 public class JoinTeamDialog extends DialogFragment {
     private static final String TAG = "JoinTeamDialog";
+    public static final String POSITIVE_BTN_TEXT = "positiveButton";
+    public static final String NEGATIVE_BTN_TEXT = "negativeButton";
+    public static final String TITLE_TEXT = "title";
+
+    final protected Game game = new Game();
+    protected TeamNamesRBListAdapter adapter;
+
+    private String title;
+    private String positiveBtnText;
+    private String negativeBtnText;
 
     @NonNull
     @Override
@@ -40,16 +50,29 @@ public class JoinTeamDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_jointeam, null);
 
-        final Game game = new Game();
         //final ArrayList<Team> teams = new ArrayList<>();
+        adapter = new TeamNamesRBListAdapter(getContext(), (ArrayList<Team>)game.getTeams());
         ListView rbListTeamnames = (ListView)dialogView.findViewById(R.id.rbList_teamnames);
         final TeamNamesRBListAdapter adapter = new TeamNamesRBListAdapter(getContext(), (ArrayList<Team>)game.getTeams());
         rbListTeamnames.setAdapter(adapter);
 
         int gameId = 0;
-        if(getArguments() != null)
-            if(getArguments().getInt("gameId") != 0)
+        if(getArguments() != null) {
+            if (getArguments().getInt("gameId") != 0)
                 gameId = getArguments().getInt("gameId");
+            if(getArguments().getString(JoinTeamDialog.TITLE_TEXT) != null)
+                title = getArguments().getString(JoinTeamDialog.TITLE_TEXT);
+            else
+                title = "Choose your team";
+            if(getArguments().getString(JoinTeamDialog.POSITIVE_BTN_TEXT) != null)
+                positiveBtnText = getArguments().getString(JoinTeamDialog.POSITIVE_BTN_TEXT);
+            else
+                positiveBtnText = "Join";
+            if(getArguments().getString(JoinTeamDialog.NEGATIVE_BTN_TEXT) != null)
+                negativeBtnText = getArguments().getString(JoinTeamDialog.NEGATIVE_BTN_TEXT);
+            else
+                negativeBtnText = "Cancel";
+        }
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
         if(gameId != 0){
             Call<Game> call = service.getGame(gameId);
@@ -80,23 +103,15 @@ public class JoinTeamDialog extends DialogFragment {
             displayErrorAndCancel();
 
         builder.setView(dialogView)
-                .setTitle("Choose your team")
-                .setPositiveButton("Join", new DialogInterface.OnClickListener() {
+                .setTitle(title)
+                .setPositiveButton(positiveBtnText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Team joinTeam = adapter.getItem(adapter.getSelectedPosition());
-                        Toast.makeText(getContext(), "joining game: " + game.getId() + " and team: " + joinTeam.getName(), Toast.LENGTH_SHORT).show();
-                        try{
-                            MainActivity host = (MainActivity)getActivity();
-                            host.joinGame(game.getId(), joinTeam.getId());
-                        }catch (ClassCastException e){
-                            Log.d(TAG, getActivity().toString() + " is not mainactivity");
-                            e.printStackTrace();
-                            Toast.makeText(getContext(), "joining game " + game.getId() + " failed", Toast.LENGTH_LONG).show();
-                        }
+                        positiveButtonClick(dialogInterface, i, joinTeam);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(negativeBtnText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -110,4 +125,18 @@ public class JoinTeamDialog extends DialogFragment {
         Toast.makeText(getContext(), "something went wrong, please try again", Toast.LENGTH_LONG).show();
         getDialog().cancel();
     }
+
+    protected void positiveButtonClick(DialogInterface dialogInterface, int i, Team joinTeam){
+        Toast.makeText(getContext(), "joining game: " + game.getId() + " and team: " + joinTeam.getName(), Toast.LENGTH_SHORT).show();
+        try{
+            MainActivity host = (MainActivity)getActivity();
+            host.joinGame(game.getId(), joinTeam.getId());
+        }catch (ClassCastException e){
+            Log.d(TAG, getActivity().toString() + " is not mainactivity");
+            e.printStackTrace();
+            Toast.makeText(getContext(), "joining game " + game.getId() + " failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }

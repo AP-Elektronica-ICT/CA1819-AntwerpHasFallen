@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Model;
+using DataLayer.Model.InventoryModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -107,5 +108,49 @@ namespace BusinessLayer
 
             return currentLocation.Location;
         }
+
+        public Team StopBlackout(int teamId)
+        {
+            Team team = GetTeam(teamId);
+            team.Blackout = null;
+            context.SaveChanges();
+            return team;
+        }
+
+        public Inventory UseShopItem(int inventoryItemId, int teamId, int targetTeamId)
+        {
+            Team team = GetTeam(teamId);
+            Team target = GetTeam(targetTeamId);
+            if (team != null && target != null)
+            {
+                Inventory inventory = context.Inventories.Include(i => i.Items).ThenInclude(i => i.Item).SingleOrDefault(i => i.Id == team.Inventory.Id);
+                if(inventory != null)
+                {
+                    InventoryItem InventoryItem = context.InventoryItems.Include(i => i.Item).SingleOrDefault(i => i.Id == inventoryItemId);
+                    if (InventoryItem != null) {
+                        InventoryItem usedItem = null;
+                        foreach (InventoryItem item in inventory.Items) //check if item exist in this teams inventory
+                            if (item.Item.Id == InventoryItem.Item.Id && item.Quantity >= 1) usedItem = item;
+                        if (usedItem != null)
+                        {
+                            if(usedItem.Item.Name.ToLower() == "blackout")
+                            {
+                                Blackout(team, target);
+                            }
+                            inventory.Items.Remove(usedItem);
+                        }
+                    }
+                }
+                context.SaveChanges();
+                return inventory;
+            }
+            return null;
+        }
+        #region shopItem use methods
+        private void Blackout(Team team, Team targetTeam)
+        {
+            targetTeam.Blackout = team.Name;
+        }
+        #endregion
     }
 }

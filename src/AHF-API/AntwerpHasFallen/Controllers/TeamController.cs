@@ -80,7 +80,16 @@ namespace AntwerpHasFallen.Controllers
                 return NotFound();
             }
         }
-            
+
+        [Route("{id}/{money}")]
+        [HttpPut]
+        public IActionResult updateMoney(int id, int money)
+        {
+            Team team = teamService.UpdateMoney(id, money);
+            if(team != null)
+                return Ok();
+            return NotFound();
+        }
         
     }
 }

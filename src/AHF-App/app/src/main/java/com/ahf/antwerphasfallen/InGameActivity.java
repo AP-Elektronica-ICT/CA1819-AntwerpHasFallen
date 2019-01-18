@@ -232,22 +232,9 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void UpdateUI() {
+        txtMoney.setText("G: " + CurrentTeam.getMoney());
+        shopFragment.LoadItems();
 
-        Call<Team> update = InGameActivity.service.getTeam(CurrentTeam.getId());
-        update.enqueue(new Callback<Team>() {
-            @Override
-            public void onResponse(Call<Team> call, Response<Team> response) {
-                if (response.body() != null) {
-                    CurrentTeam = response.body();
-                    txtMoney.setText("G: " + CurrentTeam.getMoney());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Team> call, Throwable t) {
-
-            }
-        });
     }
 
     public void ShowQuiz() {
@@ -268,12 +255,8 @@ public class InGameActivity extends AppCompatActivity {
         opensub = true;
     }
 
-<<<<<<< HEAD
     public void ShowPuzzles(boolean status) {
-=======
-    public void ShowPuzzles() {
         txtTitle.setText("Puzzles");
->>>>>>> master
         UpdateUI();
 
         txtTimer.setVisibility(View.VISIBLE);

@@ -99,7 +99,7 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.ShowPuzzles();
+                        listener.ShowPuzzles(true);
                     }
                 });
 
@@ -111,7 +111,7 @@ public class MapFragment extends Fragment {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    //x -= 5;
+                   // x -= 5;
                     currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     calculateDistance(currentLocation, targetLocation);
                 }

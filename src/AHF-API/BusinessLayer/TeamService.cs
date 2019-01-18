@@ -146,6 +146,16 @@ namespace BusinessLayer
             }
             return null;
         }
+
+        public Team UpdateMoney(int teamId, int money)
+        {
+            Team team = GetTeam(teamId);
+            int currentMoney = team.Money;
+            team.Money = currentMoney - money;
+            context.SaveChanges();
+            return team;
+        }
+
         #region shopItem use methods
         private void Blackout(Team team, Team targetTeam)
         {

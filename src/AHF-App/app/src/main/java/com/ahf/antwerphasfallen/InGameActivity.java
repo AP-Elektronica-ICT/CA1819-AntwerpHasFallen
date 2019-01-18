@@ -281,12 +281,30 @@ public class InGameActivity extends AppCompatActivity {
             timer = new CountDownTimer(locationTime * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
-                    txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
+                    long timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
+                    if(timeLeft > 0)
+                        txtTimer.setText("Time left: " + timeConversion(timeLeft));
+                    else
+                        onFinish();
                 }
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
                     toLongInZone();
+                    Call<Team> resetCall = service.resetTimer(CurrentTeam.getId());
+                    resetCall.enqueue(new Callback<Team>() {
+                        @Override
+                        public void onResponse(Call<Team> call, Response<Team> response) {
+                            if(response.body() != null){
+                                CurrentTeam = response.body();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Team> call, Throwable t) {
+
+                        }
+                    });
                 }
             }.start();
         }

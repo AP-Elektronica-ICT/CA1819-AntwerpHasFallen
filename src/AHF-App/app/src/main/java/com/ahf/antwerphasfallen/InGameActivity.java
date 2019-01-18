@@ -65,7 +65,6 @@ public class InGameActivity extends AppCompatActivity {
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
-
     private MenuItem mapItem;
     private Fragment puzzleFragment;
     private int teamId;
@@ -81,6 +80,8 @@ public class InGameActivity extends AppCompatActivity {
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
     private boolean newLocation = true;
+    public boolean openquiz;
+    public boolean opensub;
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
@@ -99,6 +100,8 @@ public class InGameActivity extends AppCompatActivity {
 
         txtTimer = findViewById(R.id.txt_timer);
         bundle = new Bundle();
+
+
         mDrawer = findViewById(R.id.drawer_layout);
         txtMoney = findViewById(R.id.txt_money);
         txtBlackout = findViewById(R.id.txt_blackout);
@@ -253,6 +256,7 @@ public class InGameActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
+        openquiz = true;
     }
 
     public void Showsub() {
@@ -261,17 +265,34 @@ public class InGameActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
+        opensub = true;
     }
 
+<<<<<<< HEAD
+    public void ShowPuzzles(boolean status) {
+=======
     public void ShowPuzzles() {
         txtTitle.setText("Puzzles");
+>>>>>>> master
         UpdateUI();
+
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
+
         if (mapItem != null) {
             mapItem.setTitle("Puzzle");
         }
+
+        if (status)
+        {
+            openquiz = false;
+            opensub = false;
+        }
         puzzleFragment = fr;
+        bundle.putBoolean("Stat",status);
+        bundle.putBoolean("Quiz",openquiz);
+        bundle.putBoolean("Sub",opensub);
+        fr.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();

@@ -154,7 +154,7 @@ public class QuizFragment extends Fragment {
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
 
-    Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
+        Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
         call.enqueue(new Callback<QuizPuzzles>() {
             @Override
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {

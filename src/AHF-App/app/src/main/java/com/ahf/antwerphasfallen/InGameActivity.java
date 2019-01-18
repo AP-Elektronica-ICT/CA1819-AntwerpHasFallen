@@ -126,7 +126,7 @@ public class InGameActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 mDrawer.closeDrawers();
-
+                txtTitle.setText(item.toString());
                 //update UI
                 switch (item.toString()) {
                     case "Team":

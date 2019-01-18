@@ -87,7 +87,7 @@ namespace AntwerpHasFallen.Controllers
         {
             Team team = teamService.UpdateMoney(id, money);
             if(team != null)
-                return Ok();
+                return Ok(team);
             return NotFound();
         }
         

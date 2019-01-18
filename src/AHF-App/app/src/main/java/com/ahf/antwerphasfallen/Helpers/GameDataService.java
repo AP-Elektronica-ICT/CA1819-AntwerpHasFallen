@@ -89,5 +89,5 @@ public interface GameDataService {
     Call<Boolean> endGame(@Path("gameId") int gameId);
 
     @POST("teams/{id}/{money}")
-
+    Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
 }

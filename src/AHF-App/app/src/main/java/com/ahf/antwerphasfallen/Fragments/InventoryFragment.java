@@ -52,9 +52,9 @@ public class InventoryFragment extends Fragment {
         if (host != null) {
             if (host.CurrentTeam != null) {
                 if (host.CurrentTeam.getInventory() != null) {
-                    if (host.CurrentTeam.getInventory().getIngredients() != null)
+                    if (host.CurrentTeam.getInventory().getIngredients() != null && ingredientsAdapter == null)
                         ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
-                    if (host.CurrentTeam.getInventory().getItems() != null)
+                    if (host.CurrentTeam.getInventory().getItems() != null && shopInventoryAdapter == null)
                         shopInventoryAdapter = new ItemListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getItems());
                     ingredientsAdapter.notifyDataSetChanged();
                     shopInventoryAdapter.notifyDataSetChanged();
@@ -78,7 +78,12 @@ public class InventoryFragment extends Fragment {
                         public void onResponse(Call<Inventory> call, Response<Inventory> response) {
                             if(response.body() != null){
                                 host.CurrentTeam.setInventory(response.body());
-                                setAdapters();
+                                host.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setAdapters();
+                                    }
+                                });
                             }
                             else
                                 Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
@@ -121,7 +126,6 @@ public class InventoryFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof InGameActivity) {
             host = (InGameActivity) context;
-            setAdapters();
         } else {
             throw new RuntimeException(context.toString()
                     + " is not inGameActivity");

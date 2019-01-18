@@ -55,7 +55,7 @@ public class CheckerThread extends Thread implements Subscriber{
                         if (response.body() != null) {
                             Team team = response.body();
                             activity.CurrentTeam = team;
-                            callUpdateUI();
+                            activity.UpdateUI();
                             if (team.getBlackout() != null) {
                                 runBlackout(team.getBlackout());
                             }
@@ -95,15 +95,6 @@ public class CheckerThread extends Thread implements Subscriber{
                     blackout.execute();
                     Provider.setIsBlackoutRunning(true);
                 }
-            }
-        });
-    }
-
-    private void callUpdateUI() {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.UpdateUI();
             }
         });
     }

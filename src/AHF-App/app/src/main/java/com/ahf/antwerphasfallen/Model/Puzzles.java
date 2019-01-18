@@ -17,8 +17,16 @@ public class Puzzles extends Fragment {
 
     private Button quiz;
     private Button sub;
+
+    private Boolean IsNew;
+    private Boolean opensub;
+    private Boolean openquiz;
+    private int targetLocationTime;
+
     private Button leaveLocation;
     InGameActivity listener;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -31,47 +39,93 @@ public class Puzzles extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_puzzles, container, false);
         quiz = (Button) rootView.findViewById(R.id.Quiz);
         sub = (Button) rootView.findViewById(R.id.substitution);
-        leaveLocation = (Button) rootView.findViewById(R.id.btn_leaveLoc) ;
 
-        quiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                listener.ShowQuiz();
+        Bundle bundle = this.getArguments();
+
+
+        if (bundle != null) {
+            IsNew = bundle.getBoolean("Stat");
+            opensub = bundle.getBoolean("Sub");
+            openquiz = bundle.getBoolean("Quiz");
+        }
+
+            quiz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (IsNew) {
+                        openquiz = true;
+                        listener.ShowQuiz();
+
+
+                    } else if(!openquiz&&!IsNew)
+                    {
+                        openquiz = true;
+                        listener.ShowQuiz();
+                        }
+
+
+
+
+                        else
+                    {
+
+                        quiz.setActivated(false);
+                    }
 
                 }
 
-                });
+            });
 
-        sub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            sub.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                listener.Showsub();
+                    if (IsNew) {
+                        opensub = true;
+                        listener.Showsub();
 
-            }
 
-        });
+                    } else if(!opensub&&!IsNew)
+                    {
+                        opensub = true;
+                        listener.Showsub();
+                        }
 
-        leaveLocation.setOnClickListener(new View.OnClickListener() {
+                    else
+                    {
+                        sub.setActivated(false);
+                    }
+                }
+
+            });
+
+
+
+
+        /*leaveLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.LeavePuzzles();
             }
-        });
+        });*/
 
 
 
 
         return rootView;
     }
+
+
+
+
+
 }
 
 

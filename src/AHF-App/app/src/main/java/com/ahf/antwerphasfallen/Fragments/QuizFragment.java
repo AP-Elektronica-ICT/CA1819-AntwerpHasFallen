@@ -91,7 +91,7 @@ public class QuizFragment extends Fragment {
                 if (choice1.getText().equals(answer)){
 
                     updateGold(true);
-                    host.ShowPuzzles();
+
 
 
 
@@ -100,7 +100,7 @@ public class QuizFragment extends Fragment {
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-                    host.ShowPuzzles();
+
 
 
                 }
@@ -113,14 +113,14 @@ public class QuizFragment extends Fragment {
                 if (choice2.getText().equals(answer)){
 
                     updateGold(true);
-                    host.ShowPuzzles();
+
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-                    host.ShowPuzzles();
+
                 }
             }
 
@@ -130,14 +130,14 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     updateGold(true);
-                    host.ShowPuzzles();
+
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                         updateGold(false);
-                    host.ShowPuzzles();
+
                 }
             }
 
@@ -154,7 +154,7 @@ public class QuizFragment extends Fragment {
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
 
-    Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
+        Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
         call.enqueue(new Callback<QuizPuzzles>() {
             @Override
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
@@ -172,7 +172,13 @@ public class QuizFragment extends Fragment {
 
         });
 
-        listener.ShowPuzzles();
+
+        host.ShowPuzzles(false);
+
+
+
+
+
     }
 }
 

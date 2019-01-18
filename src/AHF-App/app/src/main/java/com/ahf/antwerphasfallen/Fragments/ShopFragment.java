@@ -74,6 +74,12 @@ public class    ShopFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        host = null;
+    }
+
     public void setAdapters() {
         if (lv_shopItems != null && shopListAdapter != null) {
             lv_shopItems.setAdapter(shopListAdapter);
@@ -82,21 +88,22 @@ public class    ShopFragment extends Fragment {
     }
 
     public void LoadItems() {
-        Call<ArrayList<ShopItem>> getList = service.getShopItems();
-        getList.enqueue(new Callback<ArrayList<ShopItem>>() {
-            @Override
-            public void onResponse(Call<ArrayList<ShopItem>> call, Response<ArrayList<ShopItem>> response) {
-                if(response.body() != null){
-                    shopItems = response.body();
-                    shopListAdapter = new ShopListAdapter(getContext(), shopItems);
-                    setAdapters();
+        if(host != null){Call<ArrayList<ShopItem>> getList = service.getShopItems();
+            getList.enqueue(new Callback<ArrayList<ShopItem>>() {
+                @Override
+                public void onResponse(Call<ArrayList<ShopItem>> call, Response<ArrayList<ShopItem>> response) {
+                    if(response.body() != null){
+                        shopItems = response.body();
+                        shopListAdapter = new ShopListAdapter(getContext(), shopItems);
+                        setAdapters();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ArrayList<ShopItem>> call, Throwable t) {
-                Toast.makeText(host, "Failed getting items", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ArrayList<ShopItem>> call, Throwable t) {
+                    Toast.makeText(host, "Failed getting items", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

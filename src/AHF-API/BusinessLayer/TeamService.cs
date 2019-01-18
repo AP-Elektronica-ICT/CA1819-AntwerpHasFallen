@@ -113,7 +113,7 @@ namespace BusinessLayer
         {
             Team team = GetTeam(teamId);
             int currentMoney = team.Money;
-            team.Money = currentMoney - money;
+            team.Money = currentMoney + money;
             context.SaveChanges();
             return team;
         }

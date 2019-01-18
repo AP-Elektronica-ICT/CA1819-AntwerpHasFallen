@@ -234,7 +234,7 @@ public class InGameActivity extends AppCompatActivity {
     public void UpdateUI() {
         txtMoney.setText("G: " + CurrentTeam.getMoney());
         shopFragment.LoadItems();
-
+        inventoryFragment.UpdateInventory();
     }
 
     public void ShowQuiz() {
@@ -257,7 +257,7 @@ public class InGameActivity extends AppCompatActivity {
 
     public void ShowPuzzles(boolean status) {
         txtTitle.setText("Puzzles");
-        UpdateUI();
+        loadTeam(CurrentPlayer.getTeamId());
 
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
@@ -389,6 +389,26 @@ public class InGameActivity extends AppCompatActivity {
     public void StopBlackout(){
         content.setVisibility(View.VISIBLE);
         blackout.setVisibility(View.INVISIBLE);
+    }
+
+    public void loadTeam(int teamId){
+        Call<Team> teamCall = service.getTeam(teamId);
+        teamCall.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                if(response.body() != null){
+                    CurrentTeam = response.body();
+                    UpdateUI();
+                }
+                else
+                    Toast.makeText(InGameActivity.this, "Failed getting team information", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+                Toast.makeText(InGameActivity.this, "Failed getting team information", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void loadPlayer(int id) {

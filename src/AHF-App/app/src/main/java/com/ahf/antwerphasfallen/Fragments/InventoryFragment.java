@@ -7,14 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Adapters.IngredientsListAdapter;
+import com.ahf.antwerphasfallen.Model.Inventory;
 import com.ahf.antwerphasfallen.Model.InventoryItem;
 import com.ahf.antwerphasfallen.Adapters.ItemListAdapter;
 import com.ahf.antwerphasfallen.R;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -62,6 +68,26 @@ public class InventoryFragment extends Fragment {
         }
     }
 
+    public void UpdateInventory(){
+        Call<Inventory> inventoryCall = InGameActivity.service.getInventory(host.CurrentTeam.getInventory().getId());
+        inventoryCall.enqueue(new Callback<Inventory>() {
+            @Override
+            public void onResponse(Call<Inventory> call, Response<Inventory> response) {
+                if(response.body() != null){
+                    host.CurrentTeam.setInventory(response.body());
+                    setAdapters();
+                }
+                else
+                    Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Inventory> call, Throwable t) {
+                Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +107,7 @@ public class InventoryFragment extends Fragment {
         lvShopItems = fragmentView.findViewById(R.id.lv_shopItems);
         lvShopItems.setAdapter(shopInventoryAdapter);
 
-        setAdapters();
+        UpdateInventory();
 
         return fragmentView;
     }

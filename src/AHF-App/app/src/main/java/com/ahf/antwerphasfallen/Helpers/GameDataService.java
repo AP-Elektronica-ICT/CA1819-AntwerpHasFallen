@@ -52,6 +52,9 @@ public interface GameDataService {
     @PUT("teams/{id}/blackout")
     Call<Team> stopBlackout(@Path("id") int teamId);
 
+    @PUT("teams/{id}/timer")
+    Call<Team> resetTimer(@Path("id") int teamId);
+
     @POST("teams/{id}/use/{ItemId}")
     Call<Inventory> useShopItem(@Path("id") int teamId, @Path("ItemId") int InventoryItemId, @Body int targetTeamId);
 

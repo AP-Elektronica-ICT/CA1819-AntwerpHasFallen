@@ -56,6 +56,16 @@ namespace AntwerpHasFallen.Controllers
             return NotFound();
         }
 
+        [Route("{id}/timer")]
+        [HttpPut]
+        public IActionResult ResetTimer(int id)
+        {
+            Team team = teamService.ResetTimer(id);
+            if (team != null)
+                return Ok(team);
+            return NotFound();
+        }
+
         [Route("randomlocation/{id}")]
         [HttpGet]
         public IActionResult getRandomLocation(int id)

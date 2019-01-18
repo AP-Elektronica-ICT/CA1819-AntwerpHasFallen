@@ -358,6 +358,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void checkIngredients() {
+        missingIngredients.clear();
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();
         ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
             @Override

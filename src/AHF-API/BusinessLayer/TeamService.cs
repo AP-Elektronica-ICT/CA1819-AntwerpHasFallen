@@ -117,6 +117,14 @@ namespace BusinessLayer
             return team;
         }
 
+        public Team ResetTimer(int teamId)
+        {
+            Team team = GetTeam(teamId);
+            team.TimerOffset = 0;
+            context.SaveChanges();
+            return team;
+        }
+
         public Inventory UseShopItem(int inventoryItemId, int teamId, int targetTeamId)
         {
             Team team = GetTeam(teamId);
@@ -137,6 +145,14 @@ namespace BusinessLayer
                             {
                                 Blackout(team, target);
                             }
+                            else if(usedItem.Item.Name.ToLower() == "penalty time")
+                            {
+                                PenaltyTime(team, target);
+                            }
+                            else if(usedItem.Item.Name.ToLower() == "extra time")
+                            {
+                                ExtraTime(team, target);
+                            }
                             inventory.Items.Remove(usedItem);
                         }
                     }
@@ -150,6 +166,16 @@ namespace BusinessLayer
         private void Blackout(Team team, Team targetTeam)
         {
             targetTeam.Blackout = team.Name;
+        }
+
+        private void PenaltyTime(Team team, Team targetTeam)
+        {
+            targetTeam.TimerOffset -= 30;
+        }
+
+        private void ExtraTime(Team team, Team targetTeam)
+        {
+            targetTeam.TimerOffset += 60;
         }
         #endregion
     }

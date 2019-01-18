@@ -61,6 +61,7 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtBlackout;
     private LinearLayout content;
     private RelativeLayout blackout;
+    private TextView txtTitle;
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
@@ -103,6 +104,7 @@ public class InGameActivity extends AppCompatActivity {
         txtBlackout = findViewById(R.id.txt_blackout);
         content = findViewById(R.id.content_linear);
         blackout = findViewById(R.id.layout_blackout);
+        txtTitle = findViewById(R.id.txt_title);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -262,6 +264,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowPuzzles() {
+        txtTitle.setText("Puzzles");
         UpdateUI();
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();

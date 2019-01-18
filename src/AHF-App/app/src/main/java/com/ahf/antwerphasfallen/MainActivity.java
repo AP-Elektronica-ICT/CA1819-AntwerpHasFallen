@@ -137,13 +137,15 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Game>() {
             @Override
             public void onResponse(Call<Game> call, Response<Game> response) {
-                Game game = response.body();
-                Log.d(TAG, "onResponse: " + game.getId());
-                Bundle data = new Bundle();
-                data.putInt("gameId", game.getId());
-                JoinTeamDialog joinTeamDialog = new JoinTeamDialog();
-                joinTeamDialog.setArguments(data);
-                joinTeamDialog.show(getSupportFragmentManager(), "JoinTeam");
+                if(response.body() != null){
+                    Game game = response.body();
+                    Log.d(TAG, "onResponse: " + game.getId());
+                    Bundle data = new Bundle();
+                    data.putInt("gameId", game.getId());
+                    JoinTeamDialog joinTeamDialog = new JoinTeamDialog();
+                    joinTeamDialog.setArguments(data);
+                    joinTeamDialog.show(getSupportFragmentManager(), "JoinTeam");
+                }
             }
 
             @Override

@@ -42,6 +42,20 @@ namespace DataLayer
                 
                 l1.Quiz = initialiseQuizMas(context);
                 l1.subs = initialiseSubMas(context);
+                l1.dads = initialiseDadMas(context);
+                l1.anagrams = initialiseAnagramMas(context);
+
+                l2.Quiz = initialiseQuizRuben(context);
+                l2.subs = initialiseSubRuben(context);
+                l2.dads = initialiseDadRuben(context);
+                l2.anagrams = initialiseAnagramRuben(context);
+
+                l3.Quiz = initialiseQuizSteen(context);
+                l3.subs = initialiseSubSteen(context);
+                l3.dads = initialiseDadSteen(context);
+                l3.anagrams = initialiseAnagramSteen(context);
+
+
 
                 createShopItems(context);
                 createTestInventoryItems(context);
@@ -100,45 +114,8 @@ namespace DataLayer
 
             context.SaveChanges();
         }
-
-        private static List<SubstitionPuzzles> initialiseSubMas(GameContext context)
-        {
-            List<SubstitionPuzzles> submas = new List<SubstitionPuzzles>();
-
-            SubstitionPuzzles sub = new SubstitionPuzzles();
-            sub.Key = "MAS";
-            sub.ClearText = "pespscgld";
-            sub.Solution = "dead skull";
-            context.SubstitionPuzzles.Add(sub);
-
-
-            submas.Add(sub);
-            context.SaveChanges();
-
-            return submas;
-        }
-        private static List<Quizpuzzles> initialiseQuizMas (GameContext context)
-        {
-            List<Quizpuzzles> qmas = new List<Quizpuzzles>();
-            Quizpuzzles q1 = new Quizpuzzles();
-            Quizpuzzles q2 =  new Quizpuzzles();
-            q1.Question = "Wanneer heeft Antwerpen zijn stadszegel gekregen?";
-            q1.Answers = "1008,1052,1485";
-            q1.CorrectAnswer = "1008";
-
-            q2.Question = "Hoe hoog is het mas juist?";
-            q2.Answers = "54 meter,68 meter,65 meter";
-            q2.CorrectAnswer = "65 meter";
-
-            context.Quizpuzzles.Add(q1);
-            context.Quizpuzzles.Add(q2);
-            
-            qmas.Add(q1);
-            qmas.Add(q2);
-            context.SaveChanges();
-
-            return qmas;
-        }
+        
+    
         private static void createTestInventoryItems(GameContext context)
         {
             Item i1 = new Item()
@@ -229,5 +206,218 @@ namespace DataLayer
             context.ShopItems.Add(s5);
             context.ShopItems.Add(s6);
         }
+
+
+
+        private static List<Anagram> initialiseAnagramMas(GameContext context)
+        {
+            List<Anagram> anagrammas = new List<Anagram>();
+
+            Anagram anagram = new Anagram();
+            anagram.scrambled = "uwrenbalvodalde";
+            anagram.sollution = "wandelboulevard";
+            anagram.tip = "Ronddom het MAS vind je deze prachtige ... ";
+
+            context.AnagramPuzzles.Add(anagram);
+            anagrammas.Add(anagram);
+            context.SaveChanges();
+            return anagrammas;
+        }
+
+        private static List<DAD> initialiseDadMas(GameContext context)
+        {
+            List<DAD> dadmas = new List<DAD>();
+
+            DAD dad = new DAD();
+            dad.Question = "Geef de volgorde waarin deze gebouwen gebouwd zijn van oudste naar nieuwste";
+            dad.Answers = "MAS,Centraal station,Boerentoren,Kathedraal";
+            dad.CorrectOrder = "Kathedraal,Centraal station,Boerentoren,MAS";
+            context.Dadpuzzles.Add(dad);
+
+
+            dadmas.Add(dad);
+            context.SaveChanges();
+            return dadmas;
+
+        }
+        private static List<SubstitionPuzzles> initialiseSubMas(GameContext context)
+        {
+            List<SubstitionPuzzles> submas = new List<SubstitionPuzzles>();
+
+            SubstitionPuzzles sub = new SubstitionPuzzles();
+            sub.Key = "MAS";
+            sub.ClearText = "pespscgld";
+            sub.Solution = "dead skull";
+            context.SubstitionPuzzles.Add(sub);
+
+
+            submas.Add(sub);
+            context.SaveChanges();
+
+            return submas;
+        }
+        private static List<Quizpuzzles> initialiseQuizMas(GameContext context)
+        {
+            List<Quizpuzzles> qmas = new List<Quizpuzzles>();
+            Quizpuzzles q1 = new Quizpuzzles();
+            Quizpuzzles q2 = new Quizpuzzles();
+            q1.Question = "Wanneer heeft Antwerpen zijn stadszegel gekregen?";
+            q1.Answers = "1008,1052,1485";
+            q1.CorrectAnswer = "1008";
+
+            q2.Question = "Hoe hoog is het mas juist?";
+            q2.Answers = "54 meter,68 meter,65 meter";
+            q2.CorrectAnswer = "65 meter";
+
+            context.Quizpuzzles.Add(q1);
+            context.Quizpuzzles.Add(q2);
+
+            qmas.Add(q1);
+            qmas.Add(q2);
+            context.SaveChanges();
+
+            return qmas;
+        }
+        private static List<Anagram> initialiseAnagramRuben(GameContext context)
+        {
+            List<Anagram> anagramruben = new List<Anagram>();
+
+            Anagram anagram = new Anagram();
+            anagram.scrambled = "vrauzetlkenmsgin";
+            anagram.sollution = "kunstverzameling";
+            anagram.tip = "In het Rubenshuis vind je een heuze ...";
+
+            context.AnagramPuzzles.Add(anagram);
+            anagramruben.Add(anagram);
+            context.SaveChanges();
+            return anagramruben;
+        }
+
+        private static List<DAD> initialiseDadRuben(GameContext context)
+        {
+            List<DAD> dadruben = new List<DAD>();
+
+            DAD dad = new DAD();
+            dad.Question = "Geef de chronologische volgorde van deze levensgebeurtenissen van Rubens";
+            dad.Answers = "Reis naar Italië,Hofschilder van Albrecht en Isabella,Naar Latijnse school,Meester bij Sint-Lucasgilde";
+            dad.CorrectOrder = "Naar Latijnse school,Meester bij Sint-Lucasgilde,Reis naar Italië,Hofschilder van Albrecht en Isabella";
+            context.Dadpuzzles.Add(dad);
+
+
+            dadruben.Add(dad);
+            context.SaveChanges();
+            return dadruben;
+
+        }
+        private static List<SubstitionPuzzles> initialiseSubRuben(GameContext context)
+        {
+            List<SubstitionPuzzles> subruben = new List<SubstitionPuzzles>();
+
+            SubstitionPuzzles sub = new SubstitionPuzzles();
+            sub.Key = "rubens";
+            sub.ClearText = "sbookdbqdaulrdfy ";
+            sub.Solution = "herdenkingskapel";
+            context.SubstitionPuzzles.Add(sub);
+
+
+            subruben.Add(sub);
+            context.SaveChanges();
+
+            return subruben;
+        }
+        private static List<Quizpuzzles> initialiseQuizRuben(GameContext context)
+        {
+            List<Quizpuzzles> quizruben = new List<Quizpuzzles>();
+            Quizpuzzles q1 = new Quizpuzzles();
+            Quizpuzzles q2 = new Quizpuzzles();
+            q1.Question = "Wat is de volledige naam van Rubens?";
+            q1.Answers = "Peter Paul Rubens,Raoul Peter Rubens,Paul Frank Rubens";
+            q1.CorrectAnswer = "Peter Paul Rubens";
+
+            q2.Question = "Wanneer heeft Rubens het Rubenshuis gekocht?";
+            q2.Answers = "1640,1610,1625";
+            q2.CorrectAnswer = "1610";
+
+            context.Quizpuzzles.Add(q1);
+            context.Quizpuzzles.Add(q2);
+
+            quizruben.Add(q1);
+            quizruben.Add(q2);
+            context.SaveChanges();
+
+            return quizruben;
+        }
+
+        private static List<DAD> initialiseDadSteen(GameContext context)
+        {
+            List<DAD> dadruben = new List<DAD>();
+
+            DAD dad = new DAD();
+            dad.Question = "Geef de chronologische volgorde van deze levensgebeurtenissen van Rubens";
+            dad.Answers = "Reis naar Italië,Hofschilder van Albrecht en Isabella,Naar Latijnse school,Meester bij Sint-Lucasgilde";
+            dad.CorrectOrder = "Naar Latijnse school,Meester bij Sint-Lucasgilde,Reis naar Italië,Hofschilder van Albrecht en Isabella";
+            context.Dadpuzzles.Add(dad);
+
+
+            dadruben.Add(dad);
+            context.SaveChanges();
+            return dadruben;
+
+        }
+
+        private static List<Anagram> initialiseAnagramSteen(GameContext context)
+        {
+            List<Anagram> anagramsteen = new List<Anagram>();
+
+            Anagram anagram = new Anagram();
+            anagram.scrambled = "vrauzetlkenmsgin";
+            anagram.sollution = "kunstverzameling";
+            anagram.tip = "In het Rubenshuis vind je een heuze ...";
+
+            context.AnagramPuzzles.Add(anagram);
+            anagramsteen.Add(anagram);
+            context.SaveChanges();
+            return anagramsteen;
+        }
+        private static List<SubstitionPuzzles> initialiseSubSteen(GameContext context)
+        {
+            List<SubstitionPuzzles> subruben = new List<SubstitionPuzzles>();
+
+            SubstitionPuzzles sub = new SubstitionPuzzles();
+            sub.Key = "steen";
+            sub.ClearText = "zhyxmszivvb ";
+            sub.Solution = "houtzagerij";
+            context.SubstitionPuzzles.Add(sub);
+
+
+            subruben.Add(sub);
+            context.SaveChanges();
+
+            return subruben;
+        }
+        private static List<Quizpuzzles> initialiseQuizSteen(GameContext context)
+        {
+            List<Quizpuzzles> quizruben = new List<Quizpuzzles>();
+            Quizpuzzles q1 = new Quizpuzzles();
+            Quizpuzzles q2 = new Quizpuzzles();
+            q1.Question = "Waarvoor werd het Steen vroeger?";
+            q1.Answers = "Verdedigingsburcht,Gevangenis,Museum";
+            q1.CorrectAnswer = "Gevangenis";
+
+            q2.Question = "In welk jaar werd het Steen voor deze functie gebruikt?";
+            q2.Answers = "1820,1823,1825";
+            q2.CorrectAnswer = "1823";
+
+            context.Quizpuzzles.Add(q1);
+            context.Quizpuzzles.Add(q2);
+
+            quizruben.Add(q1);
+            quizruben.Add(q2);
+            context.SaveChanges();
+
+            return quizruben;
+        }
+
+
     }
 }

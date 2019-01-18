@@ -41,5 +41,17 @@ namespace BusinessLayer
 
             return location.subs.ToList();
         }
+
+        public List<DAD> GetDadByName(string name)
+        {
+            Location location = context.Locations.Include(d => d.dads).SingleOrDefault(g => g.Name == name);
+            return location.dads.ToList();
+        }
+
+        public List<Anagram> GetAnagramByName(string name)
+        {
+            Location location = context.Locations.Include(a => a.anagrams).SingleOrDefault(g => g.Name == name);
+            return location.anagrams.ToList();
+        }
     }
 }

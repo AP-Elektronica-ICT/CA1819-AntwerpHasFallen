@@ -268,12 +268,11 @@ public class InGameActivity extends AppCompatActivity {
         opensub = true;
     }
 
-<<<<<<< HEAD
+
     public void ShowPuzzles(boolean status) {
-=======
-    public void ShowPuzzles() {
+
         txtTitle.setText("Puzzles");
->>>>>>> master
+
         UpdateUI();
 
         txtTimer.setVisibility(View.VISIBLE);

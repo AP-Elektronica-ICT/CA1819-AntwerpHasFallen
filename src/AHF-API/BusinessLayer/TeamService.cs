@@ -108,6 +108,15 @@ namespace BusinessLayer
 
             return currentLocation.Location;
         }
+        
+        public Team UpdateMoney(int teamId, int money)
+        {
+            Team team = GetTeam(teamId);
+            int currentMoney = team.Money;
+            team.Money = currentMoney - money;
+            context.SaveChanges();
+            return team;
+        }
 
         public Team StopBlackout(int teamId)
         {
@@ -146,6 +155,7 @@ namespace BusinessLayer
             }
             return null;
         }
+
         #region shopItem use methods
         private void Blackout(Team team, Team targetTeam)
         {

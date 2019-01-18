@@ -40,7 +40,7 @@ public class TargetTeamDialog extends JoinTeamDialog {
                         host.CurrentTeam.setInventory(response.body());
                     else if (response.code() == 404)
                         Toast.makeText(host, "This item cannot be used", Toast.LENGTH_SHORT).show();
-                    host.loadPlayer(host.CurrentPlayer.getId());
+                    host.loadTeam(host.CurrentTeam.getId());
                 }
 
                 @Override

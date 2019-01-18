@@ -232,9 +232,14 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void UpdateUI() {
-        txtMoney.setText("G: " + CurrentTeam.getMoney());
-        shopFragment.LoadItems();
-        inventoryFragment.UpdateInventory();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txtMoney.setText("G: " + CurrentTeam.getMoney());
+                shopFragment.LoadItems();
+                inventoryFragment.UpdateInventory();
+            }
+        });
     }
 
     public void ShowQuiz() {
@@ -441,7 +446,7 @@ public class InGameActivity extends AppCompatActivity {
                                     public void onResponse(Call<Inventory> call, Response<Inventory> response) {
                                         if (response.body() != null) {
                                             CurrentTeam.setInventory(response.body());
-                                            inventoryFragment.setAdapters();
+                                            UpdateUI();
                                             checkIngredients();
                                         }
                                     }

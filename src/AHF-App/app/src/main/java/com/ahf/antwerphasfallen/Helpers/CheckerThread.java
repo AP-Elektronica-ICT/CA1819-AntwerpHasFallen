@@ -54,6 +54,7 @@ public class CheckerThread extends Thread implements Subscriber{
                     public void onResponse(Call<Team> call, Response<Team> response) {
                         if (response.body() != null) {
                             Team team = response.body();
+                            activity.CurrentTeam = team;
                             if (team.getBlackout() != null) {
                                 runBlackout(team.getBlackout());
                             }

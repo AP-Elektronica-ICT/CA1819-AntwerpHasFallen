@@ -1,5 +1,6 @@
 package com.ahf.antwerphasfallen;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +61,7 @@ public class InGameActivity extends AppCompatActivity {
     private TextView txtBlackout;
     private LinearLayout content;
     private RelativeLayout blackout;
+    private TextView txtTitle;
 
     public InventoryFragment inventoryFragment;
     public ShopFragment shopFragment;
@@ -73,6 +76,7 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
+    private AlertDialog.Builder alertBuilder;
 
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
@@ -80,6 +84,7 @@ public class InGameActivity extends AppCompatActivity {
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,7 @@ public class InGameActivity extends AppCompatActivity {
         txtBlackout = findViewById(R.id.txt_blackout);
         content = findViewById(R.id.content_linear);
         blackout = findViewById(R.id.layout_blackout);
+        txtTitle = findViewById(R.id.txt_title);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -258,6 +264,7 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowPuzzles() {
+        txtTitle.setText("Puzzles");
         UpdateUI();
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
@@ -271,7 +278,7 @@ public class InGameActivity extends AppCompatActivity {
         if(canStartTimer)
         {
             canStartTimer = false;
-            new CountDownTimer(locationTime * 1000, 1000) {
+            timer = new CountDownTimer(locationTime * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
@@ -279,11 +286,7 @@ public class InGameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
-                    canGetLocation = true;
-                    canStartTimer = true;
-                    if (mapItem != null) {
-                        mapItem.setTitle("Map");
-                    }
+                    toLongInZone();
                 }
             }.start();
         }
@@ -305,6 +308,31 @@ public class InGameActivity extends AppCompatActivity {
         }
 
         return minutes + ":" + sec;
+    }
+
+    public void toLongInZone(){
+        alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("Alert")
+                .setMessage("Your time is up and you stayed to long! Your team lost G20")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        LeavePuzzles();
+                    }
+                });
+    }
+
+    public void LeavePuzzles(){
+        timer.cancel();
+        canGetLocation = true;
+        canStartTimer = true;
+        if (mapItem != null)
+            mapItem.setTitle("Map");
+
+        fr = new MapFragment();
+        bundle = new Bundle();
+        getRandomLocation();
     }
 
     public void checkIngredients() {

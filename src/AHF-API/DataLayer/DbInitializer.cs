@@ -211,6 +211,7 @@ namespace DataLayer
             anagram.Scrambled = "uwrenbalvodalde";
             anagram.Sollution = "wandelboulevard";
             anagram.Tip = "Rondom het MAS vind je deze prachtige ... ";
+            anagram.Difficulty = "medium";
 
             context.AnagramPuzzles.Add(anagram);
             anagrammas.Add(anagram);
@@ -226,6 +227,7 @@ namespace DataLayer
             dad.Question = "Geef de volgorde waarin deze gebouwen gebouwd zijn van oudste naar nieuwste";
             dad.Answers = "MAS,Centraal station,Boerentoren,Kathedraal";
             dad.CorrectOrder = "Kathedraal,Centraal station,Boerentoren,MAS";
+            dad.Difficulty = "medium";
             context.Dadpuzzles.Add(dad);
 
 
@@ -242,6 +244,7 @@ namespace DataLayer
             sub.Key = "MAS";
             sub.ClearText = "pespscgld";
             sub.Solution = "dead skull";
+            sub.Difficulty = "high";
             context.SubstitionPuzzles.Add(sub);
 
 
@@ -258,10 +261,12 @@ namespace DataLayer
             q1.Question = "Wanneer heeft Antwerpen zijn stadszegel gekregen?";
             q1.Answers = "1008,1052,1485";
             q1.CorrectAnswer = "1008";
+            q1.Difficulty = "low";
 
             q2.Question = "Hoe hoog is het mas juist?";
             q2.Answers = "54 meter,68 meter,65 meter";
             q2.CorrectAnswer = "65 meter";
+            q2.Difficulty = "low";
 
             context.Quizpuzzles.Add(q1);
             context.Quizpuzzles.Add(q2);
@@ -280,6 +285,7 @@ namespace DataLayer
             anagram.Scrambled = "vrauzetlkenmsgin";
             anagram.Sollution = "kunstverzameling";
             anagram.Tip = "In het Rubenshuis vind je een heuze ...";
+            anagram.Difficulty = "medium";
 
             context.AnagramPuzzles.Add(anagram);
             anagramruben.Add(anagram);
@@ -295,6 +301,7 @@ namespace DataLayer
             dad.Question = "Geef de chronologische volgorde van deze levensgebeurtenissen van Rubens";
             dad.Answers = "Reis naar Italië,Hofschilder van Albrecht en Isabella,Naar Latijnse school,Meester bij Sint-Lucasgilde";
             dad.CorrectOrder = "Naar Latijnse school,Meester bij Sint-Lucasgilde,Reis naar Italië,Hofschilder van Albrecht en Isabella";
+            dad.Difficulty = "medium";
             context.Dadpuzzles.Add(dad);
 
 
@@ -311,6 +318,7 @@ namespace DataLayer
             sub.Key = "rubens";
             sub.ClearText = "sbookdbqdaulrdfy ";
             sub.Solution = "herdenkingskapel";
+            sub.Difficulty = "high";
             context.SubstitionPuzzles.Add(sub);
 
 
@@ -327,10 +335,12 @@ namespace DataLayer
             q1.Question = "Wat is de volledige naam van Rubens?";
             q1.Answers = "Peter Paul Rubens,Raoul Peter Rubens,Paul Frank Rubens";
             q1.CorrectAnswer = "Peter Paul Rubens";
+            q1.Difficulty = "low";
 
             q2.Question = "Wanneer heeft Rubens het Rubenshuis gekocht?";
             q2.Answers = "1640,1610,1625";
             q2.CorrectAnswer = "1610";
+            q2.Difficulty = "low";
 
             context.Quizpuzzles.Add(q1);
             context.Quizpuzzles.Add(q2);
@@ -350,6 +360,7 @@ namespace DataLayer
             dad.Question = "Geef de functionaliteiten van het Steen in chronologische volgorde";
             dad.Answers = "Woning,Burcht,Museum,Gevangenis";
             dad.CorrectOrder = "Burcht,Woning,Gevangenis,Museum";
+            dad.Difficulty = "medium";
             context.Dadpuzzles.Add(dad);
 
 
@@ -367,6 +378,7 @@ namespace DataLayer
             anagram.Scrambled = "tvslagpssopiaal";
             anagram.Sollution = "visopslagplaats";
             anagram.Tip = "Oude functionaliteit van het Steen";
+            anagram.Difficulty = "medium";
 
             context.AnagramPuzzles.Add(anagram);
             anagramsteen.Add(anagram);
@@ -381,6 +393,7 @@ namespace DataLayer
             sub.Key = "steen";
             sub.ClearText = "zhyxmszivvb ";
             sub.Solution = "houtzagerij";
+            sub.Difficulty = "high";
             context.SubstitionPuzzles.Add(sub);
 
 
@@ -397,10 +410,12 @@ namespace DataLayer
             q1.Question = "Waarvoor werd het Steen vroeger gebruikt?";
             q1.Answers = "Verdedigingsburcht,Gevangenis,Museum";
             q1.CorrectAnswer = "Gevangenis";
+            q1.Difficulty = "low";
 
             q2.Question = "In welk jaar werd het Steen voor deze functie gebruikt?";
             q2.Answers = "1820,1823,1825";
             q2.CorrectAnswer = "1823";
+            q2.Difficulty = "low";
 
             context.Quizpuzzles.Add(q1);
             context.Quizpuzzles.Add(q2);

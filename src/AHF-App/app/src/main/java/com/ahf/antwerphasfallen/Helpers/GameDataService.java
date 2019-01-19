@@ -104,4 +104,7 @@ public interface GameDataService {
 
     @POST("teams/{id}/{money}")
     Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
+
+    @PUT("rewards/{teamId}")
+    Call<Team> reward(@Path("teamId") int teamId, @Body int questionId, boolean answer, ArrayList<String> missingIngredients);
 }

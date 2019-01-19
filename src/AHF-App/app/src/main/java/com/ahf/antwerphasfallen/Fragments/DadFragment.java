@@ -44,6 +44,7 @@ public class DadFragment extends Fragment {
     private TextView question;
     private Button check;
     private String answer;
+    private String difficulty;
 
     String location;
     String correctorder;
@@ -86,6 +87,7 @@ public class DadFragment extends Fragment {
                     t2.setText(options[1]);
                     t3.setText(options[2]);
                     t4.setText(options[3]);
+                    difficulty = dad.get(0).getDifficulty();
                 }
             }
 
@@ -107,7 +109,7 @@ public class DadFragment extends Fragment {
         sp2 = (EditText) rootView.findViewById(R.id.Spinner2);
         sp3 = (EditText) rootView.findViewById(R.id.Spinner3);
         sp4 = (EditText) rootView.findViewById(R.id.Spinner4);
-        check = (Button) rootView.findViewById(R.id.solution);
+        check = (Button) rootView.findViewById(R.id.dadsolution);
         question = (TextView) rootView.findViewById(R.id.question);
         t1 = (TextView) rootView.findViewById(R.id.Choice1);
         t2 = (TextView) rootView.findViewById(R.id.Choice2);

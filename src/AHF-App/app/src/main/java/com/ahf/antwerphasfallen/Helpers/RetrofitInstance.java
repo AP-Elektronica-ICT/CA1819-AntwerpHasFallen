@@ -7,7 +7,7 @@ public class RetrofitInstance {
 
     private static Retrofit retrofit;
 
-    //private static final String BASE_URL = "http://192.168.0.208/AntwerpHasFallen/api/";
+    //private static final String BASE_URL = "http://192.168.1.109/AntwerpHasFallen/api/";
     private static final String BASE_URL = "http://www.antwerphasfallen.appspot.com/api/";
 
 

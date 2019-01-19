@@ -90,6 +90,7 @@ public class InventoryFragment extends Fragment {
                         public void onResponse(Call<Inventory> call, Response<Inventory> response) {
                             if(response.body() != null){
                                 host.CurrentTeam.setInventory(response.body());
+                                host.CheckIngredients();
                                 host.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

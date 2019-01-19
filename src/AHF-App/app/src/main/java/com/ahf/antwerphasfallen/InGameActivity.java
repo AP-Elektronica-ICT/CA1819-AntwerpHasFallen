@@ -89,6 +89,7 @@ public class InGameActivity extends AppCompatActivity {
     public boolean openquiz;
     public boolean opensub;
     public boolean openanagram;
+    public boolean opendad;
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
@@ -267,7 +268,7 @@ public class InGameActivity extends AppCompatActivity {
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-
+        opendad = true;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
@@ -316,12 +317,14 @@ public class InGameActivity extends AppCompatActivity {
             openquiz = false;
             opensub = false;
             openanagram= false;
+            opendad = false;
         }
         puzzleFragment = fr;
         bundle.putBoolean("Stat",status);
         bundle.putBoolean("Quiz",openquiz);
         bundle.putBoolean("Sub",opensub);
         bundle.putBoolean("Anagram",openanagram);
+        bundle.putBoolean("Dad", opendad);
         fr.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
@@ -440,16 +443,19 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ReceiveReward(boolean answer, String difficulty){
-        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, answer, missingIngredients, gotIngredient);
+        Log.e("test", Boolean.toString(answer));
+        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, Boolean.toString(answer), Boolean.toString(gotIngredient) ,missingIngredients);
         getReward.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
-                int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
-                CurrentTeam = response.body();
-                if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
-                    gotIngredient = true;
-                CheckIngredients();
-                UpdateUI();
+                if(response.body() != null){
+                    int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
+                    CurrentTeam = response.body();
+                    if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
+                        gotIngredient = true;
+                    CheckIngredients();
+                    UpdateUI();
+                }
             }
 
             @Override

@@ -9,16 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Model.QuizPuzzles;
 import com.ahf.antwerphasfallen.R;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,9 +35,6 @@ public class QuizFragment extends Fragment {
     private List<String> questions = new ArrayList<>();
     private List <String> correctanswers= new ArrayList<>();
     private List <String> difficulty = new ArrayList<>();
-
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -65,9 +59,6 @@ public class QuizFragment extends Fragment {
            public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
                List<QuizPuzzles> quiz = response.body();
                if (quiz != null) {
-
-
-
                    answers.add(quiz.get(0).getAnswers());
                    answers.add(quiz.get(1).getAnswers());
                    questions.add(quiz.get(0).getQuestion());
@@ -76,6 +67,7 @@ public class QuizFragment extends Fragment {
                    correctanswers.add(quiz.get(1).getCorrectAnswer());
                    difficulty.add(quiz.get(0).getDifficulty());
                    difficulty.add(quiz.get(1).getDifficulty());
+                   updateQuestion();
                }
            }
 
@@ -97,23 +89,22 @@ public class QuizFragment extends Fragment {
         choice2 = (Button) rootView.findViewById(R.id.keuze2);
         choice3 = (Button) rootView.findViewById(R.id.keuze3);
 
-        updateQuestion();
-
-
-
-
-
 
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
+                    questionnumber++;
+                    //checkquestion(true);
 
                     updateQuestion();
+
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -126,12 +117,14 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
-
+                    questionnumber++;
+                   // checkquestion(true);
                     updateQuestion();
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -143,12 +136,14 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
-
+                    questionnumber++;
+                   // checkquestion(true);
                     updateQuestion();
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -159,9 +154,20 @@ public class QuizFragment extends Fragment {
         return rootView;
     }
 
+    private void checkquestion(boolean status)
+    {
+        if(status)
+        {
+            host.ReceiveReward(true,this.difficulty.get(0));
+        }
+        if(!status)
+        {
+            host.ReceiveReward(false,this.difficulty.get(0));
+        }
+    }
     private void updateQuestion()
     {
-        if (questionnumber >=1) {
+        if (questionnumber <=1) {
 
             question.setText(questions.get(questionnumber));
             String[] choices = answers.get(questionnumber).split(",");

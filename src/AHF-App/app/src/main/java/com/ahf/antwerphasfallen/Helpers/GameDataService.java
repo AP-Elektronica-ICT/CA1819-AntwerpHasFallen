@@ -64,9 +64,6 @@ public interface GameDataService {
     @GET("inventory/{id}")
     Call<Inventory> getInventory(@Path("id") int id);
 
-    @GET("quiz/{teamid}/{status}")
-    Call<QuizPuzzles> updatePrice(@Path("status") boolean status, @Path("teamid") int teamid);
-
     @GET("locations/anagram/{location}")
     Call<List<Anagrams>> getAnagramByName(@Path("location") String location);
 
@@ -78,9 +75,6 @@ public interface GameDataService {
 
     @GET("locations/quiz/{location}")
     Call<List<QuizPuzzles>> getQuizByName(@Path("location") String location);
-
-    @GET("locations/{id}")
-    Call<Location> getLocation(@Path("id") int id);
 
     @GET("teams/randomlocation/{id}")
     Call<Location> getRandomLocation(@Path("id") int id);
@@ -101,5 +95,6 @@ public interface GameDataService {
     Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
 
     @PUT("rewards/{teamId}")
-    Call<Team> reward(@Path("teamId") int teamId, @Body String difficulty, @Header("answer") boolean answer, ArrayList<String> missingIngredients, boolean gotIngredient);
+
+    Call<Team> reward(@Path("teamId") int teamId, @Header("difficulty") String difficulty, @Header("answer") String answer, @Header("gotIngredient") String gotIngredient, @Body ArrayList<String> missingIngredients);
 }

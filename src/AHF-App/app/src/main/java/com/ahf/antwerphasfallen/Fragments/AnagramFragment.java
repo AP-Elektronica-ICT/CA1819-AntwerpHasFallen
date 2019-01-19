@@ -86,12 +86,13 @@ public class AnagramFragment extends Fragment  {
                 if (solution.getText().toString().equals(Solution)){
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
+                    host.ReceiveReward(true,difficulty);
                     host.ShowPuzzles(false);
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
-
+                    host.ReceiveReward(false,difficulty);
                     host.ShowPuzzles(false);
 
                 }

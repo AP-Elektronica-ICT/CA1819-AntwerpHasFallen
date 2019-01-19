@@ -34,6 +34,7 @@ import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.InventoryItem;
 import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
@@ -77,6 +78,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private AlertDialog.Builder alertBuilder;
 
+    private boolean foundMissingIngredient = false;
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
     private boolean newLocation = true;
@@ -144,7 +146,7 @@ public class InGameActivity extends AppCompatActivity {
                         mapItem = item;
                         fr = new MapFragment();
                         bundle = new Bundle();
-                        getRandomLocation();
+                        GetRandomLocation();
                         break;
                     case "Inventory":
                         fr = inventoryFragment;
@@ -182,7 +184,7 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getRandomLocation(){
+    public void GetRandomLocation(){
         if(canGetLocation){
             Call<Location> randomLocationCall = service.getRandomLocation(teamId);
             randomLocationCall.enqueue(new Callback<Location>() {
@@ -299,7 +301,7 @@ public class InGameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
-                    toLongInZone();
+                    ToLongInZone();
                     Call<Team> resetCall = service.resetTimer(CurrentTeam.getId());
                     resetCall.enqueue(new Callback<Team>() {
                         @Override
@@ -337,7 +339,7 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
-    public void toLongInZone(){
+    public void ToLongInZone(){
         alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setTitle("Alert")
                 .setMessage("Your time is up and you stayed to long! Your team lost G20")
@@ -359,19 +361,36 @@ public class InGameActivity extends AppCompatActivity {
 
         fr = new MapFragment();
         bundle = new Bundle();
-        getRandomLocation();
+        GetRandomLocation();
     }
 
-    public void checkIngredients() {
+    public void UpdateMoney(){
+
+    }
+
+    public void CheckIngredients() {
         missingIngredients.clear();
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();
         ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
                 try {
+                    Log.e("testa", CurrentTeam.getInventory().getIngredients().toString());
+                    Log.e("testa", response.body().toString());
                     for (Item ingredient : response.body()) {
-                        if (!CurrentTeam.getInventory().getIngredients().contains(ingredient)) {
+                        for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
+                            if(inventoryItem.getItem().getId() != ingredient.getId()){
+                                foundMissingIngredient = true;
+                            }
+                            else
+                            {
+                                foundMissingIngredient = false;
+                                break;
+                            }
+                        }
+                        if(foundMissingIngredient){
                             missingIngredients.add(ingredient.getName());
+                            foundMissingIngredient = false;
                         }
                     }
                 } catch (Exception e) {
@@ -448,7 +467,7 @@ public class InGameActivity extends AppCompatActivity {
                                         if (response.body() != null) {
                                             CurrentTeam.setInventory(response.body());
                                             UpdateUI();
-                                            checkIngredients();
+                                            CheckIngredients();
                                         }
                                     }
 

@@ -7,14 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Adapters.IngredientsListAdapter;
+import com.ahf.antwerphasfallen.Model.Inventory;
 import com.ahf.antwerphasfallen.Model.InventoryItem;
 import com.ahf.antwerphasfallen.Adapters.ItemListAdapter;
 import com.ahf.antwerphasfallen.R;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -46,12 +52,24 @@ public class InventoryFragment extends Fragment {
         if (host != null) {
             if (host.CurrentTeam != null) {
                 if (host.CurrentTeam.getInventory() != null) {
-                    if (host.CurrentTeam.getInventory().getIngredients() != null)
+                    if (host.CurrentTeam.getInventory().getIngredients() != null && ingredientsAdapter == null) {
                         ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
-                    if (host.CurrentTeam.getInventory().getItems() != null)
+                        lvIngredients.setAdapter(ingredientsAdapter);
+                    }
+                    else{
+                        ingredientsAdapter.clear();
+                        ingredientsAdapter.addAll(host.CurrentTeam.getInventory().getIngredients());
+                        ingredientsAdapter.notifyDataSetChanged();
+                    }
+                    if (host.CurrentTeam.getInventory().getItems() != null && shopInventoryAdapter == null) {
                         shopInventoryAdapter = new ItemListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getItems());
-                    ingredientsAdapter.notifyDataSetChanged();
-                    shopInventoryAdapter.notifyDataSetChanged();
+                        lvShopItems.setAdapter(shopInventoryAdapter);
+                    }
+                    else{
+                        shopInventoryAdapter.clear();
+                        shopInventoryAdapter.addAll(host.CurrentTeam.getInventory().getItems());
+                        shopInventoryAdapter.notifyDataSetChanged();
+                    }
                 }
             } else {
                 ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<InventoryItem>());
@@ -60,6 +78,35 @@ public class InventoryFragment extends Fragment {
 //            lvIngredients.setAdapter(ingredientsAdapter);
 //            lvShopItems.setAdapter(shopInventoryAdapter);
         }
+    }
+
+    public void UpdateInventory(){
+        if(host != null)
+            if(host.CurrentTeam != null)
+                if(host.CurrentTeam.getInventory() != null){
+                    Call<Inventory> inventoryCall = InGameActivity.service.getInventory(host.CurrentTeam.getInventory().getId());
+                    inventoryCall.enqueue(new Callback<Inventory>() {
+                        @Override
+                        public void onResponse(Call<Inventory> call, Response<Inventory> response) {
+                            if(response.body() != null){
+                                host.CurrentTeam.setInventory(response.body());
+                                host.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setAdapters();
+                                    }
+                                });
+                            }
+                            else
+                                Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Inventory> call, Throwable t) {
+                            Toast.makeText(host, "Failed getting inventory", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
     }
 
     @Override
@@ -81,7 +128,7 @@ public class InventoryFragment extends Fragment {
         lvShopItems = fragmentView.findViewById(R.id.lv_shopItems);
         lvShopItems.setAdapter(shopInventoryAdapter);
 
-        setAdapters();
+        UpdateInventory();
 
         return fragmentView;
     }
@@ -91,7 +138,6 @@ public class InventoryFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof InGameActivity) {
             host = (InGameActivity) context;
-            setAdapters();
         } else {
             throw new RuntimeException(context.toString()
                     + " is not inGameActivity");

@@ -15,6 +15,7 @@ public class Team {
     private List<Player> players;
     private Inventory inventory;
     private int money;
+    private int timerOffset;
     private String blackout;
 
     public Team() {
@@ -52,5 +53,9 @@ public class Team {
 
     public String getBlackout() {
         return blackout;
+    }
+
+    public int getTimerOffset() {
+        return timerOffset;
     }
 }

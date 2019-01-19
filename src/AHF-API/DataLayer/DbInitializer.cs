@@ -108,9 +108,39 @@ namespace DataLayer
                 Price = 80
             };
 
+            Item extraTime = new Item
+            {
+                Name = "Extra Time",
+                Type = Item.TYPE_ITEM,
+                Description = "Buy yourself some extra time to solve puzzles. Upon use this item gives your team 1 minute extra time."
+            };
+
+            ShopItem shopExtraTime = new ShopItem
+            {
+                Item = extraTime,
+                Price = 90
+            };
+
+            Item penaltyTime = new Item
+            {
+                Name = "Penalty Time",
+                Type = Item.TYPE_ITEM,
+                Description = "Decrease the time a team can spend solving puzzles in a location. Choose your target on use."
+            };
+
+            ShopItem shopPenaltyTime = new ShopItem
+            {
+                Item = penaltyTime,
+                Price = 90
+            };
+
             context.Items.Add(blackout);
+            context.Items.Add(extraTime);
+            context.Items.Add(penaltyTime);
 
             context.ShopItems.Add(shopBlackout);
+            context.ShopItems.Add(shopExtraTime);
+            context.ShopItems.Add(shopPenaltyTime);
 
             context.SaveChanges();
         }

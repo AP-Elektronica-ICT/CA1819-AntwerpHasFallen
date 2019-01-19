@@ -54,6 +54,9 @@ public interface GameDataService {
     @PUT("teams/{id}/blackout")
     Call<Team> stopBlackout(@Path("id") int teamId);
 
+    @PUT("teams/{id}/timer")
+    Call<Team> resetTimer(@Path("id") int teamId);
+
     @POST("teams/{id}/use/{ItemId}")
     Call<Inventory> useShopItem(@Path("id") int teamId, @Path("ItemId") int InventoryItemId, @Body int targetTeamId);
 
@@ -99,6 +102,6 @@ public interface GameDataService {
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
 
-    //@POST("teams/{id}/{money}")
-
+    @POST("teams/{id}/{money}")
+    Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
 }

@@ -1,12 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-
-public class SubstitionPuzzles  {
-    public int Id { get; set; }
-    public string Key { get; set; }
-    public string Solution { get; set; }
-
-    public string ClearText { get; set; }
-   
+namespace DataLayer.Model.QuestionModel
+{
+    public class SubstitionPuzzles : Question
+    {
+        public string Key { get; set; }
+        public string Solution { get; set; }
+        public string ClearText { get; set; }
     }
-
-
+}

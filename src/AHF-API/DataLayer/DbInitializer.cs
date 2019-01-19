@@ -243,7 +243,7 @@ namespace DataLayer
             SubstitionPuzzles sub = new SubstitionPuzzles();
             sub.Key = "MAS";
             sub.ClearText = "pespscgld";
-            sub.Solution = "dead skull";
+            sub.Solution = "deadskull";
             sub.Difficulty = "high";
             context.SubstitionPuzzles.Add(sub);
 

@@ -35,10 +35,10 @@ public class AnagramFragment extends Fragment  {
     String Solution;
     private TextView hint;
     String Hint;
-    private Button check;
+    private Button ancheck;
     private InGameActivity host;
     private String location;
-
+    private String difficulty;
 
     @Override
     public void onAttach(Context context)
@@ -69,7 +69,7 @@ public class AnagramFragment extends Fragment  {
                 Hint = anagram.get(0).getTip();
                 hint.setText(Hint);
                 Solution = anagram.get(0).getSollution();
-
+                difficulty = anagram.get(0).getDifficulty();
             }
 
             @Override
@@ -85,11 +85,11 @@ public class AnagramFragment extends Fragment  {
         final View rootView = inflater.inflate(R.layout.fragment_anagram,container,false);
         scrambled = (TextView) rootView.findViewById(R.id.anagram);
         hint = (TextView) rootView.findViewById(R.id.tip);
-        check = (Button) rootView.findViewById(R.id.btnsol);
+        ancheck = (Button) rootView.findViewById(R.id.btnsol);
         solution = (EditText) rootView.findViewById(R.id.editSolution);
 
 
-        check.setOnClickListener(new View.OnClickListener() {
+        ancheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (solution.getText().toString().equals(Solution)){
@@ -107,18 +107,6 @@ public class AnagramFragment extends Fragment  {
             }
 
         });
-
-
-
-
-
         return rootView;
-
-
     }
-
-
-
-
-
 }

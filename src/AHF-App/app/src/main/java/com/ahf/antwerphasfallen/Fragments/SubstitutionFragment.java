@@ -33,7 +33,7 @@ private Button Checksolution;
 private String Solution;
 private String Clear;
 private TextView cleartext;
-private String location;
+private String location;private String difficulty;
 
 InGameActivity listener;
 
@@ -85,34 +85,25 @@ InGameActivity listener;
             location = bundle.getString("target");
         }
 
-    final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-    Call<List<SubstitutionPuzzles>> call = service.getSubsByName(location);
-    call.enqueue(new Callback<List<SubstitutionPuzzles>>() {
-        @Override
-        public void onResponse(Call<List<SubstitutionPuzzles>> call, Response<List<SubstitutionPuzzles>> response) {
-            List<SubstitutionPuzzles> sub = response.body();
-            if (sub != null) {
-
-                Solution = sub.get(0).getSolution();
-                Clear = sub.get(0).getClearText();
-                Key = sub.get(0).getKey();
-                cleartext.setText(Clear);
-                key.setText(Key);
-
-
+        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        Call<List<SubstitutionPuzzles>> call = service.getSubsByName(location);
+        call.enqueue(new Callback<List<SubstitutionPuzzles>>() {
+            @Override
+            public void onResponse(Call<List<SubstitutionPuzzles>> call, Response<List<SubstitutionPuzzles>> response) {
+                List<SubstitutionPuzzles> sub = response.body();
+                if (sub != null) {
+                    Solution = sub.get(0).getSolution();
+                    Clear = sub.get(0).getClearText();
+                    Key = sub.get(0).getKey();
+                    cleartext.setText(Clear);
+                    key.setText(Key);
+                    difficulty = sub.get(0).getDifficulty();
+                }
             }
-        }
 
-        @Override
-        public void onFailure(Call<List<SubstitutionPuzzles>>call, Throwable t) {
-
-        }
-
-
-    });
-
-
-
-}
-
+            @Override
+            public void onFailure(Call<List<SubstitutionPuzzles>>call, Throwable t) {
+            }
+        });
+    }
 }

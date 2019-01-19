@@ -5,6 +5,7 @@ import android.media.Image;
 public class DecodingPuzzles extends Puzzles {
     Image decodingdiagram;
     Image key;
+    String difficulty;
 
     public void setDecodingdiagram(Image decodingdiagram) {
         this.decodingdiagram = decodingdiagram;
@@ -12,5 +13,9 @@ public class DecodingPuzzles extends Puzzles {
 
     public void setKey(Image key) {
         this.key = key;
+    }
+
+    public String getDifficulty(){
+        return difficulty;
     }
 }

@@ -78,6 +78,7 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
+    private long timeLeft;
     private AlertDialog.Builder alertBuilder;
 
     private boolean foundMissingIngredient = false;
@@ -325,35 +326,7 @@ public class InGameActivity extends AppCompatActivity {
         if(canStartTimer)
         {
             canStartTimer = false;
-            timer = new CountDownTimer(locationTime * 1000, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-                    long timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
-                    if(timeLeft > 0)
-                        txtTimer.setText("Time left: " + timeConversion(timeLeft));
-                    else
-                        onFinish();
-                }
-
-                public void onFinish() {
-                    //code voor als ze nog in de zone zitten
-                    ToLongInZone();
-                    Call<Team> resetCall = service.resetTimer(CurrentTeam.getId());
-                    resetCall.enqueue(new Callback<Team>() {
-                        @Override
-                        public void onResponse(Call<Team> call, Response<Team> response) {
-                            if(response.body() != null){
-                                CurrentTeam = response.body();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Team> call, Throwable t) {
-
-                        }
-                    });
-                }
-            }.start();
+            Timer(locationTime);
         }
     }
 
@@ -408,12 +381,68 @@ public class InGameActivity extends AppCompatActivity {
         GetRandomLocation();
     }
 
+    public void Timer(int seconds){
+        timer = new CountDownTimer(seconds * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
+                if(timeLeft > 0)
+                    txtTimer.setText("Time left: " + timeConversion(timeLeft));
+                else
+                    onFinish();
+            }
+
+            public void onFinish() {
+                //code voor als ze nog in de zone zitten
+                if(timeLeft > 0){
+                    timer.cancel();
+                    Timer((int)timeLeft);
+                    CurrentTeam.setTimerOffset(0);
+                    Call<Team> resetCall = service.resetTimer(CurrentTeam.getId());
+                    resetCall.enqueue(new Callback<Team>() {
+                        @Override
+                        public void onResponse(Call<Team> call, Response<Team> response) {
+                            if(response.body() != null){
+                                CurrentTeam = response.body();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Team> call, Throwable t) {
+
+                        }
+                    });
+                }
+                else{
+                    ToLongInZone();
+                }
+            }
+        }.start();
+    }
+
     public void UpdateMoney(int amount){
         Call<Team> updateMoneyCall = service.updateMoney(CurrentTeam.getId(), amount);
         updateMoneyCall.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
                 CurrentTeam = response.body();
+                UpdateUI();
+            }
+
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void ReceiveReward(boolean answer, int questionId){
+        Call<Team> getReward = service.reward(CurrentTeam.getId(), questionId, answer, missingIngredients);
+        getReward.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                CurrentTeam = response.body();
+                CheckIngredients();
                 UpdateUI();
             }
 

@@ -21,6 +21,7 @@ import com.ahf.antwerphasfallen.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,8 +35,7 @@ public class DadFragment extends Fragment {
     private EditText sp3;
     private EditText sp4;
     private Boolean found;
-    private List<String> order;
-    private List<String> answers;
+
     private TextView t1;
     private TextView t2;
     private TextView t3;
@@ -44,10 +44,11 @@ public class DadFragment extends Fragment {
     private TextView question;
     private Button check;
     private String answer;
+    private String difficulty;
 
-    String location ="MAS";
+    String location;
     String correctorder;
-    String solution;
+    String Dadsolution;
 
     private InGameActivity host;
 
@@ -65,6 +66,13 @@ public class DadFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+
+            location = bundle.getString("target");
+
+
+        }
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
         Call<List<DAD>> call = service.getDadByName(location);
         call.enqueue(new Callback<List<DAD>>() {
@@ -73,12 +81,13 @@ public class DadFragment extends Fragment {
                 List<DAD> dad = response.body();
                 if(dad != null) {
                     question.setText(dad.get(0).getQuestion());
-                    solution = dad.get(0).getCorrectOrder();
+                    Dadsolution = dad.get(0).getCorrectOrder();
                     String[] options = dad.get(0).getAnswers().split(",");
                     t1.setText(options[0]);
                     t2.setText(options[1]);
                     t3.setText(options[2]);
                     t4.setText(options[3]);
+                    difficulty = dad.get(0).getDifficulty();
                 }
             }
 
@@ -100,18 +109,19 @@ public class DadFragment extends Fragment {
         sp2 = (EditText) rootView.findViewById(R.id.Spinner2);
         sp3 = (EditText) rootView.findViewById(R.id.Spinner3);
         sp4 = (EditText) rootView.findViewById(R.id.Spinner4);
-        check = (Button) rootView.findViewById(R.id.solution);
+        check = (Button) rootView.findViewById(R.id.dadsolution);
         question = (TextView) rootView.findViewById(R.id.question);
         t1 = (TextView) rootView.findViewById(R.id.Choice1);
         t2 = (TextView) rootView.findViewById(R.id.Choice2);
         t3 = (TextView) rootView.findViewById(R.id.Choice3);
         t4 = (TextView) rootView.findViewById(R.id.Choice4);
-        //sp1.get
+
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+               List<String> answers = new ArrayList<>();
+               List<String> order = new ArrayList<>();
 
                 order.add(sp1.getText().toString());
                 order.add(sp2.getText().toString());
@@ -123,42 +133,45 @@ public class DadFragment extends Fragment {
                 answers.add(t3.getText().toString());
                 answers.add(t4.getText().toString());
 
-                for (int i = 0;i<3;i++)
+                for (int i = 0;i<=3;i++)
                 {
-                    if(order.get(i).toString() == "1")
+                    if(order.get(i).toString().equals("1") )
                     {
                         answer = answers.get(i).toString();
+
                     }
                 }
-                for (int i = 0;i<3;i++)
+                for (int i = 0;i<=3;i++)
                 {
-                    if(order.get(i).toString() == "2")
+                    if(order.get(i).toString().equals("2"))
                     {
                         answer = answer + "," + answers.get(i).toString();
                     }
                 }
-                for (int i = 0;i<3;i++)
+                for (int i = 0;i<=3;i++)
                 {
-                    if(order.get(i).toString() == "3")
+                    if(order.get(i).toString().equals("3"))
                     {
                         answer = answer + "," + answers.get(i).toString();
                     }
                 }
-                for (int i = 0;i<3;i++)
+                for (int i = 0;i<=3;i++)
                 {
-                    if(order.get(i).toString() == "4")
+                    if(order.get(i).toString().equals("4"))
                     {
                         answer = answer + "," + answers.get(i).toString();
                     }
                 }
 
-                if (solution.equals(answer)){
+                if (Dadsolution.equals(answer)){
 
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
+                    host.ShowPuzzles(false);
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
+                    host.ShowPuzzles(false);
 
 
                 }

@@ -4,6 +4,7 @@ public class Anagrams {
     String scrambled;
     String sollution;
     String tip;
+    String difficulty;
 
     public String getScrambled() {
         return scrambled;
@@ -27,5 +28,9 @@ public class Anagrams {
 
     public void setTip(String tip) {
         this.tip = tip;
+    }
+
+    public String getDifficulty(){
+        return difficulty;
     }
 }

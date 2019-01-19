@@ -5,6 +5,7 @@ public class DAD {
     String answers;
     String question;
     String correctOrder;
+    String difficulty;
 
 
     public String getAnswers() {
@@ -29,5 +30,9 @@ public class DAD {
 
     public void setCorrectOrder(String correctOrder) {
         this.correctOrder = correctOrder;
+    }
+
+    public String getDifficulty(){
+        return difficulty;
     }
 }

@@ -80,6 +80,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private long timeLeft;
     private AlertDialog.Builder alertBuilder;
+    private boolean gotIngredient = false;
 
     private boolean foundMissingIngredient = false;
     private boolean canStartTimer = true;
@@ -190,6 +191,7 @@ public class InGameActivity extends AppCompatActivity {
 
     public void GetRandomLocation(){
         if(canGetLocation){
+            gotIngredient = false;
             Call<Location> randomLocationCall = service.getRandomLocation(teamId);
             randomLocationCall.enqueue(new Callback<Location>() {
                 @Override
@@ -270,6 +272,7 @@ public class InGameActivity extends AppCompatActivity {
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
     }
+
     public void ShowAnagram() {
         fr = new AnagramFragment();
         txtTimer.setVisibility(View.VISIBLE);
@@ -436,12 +439,15 @@ public class InGameActivity extends AppCompatActivity {
         });
     }
 
-    public void ReceiveReward(boolean answer, int questionId){
-        Call<Team> getReward = service.reward(CurrentTeam.getId(), questionId, answer, missingIngredients);
+    public void ReceiveReward(boolean answer, String difficulty){
+        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, answer, missingIngredients, gotIngredient);
         getReward.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
+                int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
                 CurrentTeam = response.body();
+                if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
+                    gotIngredient = true;
                 CheckIngredients();
                 UpdateUI();
             }
@@ -462,20 +468,27 @@ public class InGameActivity extends AppCompatActivity {
                 try {
                     Log.e("testa", CurrentTeam.getInventory().getIngredients().toString());
                     Log.e("testa", response.body().toString());
-                    for (Item ingredient : response.body()) {
-                        for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
-                            if(inventoryItem.getItem().getId() != ingredient.getId()){
-                                foundMissingIngredient = true;
-                            }
-                            else
-                            {
-                                foundMissingIngredient = false;
-                                break;
-                            }
-                        }
-                        if(foundMissingIngredient){
+                    if(CurrentTeam.getInventory().getIngredients().size() == 0){
+                        for (Item ingredient : response.body()){
                             missingIngredients.add(ingredient.getName());
-                            foundMissingIngredient = false;
+                        }
+                    }
+                    else{
+                        for (Item ingredient : response.body()) {
+                            for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
+                                if(inventoryItem.getItem().getId() != ingredient.getId()){
+                                    foundMissingIngredient = true;
+                                }
+                                else
+                                {
+                                    foundMissingIngredient = false;
+                                    break;
+                                }
+                            }
+                            if(foundMissingIngredient){
+                                missingIngredients.add(ingredient.getName());
+                                foundMissingIngredient = false;
+                            }
                         }
                     }
                 } catch (Exception e) {

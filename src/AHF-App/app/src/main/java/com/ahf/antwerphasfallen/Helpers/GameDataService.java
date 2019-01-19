@@ -106,5 +106,5 @@ public interface GameDataService {
     Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
 
     @PUT("rewards/{teamId}")
-    Call<Team> reward(@Path("teamId") int teamId, @Body int questionId, boolean answer, ArrayList<String> missingIngredients);
+    Call<Team> reward(@Path("teamId") int teamId, @Body String difficulty, boolean answer, ArrayList<String> missingIngredients, boolean gotIngredient);
 }

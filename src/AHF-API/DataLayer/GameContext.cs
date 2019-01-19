@@ -1,5 +1,6 @@
 ﻿using DataLayer.Model;
 using DataLayer.Model.InventoryModel;
+using DataLayer.Model.QuestionModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

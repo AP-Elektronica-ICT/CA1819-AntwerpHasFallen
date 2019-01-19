@@ -16,6 +16,7 @@ import com.ahf.antwerphasfallen.Model.QuizPuzzles;
 import com.ahf.antwerphasfallen.R;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,18 +25,21 @@ import retrofit2.Response;
 
 public class QuizFragment extends Fragment {
 
-    private QuizPuzzles puzzles = new QuizPuzzles();
     private TextView question;
     private TextView reward;
     private Button choice1;
     private Button choice2;
     private Button choice3;
-    InGameActivity listener;
     private String answer;
+    private Integer questionnumber =0;
     private String location;
-    private int gold;
     private InGameActivity host;
-    private String difficulty;
+    private List<String> answers = new ArrayList<>();
+    private List<String> questions = new ArrayList<>();
+    private List <String> correctanswers= new ArrayList<>();
+    private List <String> difficulty = new ArrayList<>();
+
+
 
 
     @Override
@@ -61,13 +65,17 @@ public class QuizFragment extends Fragment {
            public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
                List<QuizPuzzles> quiz = response.body();
                if (quiz != null) {
-                   answer = quiz.get(0).getCorrectAnswer();
-                   question.setText(quiz.get(0).getQuestion());
-                   String[] answers = quiz.get(0).getAnswers().split(",");
-                   choice1.setText(answers[0]);
-                   choice2.setText(answers[1]);
-                   choice3.setText(answers[2]);
-                   difficulty = quiz.get(0).getDifficulty();
+
+
+
+                   answers.add(quiz.get(0).getAnswers());
+                   answers.add(quiz.get(1).getAnswers());
+                   questions.add(quiz.get(0).getQuestion());
+                   questions.add(quiz.get(1).getQuestion());
+                   correctanswers.add(quiz.get(0).getCorrectAnswer());
+                   correctanswers.add(quiz.get(1).getCorrectAnswer());
+                   difficulty.add(quiz.get(0).getDifficulty());
+                   difficulty.add(quiz.get(1).getDifficulty());
                }
            }
 
@@ -89,30 +97,44 @@ public class QuizFragment extends Fragment {
         choice2 = (Button) rootView.findViewById(R.id.keuze2);
         choice3 = (Button) rootView.findViewById(R.id.keuze3);
 
+        updateQuestion();
+
+
+
+
+
+
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
-                    updateGold(true);
+
+                    updateQuestion();
+
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
-                    updateGold(false);
+
+                    }
+
                 }
-            }
 
         });
         choice2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
-                    updateGold(true);
+
+                    updateQuestion();
+
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
-                    updateGold(false);
+
                 }
             }
 
@@ -121,12 +143,15 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
-                    updateGold(true);
+
+                    updateQuestion();
+
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
-                    updateGold(false);
+
                 }
             }
 
@@ -134,25 +159,21 @@ public class QuizFragment extends Fragment {
         return rootView;
     }
 
-    private void updateGold(boolean status)
+    private void updateQuestion()
     {
-        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        if (questionnumber >=1) {
 
+            question.setText(questions.get(questionnumber));
+            String[] choices = answers.get(questionnumber).split(",");
+            choice1.setText(choices[0]);
+            choice2.setText(choices[1]);
+            choice3.setText(choices[2]);
 
-        Call<QuizPuzzles> call = service.updatePrice(status,host.CurrentTeam.getId());
-        call.enqueue(new Callback<QuizPuzzles>() {
-            @Override
-            public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
-                QuizPuzzles quiz = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<QuizPuzzles> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-        host.ShowPuzzles(false);
+            answer = correctanswers.get(questionnumber);
+        }
+        else host.ShowPuzzles(false);
     }
-}
+
+    }
 
 

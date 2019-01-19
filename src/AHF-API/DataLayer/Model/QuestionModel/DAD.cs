@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataLayer.Model
+namespace DataLayer.Model.QuestionModel
 {
-    public class DAD
+    public class DAD : Question
     {
-        public int ID { get; set; }
         public String Answers { get; set; }
         public String Question { get; set; }
 

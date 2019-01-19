@@ -31,23 +31,17 @@ namespace AntwerpHasFallen
                 )
             );
             
-           /*services.AddDbContext<GameContext>(options => options.UseMySql(
+            /*services.AddDbContext<GameContext>(options => options.UseMySql(
                 Configuration.GetConnectionString("DefaultConnection")
                 )
             );*/
 
             services.AddScoped<GameService>();
             services.AddScoped<TeamService>();
-
-
-            services.AddScoped<QuizService>();
             services.AddScoped<PlayerService>();
             services.AddScoped<InventoryService>();
             services.AddScoped<ShopService>();
             services.AddScoped<LocationService>();
-            services.AddScoped<SubstitionService>();
-            services.AddScoped<DadService>();
-            services.AddScoped<AnagramService>();
 
 
             services.AddMvc();

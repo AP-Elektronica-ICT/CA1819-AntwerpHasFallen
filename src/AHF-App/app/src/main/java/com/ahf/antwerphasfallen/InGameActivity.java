@@ -364,8 +364,20 @@ public class InGameActivity extends AppCompatActivity {
         GetRandomLocation();
     }
 
-    public void UpdateMoney(){
+    public void UpdateMoney(int amount){
+        Call<Team> updateMoneyCall = service.updateMoney(CurrentTeam.getId(), amount);
+        updateMoneyCall.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                CurrentTeam = response.body();
+                UpdateUI();
+            }
 
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+
+            }
+        });
     }
 
     public void CheckIngredients() {

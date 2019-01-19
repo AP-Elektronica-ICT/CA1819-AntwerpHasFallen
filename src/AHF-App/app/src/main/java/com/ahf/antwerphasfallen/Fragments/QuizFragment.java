@@ -32,6 +32,7 @@ public class QuizFragment extends Fragment {
     private Button choice3;
     InGameActivity listener;
     private String answer;
+    private String location;
     private int gold;
     private InGameActivity host;
 
@@ -45,9 +46,17 @@ public class QuizFragment extends Fragment {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+
+            location = bundle.getString("target");
+
+
+        }
        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-       Call<List<QuizPuzzles>> call = service.GetQuestions();
+       Call<List<QuizPuzzles>> call = service.getQuizByName(location);
        call.enqueue(new Callback<List<QuizPuzzles>>() {
            @Override
            public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
@@ -84,6 +93,10 @@ public class QuizFragment extends Fragment {
         choice1 = (Button) rootView.findViewById(R.id.keuze1);
         choice2 = (Button) rootView.findViewById(R.id.keuze2);
         choice3 = (Button) rootView.findViewById(R.id.keuze3);
+
+
+
+
 
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override

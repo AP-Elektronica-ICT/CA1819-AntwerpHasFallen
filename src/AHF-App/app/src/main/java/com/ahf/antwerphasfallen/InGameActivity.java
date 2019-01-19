@@ -84,6 +84,7 @@ public class InGameActivity extends AppCompatActivity {
     private boolean newLocation = true;
     public boolean openquiz;
     public boolean opensub;
+    public boolean openanagram;
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
@@ -254,6 +255,8 @@ public class InGameActivity extends AppCompatActivity {
 
     public void ShowQuiz() {
         txtTimer.setVisibility(View.VISIBLE);
+        bundle.putString("target",locationName);
+        fr.setArguments(bundle);
         fr = new QuizFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
@@ -263,6 +266,8 @@ public class InGameActivity extends AppCompatActivity {
 
     public void ShowDad() {
         txtTimer.setVisibility(View.VISIBLE);
+        bundle.putString("target",locationName);
+        fr.setArguments(bundle);
         fr = new DadFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
@@ -270,15 +275,21 @@ public class InGameActivity extends AppCompatActivity {
     }
     public void ShowAnagram() {
         txtTimer.setVisibility(View.VISIBLE);
+        bundle.putString("target",locationName);
+        fr.setArguments(bundle);
         fr = new AnagramFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
+        openanagram = true;
 
     }
 
     public void Showsub() {
         txtTimer.setVisibility(View.VISIBLE);
+        bundle.putString("target",locationName);
+        fr.setArguments(bundle);
+
         fr = new SubstitutionFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
@@ -304,11 +315,13 @@ public class InGameActivity extends AppCompatActivity {
         {
             openquiz = false;
             opensub = false;
+            openanagram= false;
         }
         puzzleFragment = fr;
         bundle.putBoolean("Stat",status);
         bundle.putBoolean("Quiz",openquiz);
         bundle.putBoolean("Sub",opensub);
+        bundle.putBoolean("Anagram",openanagram);
         fr.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
@@ -372,6 +385,7 @@ public class InGameActivity extends AppCompatActivity {
         bundle = new Bundle();
         getRandomLocation();
     }
+
 
     public void checkIngredients() {
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();

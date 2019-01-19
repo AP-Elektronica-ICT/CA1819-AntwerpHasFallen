@@ -23,6 +23,7 @@ public class Puzzles extends Fragment {
     private Boolean IsNew;
     private Boolean opensub;
     private Boolean openquiz;
+    private Boolean openanagram;
     private int targetLocationTime;
 
     private Button leaveLocation;
@@ -56,6 +57,7 @@ public class Puzzles extends Fragment {
             IsNew = bundle.getBoolean("Stat");
             opensub = bundle.getBoolean("Sub");
             openquiz = bundle.getBoolean("Quiz");
+            openanagram = bundle.getBoolean("Anagram");
         }
 
             quiz.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +114,21 @@ public class Puzzles extends Fragment {
             @Override
             public void onClick(View view) {
 
-                listener.ShowAnagram();
+                if (IsNew) {
+                    openanagram = true;
+                    listener.ShowAnagram();
+
+
+                } else if(!openanagram&&!IsNew)
+                {
+                    openanagram = true;
+                    listener.ShowAnagram();
+                }
+
+                else
+                {
+                    anagram.setActivated(false);
+                }  listener.ShowAnagram();
 
             }
 

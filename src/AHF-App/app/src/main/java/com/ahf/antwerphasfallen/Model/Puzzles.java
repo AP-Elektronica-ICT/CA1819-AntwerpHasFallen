@@ -44,7 +44,7 @@ public class Puzzles extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_puzzles, container, false);
         quiz = (Button) rootView.findViewById(R.id.Quiz);
         sub = (Button) rootView.findViewById(R.id.substitution);
-
+        leaveLocation = (Button) rootView.findViewById(R.id.btn_leaveLoc);
 
         Bundle bundle = this.getArguments();
 
@@ -109,12 +109,12 @@ public class Puzzles extends Fragment {
 
 
 
-        /*leaveLocation.setOnClickListener(new View.OnClickListener() {
+        leaveLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.LeavePuzzles();
             }
-        });*/
+        });
 
 
 

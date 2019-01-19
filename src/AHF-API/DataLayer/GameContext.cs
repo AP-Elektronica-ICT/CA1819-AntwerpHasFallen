@@ -35,6 +35,8 @@ namespace DataLayer
         public DbSet<Player> Players { get; set; }
         public DbSet<Quizpuzzles> Quizpuzzles { get; set; }
         public DbSet<SubstitionPuzzles> SubstitionPuzzles { get; set; }
+        public DbSet<DAD> Dadpuzzles { get; set; }
+        public DbSet<Anagram> AnagramPuzzles { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Item> Ingredients { get; set; }

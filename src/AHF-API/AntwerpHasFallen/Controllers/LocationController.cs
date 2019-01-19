@@ -15,12 +15,16 @@ namespace AntwerpHasFallen.Controllers
         private readonly LocationService locationService;
         private readonly QuizService quizService;
         private readonly SubstitionService substitionService;
+        private readonly DadService dadService;
+        private readonly AnagramService anagramService;
 
-        public LocationController(LocationService locationService, QuizService quizService, SubstitionService substitutionService)
+        public LocationController(LocationService locationService, QuizService quizService, SubstitionService substitutionService, DadService dadService, AnagramService anagramService)
         {
             this.locationService = locationService;
             this.quizService = quizService;
             this.substitionService = substitutionService;
+            this.dadService = dadService;
+            this.anagramService = anagramService;
         }
 
         [HttpGet]
@@ -53,6 +57,19 @@ namespace AntwerpHasFallen.Controllers
             return Ok(locationService.GetSubByName(name));
         }
 
+        [Route("dad/{name}")]
+        [HttpGet]
+        public IActionResult getDadByName(string name)
+        {
+            return Ok(locationService.GetDadByName(name));
+        }
+
+        [Route("anagram/{name}")]
+        [HttpGet]
+        public IActionResult getAnagramByName(string name)
+        {
+            return Ok(locationService.GetAnagramByName(name));
+        }
 
 
     }

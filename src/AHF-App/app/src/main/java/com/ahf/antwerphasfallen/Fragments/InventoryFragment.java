@@ -52,12 +52,24 @@ public class InventoryFragment extends Fragment {
         if (host != null) {
             if (host.CurrentTeam != null) {
                 if (host.CurrentTeam.getInventory() != null) {
-                    if (host.CurrentTeam.getInventory().getIngredients() != null && ingredientsAdapter == null)
+                    if (host.CurrentTeam.getInventory().getIngredients() != null && ingredientsAdapter == null) {
                         ingredientsAdapter = new IngredientsListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getIngredients());
-                    if (host.CurrentTeam.getInventory().getItems() != null && shopInventoryAdapter == null)
+                        lvIngredients.setAdapter(ingredientsAdapter);
+                    }
+                    else{
+                        ingredientsAdapter.clear();
+                        ingredientsAdapter.addAll(host.CurrentTeam.getInventory().getIngredients());
+                        ingredientsAdapter.notifyDataSetChanged();
+                    }
+                    if (host.CurrentTeam.getInventory().getItems() != null && shopInventoryAdapter == null) {
                         shopInventoryAdapter = new ItemListAdapter(getContext(), (ArrayList) host.CurrentTeam.getInventory().getItems());
-                    ingredientsAdapter.notifyDataSetChanged();
-                    shopInventoryAdapter.notifyDataSetChanged();
+                        lvShopItems.setAdapter(shopInventoryAdapter);
+                    }
+                    else{
+                        shopInventoryAdapter.clear();
+                        shopInventoryAdapter.addAll(host.CurrentTeam.getInventory().getItems());
+                        shopInventoryAdapter.notifyDataSetChanged();
+                    }
                 }
             } else {
                 ingredientsAdapter = new IngredientsListAdapter(getContext(), new ArrayList<InventoryItem>());

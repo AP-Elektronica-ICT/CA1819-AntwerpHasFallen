@@ -50,6 +50,8 @@ namespace BusinessLayer
                                 else
                                     team.Money += r.Next(30, 40);
                             }
+                            else
+                                team.Money += r.Next(30, 40);
                             break;
                         case "low":
                             team.Money += r.Next(20, 30);

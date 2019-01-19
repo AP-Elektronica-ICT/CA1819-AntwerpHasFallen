@@ -36,6 +36,7 @@ import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.PlayerHandler;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.Model.Inventory;
+import com.ahf.antwerphasfallen.Model.InventoryItem;
 import com.ahf.antwerphasfallen.Model.Item;
 import com.ahf.antwerphasfallen.Model.Location;
 import com.ahf.antwerphasfallen.Model.Player;
@@ -79,6 +80,7 @@ public class InGameActivity extends AppCompatActivity {
     private int playerId;
     private AlertDialog.Builder alertBuilder;
 
+    private boolean foundMissingIngredient = false;
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
     private boolean newLocation = true;
@@ -147,7 +149,7 @@ public class InGameActivity extends AppCompatActivity {
                         mapItem = item;
                         fr = new MapFragment();
                         bundle = new Bundle();
-                        getRandomLocation();
+                        GetRandomLocation();
                         break;
                     case "Inventory":
                         fr = inventoryFragment;
@@ -185,7 +187,7 @@ public class InGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getRandomLocation(){
+    public void GetRandomLocation(){
         if(canGetLocation){
             Call<Location> randomLocationCall = service.getRandomLocation(teamId);
             randomLocationCall.enqueue(new Callback<Location>() {
@@ -235,20 +237,12 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void UpdateUI() {
-
-        Call<Team> update = InGameActivity.service.getTeam(CurrentTeam.getId());
-        update.enqueue(new Callback<Team>() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onResponse(Call<Team> call, Response<Team> response) {
-                if (response.body() != null) {
-                    CurrentTeam = response.body();
-                    txtMoney.setText("G: " + CurrentTeam.getMoney());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Team> call, Throwable t) {
-
+            public void run() {
+                txtMoney.setText("G: " + CurrentTeam.getMoney());
+                shopFragment.LoadItems();
+                inventoryFragment.UpdateInventory();
             }
         });
     }
@@ -302,12 +296,9 @@ public class InGameActivity extends AppCompatActivity {
         opensub = true;
     }
 
-
     public void ShowPuzzles(boolean status) {
-
         txtTitle.setText("Puzzles");
-
-        UpdateUI();
+        loadTeam(CurrentPlayer.getTeamId());
 
         txtTimer.setVisibility(View.VISIBLE);
         fr = new Puzzles();
@@ -337,12 +328,30 @@ public class InGameActivity extends AppCompatActivity {
             timer = new CountDownTimer(locationTime * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
-                    txtTimer.setText("Time left: " + timeConversion(millisUntilFinished / 1000));
+                    long timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
+                    if(timeLeft > 0)
+                        txtTimer.setText("Time left: " + timeConversion(timeLeft));
+                    else
+                        onFinish();
                 }
 
                 public void onFinish() {
                     //code voor als ze nog in de zone zitten
-                    toLongInZone();
+                    ToLongInZone();
+                    Call<Team> resetCall = service.resetTimer(CurrentTeam.getId());
+                    resetCall.enqueue(new Callback<Team>() {
+                        @Override
+                        public void onResponse(Call<Team> call, Response<Team> response) {
+                            if(response.body() != null){
+                                CurrentTeam = response.body();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Team> call, Throwable t) {
+
+                        }
+                    });
                 }
             }.start();
         }
@@ -366,7 +375,7 @@ public class InGameActivity extends AppCompatActivity {
         return minutes + ":" + sec;
     }
 
-    public void toLongInZone(){
+    public void ToLongInZone(){
         alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setTitle("Alert")
                 .setMessage("Your time is up and you stayed to long! Your team lost G20")
@@ -396,19 +405,48 @@ public class InGameActivity extends AppCompatActivity {
 
         fr = new MapFragment();
         bundle = new Bundle();
-        getRandomLocation();
+        GetRandomLocation();
     }
 
+    public void UpdateMoney(int amount){
+        Call<Team> updateMoneyCall = service.updateMoney(CurrentTeam.getId(), amount);
+        updateMoneyCall.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                CurrentTeam = response.body();
+                UpdateUI();
+            }
 
-    public void checkIngredients() {
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void CheckIngredients() {
+        missingIngredients.clear();
         Call<ArrayList<Item>> ingredientCall = service.getIngredients();
         ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
                 try {
+                    Log.e("testa", CurrentTeam.getInventory().getIngredients().toString());
+                    Log.e("testa", response.body().toString());
                     for (Item ingredient : response.body()) {
-                        if (!CurrentTeam.getInventory().getIngredients().contains(ingredient)) {
+                        for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
+                            if(inventoryItem.getItem().getId() != ingredient.getId()){
+                                foundMissingIngredient = true;
+                            }
+                            else
+                            {
+                                foundMissingIngredient = false;
+                                break;
+                            }
+                        }
+                        if(foundMissingIngredient){
                             missingIngredients.add(ingredient.getName());
+                            foundMissingIngredient = false;
                         }
                     }
                 } catch (Exception e) {
@@ -432,6 +470,26 @@ public class InGameActivity extends AppCompatActivity {
     public void StopBlackout(){
         content.setVisibility(View.VISIBLE);
         blackout.setVisibility(View.INVISIBLE);
+    }
+
+    public void loadTeam(int teamId){
+        Call<Team> teamCall = service.getTeam(teamId);
+        teamCall.enqueue(new Callback<Team>() {
+            @Override
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                if(response.body() != null){
+                    CurrentTeam = response.body();
+                    UpdateUI();
+                }
+                else
+                    Toast.makeText(InGameActivity.this, "Failed getting team information", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Team> call, Throwable t) {
+                Toast.makeText(InGameActivity.this, "Failed getting team information", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void loadPlayer(int id) {
@@ -464,8 +522,8 @@ public class InGameActivity extends AppCompatActivity {
                                     public void onResponse(Call<Inventory> call, Response<Inventory> response) {
                                         if (response.body() != null) {
                                             CurrentTeam.setInventory(response.body());
-                                            inventoryFragment.setAdapters();
-                                            checkIngredients();
+                                            UpdateUI();
+                                            CheckIngredients();
                                         }
                                     }
 

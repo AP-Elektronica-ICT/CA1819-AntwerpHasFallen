@@ -24,6 +24,7 @@ namespace DataLayer.Model
         public List<Player> Players { get; set; }
         public Inventory Inventory { get; set; }
         public int Money { get; set; }
+        public int TimerOffset { get; set; }
         public string Blackout { get; set; }
         public List<PreviousLocation> PreviousLocations { get; set; }
     }

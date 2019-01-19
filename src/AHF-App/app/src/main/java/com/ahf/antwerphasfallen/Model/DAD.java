@@ -2,32 +2,32 @@ package com.ahf.antwerphasfallen.Model;
 
 public class DAD {
 
-    String Answers;
-    String Question;
-    String CorrectOrder;
+    String answers;
+    String question;
+    String correctOrder;
 
 
     public String getAnswers() {
-        return Answers;
+        return answers;
     }
 
     public void setAnswers(String answers) {
-        Answers = answers;
+                this.answers = answers;
     }
 
     public String getQuestion() {
-        return Question;
+        return question;
     }
 
     public void setQuestion(String question) {
-        Question = question;
+        this.question = question;
     }
 
     public String getCorrectOrder() {
-        return CorrectOrder;
+        return correctOrder;
     }
 
     public void setCorrectOrder(String correctOrder) {
-        CorrectOrder = correctOrder;
+        this.correctOrder = correctOrder;
     }
 }

@@ -85,6 +85,6 @@ public interface GameDataService {
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
 
-    @POST("teams/{id}/{money}")
+    //@POST("teams/{id}/{money}")
 
 }

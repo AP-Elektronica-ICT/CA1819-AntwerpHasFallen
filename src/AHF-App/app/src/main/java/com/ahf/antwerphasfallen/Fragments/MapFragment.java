@@ -102,6 +102,12 @@ public class MapFragment extends Fragment {
                         listener.ShowPuzzles(true);
                     }
                 });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                listener.ShowPuzzles(true);
+            }
+        });
 
         mLocationCallback = new LocationCallback() {
             @Override

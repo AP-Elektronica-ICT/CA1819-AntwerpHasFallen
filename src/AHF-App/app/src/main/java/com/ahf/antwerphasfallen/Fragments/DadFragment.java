@@ -17,6 +17,8 @@ import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Model.DAD;
 import com.ahf.antwerphasfallen.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +39,7 @@ public class DadFragment extends Fragment {
     private TextView question;
     private Button check;
 
-    String location = "MAS";
+    String location ="MAS";
     String correctorder;
     String solution;
 
@@ -58,16 +60,15 @@ public class DadFragment extends Fragment {
     {
         super.onCreate(savedInstanceState);
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-        Call<List<DAD>> call = service.getDadByName(location) ;
+        Call<List<DAD>> call = service.getDadByName(location);
         call.enqueue(new Callback<List<DAD>>() {
             @Override
             public void onResponse(Call<List<DAD>> call, Response<List<DAD>> response) {
                 List<DAD> dad = response.body();
-                if (dad != null)
-                {
+                if(dad != null) {
                     question.setText(dad.get(0).getQuestion());
                     solution = dad.get(0).getCorrectOrder();
-                    String [] options = dad.get(0).getAnswers().split(",");
+                    String[] options = dad.get(0).getAnswers().split(",");
                     t1.setText(options[0]);
                     t2.setText(options[1]);
                     t3.setText(options[2]);
@@ -80,17 +81,24 @@ public class DadFragment extends Fragment {
 
             }
         });
+
+
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container , Bundle savedInstanceState)
     {
         final View rootView = inflater.inflate(R.layout.fragment_dad,container,false);
 
-        sp1 = (EditText) rootView.findViewById(R.id.keuze1);
-        sp2 = (EditText) rootView.findViewById(R.id.keuze2);
-        sp3 = (EditText) rootView.findViewById(R.id.keuze3);
-        sp4 = (EditText) rootView.findViewById(R.id.keuze4);
-
+        sp1 = (EditText) rootView.findViewById(R.id.Spinner1);
+        sp2 = (EditText) rootView.findViewById(R.id.Spinner2);
+        sp3 = (EditText) rootView.findViewById(R.id.Spinner3);
+        sp4 = (EditText) rootView.findViewById(R.id.Spinner4);
+        question = (TextView) rootView.findViewById(R.id.question);
+        t1 = (TextView) rootView.findViewById(R.id.Choice1);
+        t2 = (TextView) rootView.findViewById(R.id.Choice2);
+        t3 = (TextView) rootView.findViewById(R.id.Choice3);
+        t4 = (TextView) rootView.findViewById(R.id.Choice4);
         //sp1.get
         return rootView;
     }

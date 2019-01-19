@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ahf.antwerphasfallen.Dialogs.ConfirmEndGameDialog;
 import com.ahf.antwerphasfallen.Fragments.AnagramFragment;
+import com.ahf.antwerphasfallen.Fragments.DadFragment;
 import com.ahf.antwerphasfallen.Fragments.InfoFragment;
 import com.ahf.antwerphasfallen.Fragments.InventoryFragment;
 import com.ahf.antwerphasfallen.Fragments.MapFragment;
@@ -260,6 +261,13 @@ public class InGameActivity extends AppCompatActivity {
         openquiz = true;
     }
 
+    public void ShowDad() {
+        txtTimer.setVisibility(View.VISIBLE);
+        fr = new DadFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container,fr);
+        ft.commit();
+    }
     public void ShowAnagram() {
         txtTimer.setVisibility(View.VISIBLE);
         fr = new AnagramFragment();

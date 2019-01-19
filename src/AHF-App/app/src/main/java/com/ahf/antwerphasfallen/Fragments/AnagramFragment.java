@@ -87,18 +87,24 @@ public class AnagramFragment extends Fragment  {
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (solution.getText().toString().equals(Solution)){
 
-                if (solution.getText().equals(Solution))
-                {
-                    Toast.makeText(host,"Correct",Toast.LENGTH_SHORT);
-                    host.ShowPuzzles(false);
+                    Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
+
+
+
+                }
             }
 
-
-
         });
+
+
+
+
 
         return rootView;
 

@@ -43,18 +43,18 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/btnlayout"
             android:padding="8dp"
-            android:text="Nog een andere puzzel"
+            android:text="Anagram"
             android:textColor="#fff" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/keuze4"
+            android:id="@+id/Dad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/btnlayout"
             android:padding="8dp"
 
-            android:text="Nog een andere "
+            android:text="Drag and Drop"
             android:textColor="#fff" />
 
         <android.support.v7.widget.AppCompatButton

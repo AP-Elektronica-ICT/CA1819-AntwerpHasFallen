@@ -98,6 +98,7 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
                     questionnumber++;
+                    checkquestion(true);
 
                     updateQuestion();
 
@@ -106,6 +107,7 @@ public class QuizFragment extends Fragment {
                 }
                 else {
                     questionnumber++;
+                    checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -119,11 +121,13 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
                     questionnumber++;
+                    checkquestion(true);
                     updateQuestion();
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     questionnumber++;
+                    checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -136,11 +140,13 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     questionnumber++;
+                    checkquestion(true);
                     updateQuestion();
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     questionnumber++;
+                    checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -151,6 +157,17 @@ public class QuizFragment extends Fragment {
         return rootView;
     }
 
+    private void checkquestion(boolean status)
+    {
+        if(status)
+        {
+            host.ReceiveReward(true,this.difficulty.get(0));
+        }
+        if(!status)
+        {
+            host.ReceiveReward(false,this.difficulty.get(0));
+        }
+    }
     private void updateQuestion()
     {
         if (questionnumber <=1) {

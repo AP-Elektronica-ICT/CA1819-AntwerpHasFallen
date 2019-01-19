@@ -167,10 +167,12 @@ public class DadFragment extends Fragment {
 
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
+                    host.ReceiveReward(true,difficulty);
                     host.ShowPuzzles(false);
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
+                    host.ReceiveReward(false,difficulty);
                     host.ShowPuzzles(false);
 
 

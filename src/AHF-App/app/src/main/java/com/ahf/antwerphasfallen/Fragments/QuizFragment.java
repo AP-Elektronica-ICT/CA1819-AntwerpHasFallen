@@ -39,9 +39,6 @@ public class QuizFragment extends Fragment {
     private List <String> correctanswers= new ArrayList<>();
     private List <String> difficulty = new ArrayList<>();
 
-
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,9 +62,6 @@ public class QuizFragment extends Fragment {
            public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
                List<QuizPuzzles> quiz = response.body();
                if (quiz != null) {
-
-
-
                    answers.add(quiz.get(0).getAnswers());
                    answers.add(quiz.get(1).getAnswers());
                    questions.add(quiz.get(0).getQuestion());
@@ -76,6 +70,7 @@ public class QuizFragment extends Fragment {
                    correctanswers.add(quiz.get(1).getCorrectAnswer());
                    difficulty.add(quiz.get(0).getDifficulty());
                    difficulty.add(quiz.get(1).getDifficulty());
+                   updateQuestion();
                }
            }
 
@@ -97,23 +92,20 @@ public class QuizFragment extends Fragment {
         choice2 = (Button) rootView.findViewById(R.id.keuze2);
         choice3 = (Button) rootView.findViewById(R.id.keuze3);
 
-        updateQuestion();
-
-
-
-
-
 
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
+                    questionnumber++;
 
                     updateQuestion();
+
 
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -126,12 +118,12 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
-
+                    questionnumber++;
                     updateQuestion();
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -143,12 +135,12 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
-
+                    questionnumber++;
                     updateQuestion();
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    questionnumber++;
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -161,7 +153,7 @@ public class QuizFragment extends Fragment {
 
     private void updateQuestion()
     {
-        if (questionnumber >=1) {
+        if (questionnumber <=1) {
 
             question.setText(questions.get(questionnumber));
             String[] choices = answers.get(questionnumber).split(",");

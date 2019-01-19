@@ -23,7 +23,7 @@ namespace BusinessLayer
 
         public Team Reward(int teamId, string difficulty, bool answer, bool gotIngredient, List<string> missingIngredients)
         {
-            Team team = context.Teams.Include(t => t.Inventory).ThenInclude(i => i.Ingredients).SingleOrDefault(t => t.Id == teamId);
+            Team team = context.Teams.Include(t => t.Inventory).ThenInclude(i => i.Ingredients).ThenInclude(i => i.Item).SingleOrDefault(t => t.Id == teamId);
             List<Item> missingIngredientsList = new List<Item>();
             Random r = new Random();
 

@@ -37,7 +37,7 @@ public class AnagramFragment extends Fragment  {
     String Hint;
     private Button check;
     private InGameActivity host;
-    private String location = "MAS";
+    private String location;
 
 
     @Override
@@ -53,6 +53,11 @@ public class AnagramFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if(bundle != null)
+        {
+            location = bundle.getString("target");
+        }
         final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
         Call<List<Anagrams>> call = service.getAnagramByName(location);
         call.enqueue(new Callback<List<Anagrams>>() {

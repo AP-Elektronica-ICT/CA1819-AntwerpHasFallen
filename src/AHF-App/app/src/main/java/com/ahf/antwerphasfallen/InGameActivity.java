@@ -254,10 +254,11 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowQuiz() {
+        fr = new QuizFragment();
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-        fr = new QuizFragment();
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();
@@ -265,19 +266,21 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ShowDad() {
+        fr = new DadFragment();
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-        fr = new DadFragment();
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
     }
     public void ShowAnagram() {
+        fr = new AnagramFragment();
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-        fr = new AnagramFragment();
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
@@ -286,11 +289,13 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void Showsub() {
+        fr = new SubstitutionFragment();
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
 
-        fr = new SubstitutionFragment();
+
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);
         ft.commit();

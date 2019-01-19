@@ -48,6 +48,7 @@ public class QuizFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
 

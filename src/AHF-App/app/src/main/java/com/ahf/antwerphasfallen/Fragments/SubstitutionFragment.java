@@ -18,6 +18,8 @@ import com.ahf.antwerphasfallen.R;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.Model.SubstitutionPuzzles;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +33,7 @@ private Button Checksolution;
 private String Solution;
 private String Clear;
 private TextView cleartext;
+private String location;
 
 InGameActivity listener;
 
@@ -76,16 +79,23 @@ InGameActivity listener;
     @Override
     public void onCreate(Bundle savedInstanceSate) {
     super.onCreate(savedInstanceSate);
+        Bundle bundle = this.getArguments();
+        if(bundle != null)
+        {
+            location = bundle.getString("target");
+        }
+
     final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-    Call<SubstitutionPuzzles> call = service.getQuestionbyId(1);
-    call.enqueue(new Callback<SubstitutionPuzzles>() {
+    Call<List<SubstitutionPuzzles>> call = service.getSubsByName(location);
+    call.enqueue(new Callback<List<SubstitutionPuzzles>>() {
         @Override
-        public void onResponse(Call<SubstitutionPuzzles> call, Response<SubstitutionPuzzles> response) {
-            SubstitutionPuzzles sub = response.body();
+        public void onResponse(Call<List<SubstitutionPuzzles>> call, Response<List<SubstitutionPuzzles>> response) {
+            List<SubstitutionPuzzles> sub = response.body();
             if (sub != null) {
-                Key = sub.getKey();
-                Solution = sub.getSolution();
-                Clear = sub.getClearText();
+
+                Solution = sub.get(0).getSolution();
+                Clear = sub.get(0).getClearText();
+                Key = sub.get(0).getKey();
                 cleartext.setText(Clear);
                 key.setText(Key);
 
@@ -94,7 +104,7 @@ InGameActivity listener;
         }
 
         @Override
-        public void onFailure(Call<SubstitutionPuzzles> call, Throwable t) {
+        public void onFailure(Call<List<SubstitutionPuzzles>>call, Throwable t) {
 
         }
 

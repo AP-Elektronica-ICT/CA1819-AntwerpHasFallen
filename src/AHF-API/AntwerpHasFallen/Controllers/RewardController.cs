@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using DataLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,15 @@ namespace AntwerpHasFallen.Controllers
         {
             this.rewardService = rewardService;
         }
-    }
+
+        [Route("{teamId}")]
+        [HttpPut]
+        public IActionResult Reward(int teamId, [FromBody] string difficulty, [FromBody] bool gotIngredient, [FromBody] bool answer, [FromBody] List<string> missingIngredients)
+        {
+            Team team = rewardService.Reward(teamId, difficulty, answer, gotIngredient, missingIngredients);
+            if (team != null)
+                return Ok(team);
+            return NotFound();
+        }
+    } 
 }

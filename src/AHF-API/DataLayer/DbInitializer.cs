@@ -35,10 +35,6 @@ namespace DataLayer
                 g1.Teams.Add(t1);
                 g1.Teams.Add(t2);
                 g1.Teams.Add(t3);
-
-                /*g1.Locations.Add(l1);
-                g1.Locations.Add(l2);
-                g1.Locations.Add(l3);*/
                 
                 l1.Quiz = initialiseQuizMas(context);
                 l1.subs = initialiseSubMas(context);
@@ -58,7 +54,7 @@ namespace DataLayer
 
 
                 createShopItems(context);
-                createTestInventoryItems(context);
+                createIngredients(context);
 
                 context.Inventories.Add(inventoryT1);
                 context.Inventories.Add(inventoryT2);
@@ -73,21 +69,7 @@ namespace DataLayer
                 context.Locations.Add(l3);
 
                 context.Games.Add(g1);
-
-                //context.SaveChanges();
-            }/*
-            if (!context.Locations.Any())
-            {
-                Location l1 = new Location(51.229023, 4.404622, "MAS", 300);
-                Location l2 = new Location(51.216968, 4.409315, "Rubenshuis", 300);
-                Location l3 = new Location(51.222759, 4.397382, "Het Steen", 300);
-                l1.Quiz = initialiseQuizMas(context);
-                l1.subs = initialiseSubMas(context);
-                context.Locations.Add(l1);
-                context.Locations.Add(l2);
-                context.Locations.Add(l3);
-
-            }*/
+            }
 
             context.SaveChanges();
            
@@ -118,14 +100,14 @@ namespace DataLayer
             ShopItem shopExtraTime = new ShopItem
             {
                 Item = extraTime,
-                Price = 90
+                Price = 100
             };
 
             Item penaltyTime = new Item
             {
                 Name = "Penalty Time",
                 Type = Item.TYPE_ITEM,
-                Description = "Decrease the time a team can spend solving puzzles in a location. Choose your target on use."
+                Description = "Decrease the time a team can spend solving puzzles in a location by 30 seconds. Choose your target on use."
             };
 
             ShopItem shopPenaltyTime = new ShopItem
@@ -135,118 +117,99 @@ namespace DataLayer
             };
 
             context.Items.Add(blackout);
-            context.Items.Add(extraTime);
             context.Items.Add(penaltyTime);
+            context.Items.Add(extraTime);
 
             context.ShopItems.Add(shopBlackout);
-            context.ShopItems.Add(shopExtraTime);
             context.ShopItems.Add(shopPenaltyTime);
+            context.ShopItems.Add(shopExtraTime);
 
             context.SaveChanges();
         }
         
-    
-        private static void createTestInventoryItems(GameContext context)
+        private static void createIngredients(GameContext context)
         {
-            Item i1 = new Item()
+            Item sorbitol = new Item
             {
-                Description = "testDescription for a shopItem that has a certain lenght, filled with some random characters. zzçu'tàé ",
-                Name = "TestItem1",
-                Type = Item.TYPE_ITEM
-            };
-            Item i2 = new Item()
-            {
-                Description = "testDescription for a shopItem with a different length",
-                Name = "TestItem2",
-                Type = Item.TYPE_ITEM
-            };
-            Item i3 = new Item()
-            {
-                Description = "testDescription for a shopItem that has a certain lenght, filled with some random characters. zzçu'tàé. \n and added a new line ",
-                Name = "TestItem3",
-                Type = Item.TYPE_ITEM
-            };
-
-            Item i4 = new Item()
-            {
-                Name = "TestIngredient1",
+                Name = "sorbitol",
                 Type = Item.TYPE_INGREDIENT
             };
 
-            Item i5 = new Item()
+            Item citroenzuur = new Item
             {
-                Name = "TestIngredient2",
+                Name = "citroenzuur",
                 Type = Item.TYPE_INGREDIENT
             };
 
-            Item i6 = new Item()
+            Item kaliumsorbaat = new Item
             {
-                Name = "TestIngredient3",
+                Name = "kaliumsorbaat",
                 Type = Item.TYPE_INGREDIENT
             };
 
-            ShopItem s1 = new ShopItem()
+            Item natriumsaccharinaat = new Item
             {
-                Item = i1,
-                Price = 10
+                Name = "natriumsaccharinaat",
+                Type = Item.TYPE_INGREDIENT
             };
 
-            ShopItem s2 = new ShopItem()
+            Item dextromethorfanhydrobromide = new Item
             {
-                Item = i2,
-                Price = 20
+                Name = "Dextromethorfanhydrobromide",
+                Type = Item.TYPE_INGREDIENT
             };
 
-            ShopItem s3 = new ShopItem()
+            ShopItem shopSorbitol = new ShopItem
             {
-                Item = i3,
-                Price = 30
+                Item = sorbitol,
+                Price = 300
             };
 
-            ShopItem s4 = new ShopItem()
+            ShopItem shopCitroenzuur = new ShopItem
             {
-                Item = i4,
-                Price = 400
+                Item = citroenzuur,
+                Price = 300
             };
 
-            ShopItem s5 = new ShopItem()
+            ShopItem shopKaliumsorbaat = new ShopItem
             {
-                Item = i5,
-                Price = 500
+                Item = kaliumsorbaat,
+                Price = 300
             };
 
-            ShopItem s6 = new ShopItem()
+            ShopItem shopNatriumsaccharinaat = new ShopItem
             {
-                Item = i6,
-                Price = 600
+                Item = natriumsaccharinaat,
+                Price = 300
             };
 
-            context.Items.Add(i1);
-            context.Items.Add(i2);
-            context.Items.Add(i3);
+            ShopItem shopDextromethorfanhydrobromide = new ShopItem
+            {
+                Item = dextromethorfanhydrobromide,
+                Price = 300
+            };
 
-            context.Ingredients.Add(i4);
-            context.Ingredients.Add(i5);
-            context.Ingredients.Add(i6);
+            context.Ingredients.Add(sorbitol);
+            context.Ingredients.Add(citroenzuur);
+            context.Ingredients.Add(kaliumsorbaat);
+            context.Ingredients.Add(natriumsaccharinaat);
+            context.Ingredients.Add(dextromethorfanhydrobromide);
 
-            context.ShopItems.Add(s1);
-            context.ShopItems.Add(s2);
-            context.ShopItems.Add(s3);
-            context.ShopItems.Add(s4);
-            context.ShopItems.Add(s5);
-            context.ShopItems.Add(s6);
+            context.ShopItems.Add(shopSorbitol);
+            context.ShopItems.Add(shopCitroenzuur);
+            context.ShopItems.Add(shopKaliumsorbaat);
+            context.ShopItems.Add(shopNatriumsaccharinaat);
+            context.ShopItems.Add(shopDextromethorfanhydrobromide);
         }
-
-
-
+    
         private static List<Anagram> initialiseAnagramMas(GameContext context)
         {
             List<Anagram> anagrammas = new List<Anagram>();
 
             Anagram anagram = new Anagram();
-            anagram.scrambled = "uwrenbalvodalde";
-            anagram.sollution = "wandelboulevard";
-            anagram.tip = "Ronddom het MAS vind je deze prachtige ... ";
+            anagram.Scrambled = "uwrenbalvodalde";
+            anagram.Sollution = "wandelboulevard";
+            anagram.Tip = "Rondom het MAS vind je deze prachtige ... ";
 
             context.AnagramPuzzles.Add(anagram);
             anagrammas.Add(anagram);
@@ -313,9 +276,9 @@ namespace DataLayer
             List<Anagram> anagramruben = new List<Anagram>();
 
             Anagram anagram = new Anagram();
-            anagram.scrambled = "vrauzetlkenmsgin";
-            anagram.sollution = "kunstverzameling";
-            anagram.tip = "In het Rubenshuis vind je een heuze ...";
+            anagram.Scrambled = "vrauzetlkenmsgin";
+            anagram.Sollution = "kunstverzameling";
+            anagram.Tip = "In het Rubenshuis vind je een heuze ...";
 
             context.AnagramPuzzles.Add(anagram);
             anagramruben.Add(anagram);
@@ -400,9 +363,9 @@ namespace DataLayer
             List<Anagram> anagramsteen = new List<Anagram>();
 
             Anagram anagram = new Anagram();
-            anagram.scrambled = "vrauzetlkenmsgin";
-            anagram.sollution = "kunstverzameling";
-            anagram.tip = "In het Rubenshuis vind je een heuze ...";
+            anagram.Scrambled = "tvslagpssopiaal";
+            anagram.Sollution = "visopslagplaats";
+            anagram.Tip = "Oude functionaliteit van het Steen";
 
             context.AnagramPuzzles.Add(anagram);
             anagramsteen.Add(anagram);
@@ -430,7 +393,7 @@ namespace DataLayer
             List<Quizpuzzles> quizruben = new List<Quizpuzzles>();
             Quizpuzzles q1 = new Quizpuzzles();
             Quizpuzzles q2 = new Quizpuzzles();
-            q1.Question = "Waarvoor werd het Steen vroeger?";
+            q1.Question = "Waarvoor werd het Steen vroeger gebruikt?";
             q1.Answers = "Verdedigingsburcht,Gevangenis,Museum";
             q1.CorrectAnswer = "Gevangenis";
 

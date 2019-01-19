@@ -1,22 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataLayer.Model
 {
-
-    public class Quizpuzzles
+    public class DAD
     {
-        public int ID { get; set; }
-
+        public int Id { get; set; }
         public String Answers { get; set; }
         public String Question { get; set; }
-        public String CorrectAnswer { get; set; }
-        
+
+        public String CorrectOrder { get; set; }
+
+
+
     }
 }
-
-   
-
-
-

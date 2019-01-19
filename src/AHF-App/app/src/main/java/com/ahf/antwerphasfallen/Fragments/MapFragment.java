@@ -53,8 +53,6 @@ public class MapFragment extends Fragment {
     private GoogleMap googleMap;
     private boolean newLocation;
 
-    private int x = 60;
-
     public static final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
 
     @Override
@@ -77,7 +75,6 @@ public class MapFragment extends Fragment {
             targetLocation = new LatLng(bundle.getDouble("lat"), bundle.getDouble("lon"));
             targetLocationTitle = bundle.getString("locationTitle");
             newLocation = bundle.getBoolean("newLocation");
-            //getTargetLocation(locationId);
         }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -215,21 +212,4 @@ public class MapFragment extends Fragment {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
-
-    /*private void getTargetLocation(int id){
-        Call<com.ahf.antwerphasfallen.Model.Location> call = service.getLocation(id);
-        call.enqueue(new Callback<com.ahf.antwerphasfallen.Model.Location>() {
-            @Override
-            public void onResponse(Call<com.ahf.antwerphasfallen.Model.Location> call, Response<com.ahf.antwerphasfallen.Model.Location> response) {
-                targetLocation = new LatLng(response.body().getLat(), response.body().getLon());
-                targetLocationTitle = response.body().getName();
-                targetLocationTime = response.body().getTime();
-            }
-
-            @Override
-            public void onFailure(Call<com.ahf.antwerphasfallen.Model.Location> call, Throwable t) {
-
-            }
-        });
-    }*/
 }

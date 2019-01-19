@@ -35,6 +35,7 @@ public class QuizFragment extends Fragment {
     private String location;
     private int gold;
     private InGameActivity host;
+    private String difficulty;
 
 
     @Override
@@ -51,14 +52,11 @@ public class QuizFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-
             location = bundle.getString("target");
-
-
         }
-       final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
-       Call<List<QuizPuzzles>> call = service.getQuizByName(location);
-       call.enqueue(new Callback<List<QuizPuzzles>>() {
+        final GameDataService service = RetrofitInstance.getRetrofitInstance().create(GameDataService.class);
+        Call<List<QuizPuzzles>> call = service.getQuizByName(location);
+        call.enqueue(new Callback<List<QuizPuzzles>>() {
            @Override
            public void onResponse(Call<List<QuizPuzzles>> call, Response<List<QuizPuzzles>> response) {
                List<QuizPuzzles> quiz = response.body();
@@ -69,20 +67,16 @@ public class QuizFragment extends Fragment {
                    choice1.setText(answers[0]);
                    choice2.setText(answers[1]);
                    choice3.setText(answers[2]);
-
+                   difficulty = quiz.get(0).getDifficulty();
                }
            }
-
 
            @Override
            public void onFailure(Call<List<QuizPuzzles>> call, Throwable t) {
                 t.printStackTrace();
            }
-       });
-
+        });
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,28 +89,16 @@ public class QuizFragment extends Fragment {
         choice2 = (Button) rootView.findViewById(R.id.keuze2);
         choice3 = (Button) rootView.findViewById(R.id.keuze3);
 
-
-
-
-
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
-
                     updateGold(true);
-
-
-
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-
-
-
                 }
             }
 
@@ -125,16 +107,12 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
-
                     updateGold(true);
-
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
                     updateGold(false);
-
                 }
             }
 
@@ -144,23 +122,16 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     updateGold(true);
-
-
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
-                        updateGold(false);
-
+                    updateGold(false);
                 }
             }
 
         });
-
-
-        ;
         return rootView;
-
     }
 
     private void updateGold(boolean status)
@@ -173,26 +144,14 @@ public class QuizFragment extends Fragment {
             @Override
             public void onResponse(Call<QuizPuzzles> call, Response<QuizPuzzles> response) {
                 QuizPuzzles quiz = response.body();
-
             }
-
 
             @Override
             public void onFailure(Call<QuizPuzzles> call, Throwable t) {
                 t.printStackTrace();
             }
-
-
-
         });
-
-
         host.ShowPuzzles(false);
-
-
-
-
-
     }
 }
 

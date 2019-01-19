@@ -38,7 +38,7 @@ public class AnagramFragment extends Fragment  {
     private Button check;
     private InGameActivity host;
     private String location;
-
+    private String difficulty;
 
     @Override
     public void onAttach(Context context)
@@ -69,7 +69,7 @@ public class AnagramFragment extends Fragment  {
                 Hint = anagram.get(0).getTip();
                 hint.setText(Hint);
                 Solution = anagram.get(0).getSollution();
-
+                difficulty = anagram.get(0).getDifficulty();
             }
 
             @Override
@@ -107,18 +107,6 @@ public class AnagramFragment extends Fragment  {
             }
 
         });
-
-
-
-
-
         return rootView;
-
-
     }
-
-
-
-
-
 }

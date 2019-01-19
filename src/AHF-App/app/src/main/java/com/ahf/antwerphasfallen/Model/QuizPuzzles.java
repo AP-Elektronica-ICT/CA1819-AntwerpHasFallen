@@ -3,10 +3,9 @@ package com.ahf.antwerphasfallen.Model;
 public class QuizPuzzles  {
 
     String question;
-
     String answers;
-
     String correctAnswer;
+    String difficulty;
 
     public String getQuestion() {
         return question;
@@ -32,14 +31,7 @@ public class QuizPuzzles  {
         this.correctAnswer = correct;
     }
 
-
-
-
-
-
-
-
-
-
-
+    public String getDifficulty(){
+        return difficulty;
+    }
 }

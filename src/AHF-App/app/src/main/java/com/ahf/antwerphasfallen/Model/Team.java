@@ -58,4 +58,8 @@ public class Team {
     public int getTimerOffset() {
         return timerOffset;
     }
+
+    public void setTimerOffset(int timerOffset){
+        this.timerOffset = timerOffset;
+    }
 }

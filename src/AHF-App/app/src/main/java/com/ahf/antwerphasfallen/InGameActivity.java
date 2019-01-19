@@ -372,10 +372,18 @@ public class InGameActivity extends AppCompatActivity {
                         LeavePuzzles();
                     }
                 });
+        alertBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                LeavePuzzles();
+            }
+        });
+        alertBuilder.show();
     }
 
     public void LeavePuzzles(){
         timer.cancel();
+        txtTimer.setVisibility(View.GONE);
         canGetLocation = true;
         canStartTimer = true;
         if (mapItem != null)

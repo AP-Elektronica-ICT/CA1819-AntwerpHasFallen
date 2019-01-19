@@ -3,7 +3,6 @@ package com.ahf.antwerphasfallen.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.ahf.antwerphasfallen.Adapters.IngredientsListAdapter;
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Model.Anagrams;
 import com.ahf.antwerphasfallen.R;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,8 +80,6 @@ public class AnagramFragment extends Fragment  {
         hint = (TextView) rootView.findViewById(R.id.tip);
         ancheck = (Button) rootView.findViewById(R.id.btnsol);
         solution = (EditText) rootView.findViewById(R.id.editSolution);
-
-
         ancheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,14 +98,7 @@ public class AnagramFragment extends Fragment  {
             }
 
         });
-
-
-
-
-
         return rootView;
-
-
     }
 
 

@@ -9,16 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Model.QuizPuzzles;
 import com.ahf.antwerphasfallen.R;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -98,7 +95,7 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice1.getText().equals(answer)){
                     questionnumber++;
-                    checkquestion(true);
+                    //checkquestion(true);
 
                     updateQuestion();
 
@@ -107,7 +104,7 @@ public class QuizFragment extends Fragment {
                 }
                 else {
                     questionnumber++;
-                    checkquestion(false);
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -121,13 +118,13 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
                     questionnumber++;
-                    checkquestion(true);
+                   // checkquestion(true);
                     updateQuestion();
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     questionnumber++;
-                    checkquestion(false);
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 
@@ -140,13 +137,13 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice3.getText().equals(answer)){
                     questionnumber++;
-                    checkquestion(true);
+                   // checkquestion(true);
                     updateQuestion();
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     questionnumber++;
-                    checkquestion(false);
+                   // checkquestion(false);
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 

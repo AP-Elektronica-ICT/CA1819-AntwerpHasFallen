@@ -1,5 +1,4 @@
 package com.ahf.antwerphasfallen.Model;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.R;
 
@@ -25,7 +23,7 @@ public class Puzzles extends Fragment {
     private Boolean opendad;
     private Boolean openquiz;
     private Boolean openanagram;
-    private int targetLocationTime;
+
     private AlertDialog.Builder builder;
     private Button leaveLocation;
     InGameActivity listener;
@@ -50,7 +48,6 @@ public class Puzzles extends Fragment {
         Dad = rootView.findViewById(R.id.Dad);
         Bundle bundle = this.getArguments();
 
-
         if (bundle != null) {
             IsNew = bundle.getBoolean("Stat");
             opensub = bundle.getBoolean("Sub");
@@ -58,6 +55,11 @@ public class Puzzles extends Fragment {
             openanagram = bundle.getBoolean("Anagram");
             opendad = bundle.getBoolean("Dad");
         }
+
+        if(openquiz) quiz.setTextColor(R.drawable.googleg_disabled_color_18);
+        if(opensub) sub.setTextColor(R.drawable.googleg_disabled_color_18);
+        if(openanagram) anagram.setTextColor(R.drawable.googleg_disabled_color_18);
+        if(opendad) Dad.setTextColor(R.drawable.googleg_disabled_color_18);
 
         quiz.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,8 +73,10 @@ public class Puzzles extends Fragment {
                         openquiz = true;
                         QuizpuzzleAlert();
                     }
-                    else quiz.setActivated(false);
+                    {
+                        quiz.setActivated(false);
 
+                    }
 
                  }
 
@@ -90,7 +94,10 @@ public class Puzzles extends Fragment {
                         SubAlert();
                     }
 
-                    else sub.setActivated(false);
+                    else{
+                        sub.setActivated(false);
+
+                    }
 
                 }
 
@@ -110,7 +117,10 @@ public class Puzzles extends Fragment {
                     AnagramAlert();
                 }
 
-                else anagram.setActivated(false);
+                else {
+                    anagram.setActivated(false);
+
+                }
                 }
             });
 
@@ -123,12 +133,16 @@ public class Puzzles extends Fragment {
                     DADalert();
 
                 }
-                else if(!openquiz&&!IsNew) {
+                else if(!opendad&&!IsNew) {
                     opendad = true;
                     DADalert();
 
                 }
-                else Dad.setActivated(false);
+                else
+                {
+                    Dad.setActivated(false);
+
+                }
                 }
         });
 
@@ -186,6 +200,8 @@ public class Puzzles extends Fragment {
                         listener.ShowAnagram();
                     }
                 });
+
+        builder.show();
     }
     private void DADalert()
     {
@@ -200,6 +216,7 @@ public class Puzzles extends Fragment {
                         listener.ShowDad();
                     }
                 });
+        builder.show();
     }
 
 

@@ -8,22 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ahf.antwerphasfallen.Helpers.GameDataService;
 import com.ahf.antwerphasfallen.Helpers.RetrofitInstance;
 import com.ahf.antwerphasfallen.InGameActivity;
 import com.ahf.antwerphasfallen.Model.DAD;
 import com.ahf.antwerphasfallen.R;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,20 +27,15 @@ public class DadFragment extends Fragment {
     private EditText sp2;
     private EditText sp3;
     private EditText sp4;
-    private Boolean found;
-
     private TextView t1;
     private TextView t2;
     private TextView t3;
     private TextView t4;
-    private int count = 1;
     private TextView question;
     private Button check;
     private String answer;
     private String difficulty;
-
     String location;
-    String correctorder;
     String Dadsolution;
 
     private InGameActivity host;

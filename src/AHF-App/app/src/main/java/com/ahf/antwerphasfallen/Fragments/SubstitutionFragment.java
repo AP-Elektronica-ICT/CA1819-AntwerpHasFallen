@@ -63,12 +63,12 @@ InGameActivity listener;
 
                     Toast.makeText(listener, "Correct",Toast.LENGTH_SHORT).show();
                     listener.ReceiveReward(true,difficulty);
+                    listener.ShowPuzzles(false);
                 }
                 else {
                     Toast.makeText(listener, "Wrong",Toast.LENGTH_SHORT).show();
                     listener.ReceiveReward(false,difficulty);
-
-
+                    listener.ShowPuzzles(false);
                 }
             }
 

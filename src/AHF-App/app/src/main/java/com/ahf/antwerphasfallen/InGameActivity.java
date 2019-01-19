@@ -440,16 +440,19 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     public void ReceiveReward(boolean answer, String difficulty){
-        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, answer, missingIngredients, gotIngredient);
+        Log.e("test", Boolean.toString(answer));
+        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, Boolean.toString(answer), Boolean.toString(gotIngredient) ,missingIngredients);
         getReward.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
-                int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
-                CurrentTeam = response.body();
-                if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
-                    gotIngredient = true;
-                CheckIngredients();
-                UpdateUI();
+                if(response.body() != null){
+                    int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
+                    CurrentTeam = response.body();
+                    if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
+                        gotIngredient = true;
+                    CheckIngredients();
+                    UpdateUI();
+                }
             }
 
             @Override

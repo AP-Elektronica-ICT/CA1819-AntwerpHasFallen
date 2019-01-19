@@ -13,18 +13,10 @@ namespace AntwerpHasFallen.Controllers
     public class LocationController : Controller
     {
         private readonly LocationService locationService;
-        private readonly QuizService quizService;
-        private readonly SubstitionService substitionService;
-        private readonly DadService dadService;
-        private readonly AnagramService anagramService;
 
-        public LocationController(LocationService locationService, QuizService quizService, SubstitionService substitutionService, DadService dadService, AnagramService anagramService)
+        public LocationController(LocationService locationService)
         {
             this.locationService = locationService;
-            this.quizService = quizService;
-            this.substitionService = substitutionService;
-            this.dadService = dadService;
-            this.anagramService = anagramService;
         }
 
         [HttpGet]

@@ -159,7 +159,7 @@ public class Puzzles extends Fragment {
     {
         builder = new AlertDialog.Builder(listener);
         builder.setTitle("Before you start!")
-                .setMessage("String")
+                .setMessage(R.string.quiz)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -175,7 +175,7 @@ public class Puzzles extends Fragment {
     {
         builder = new AlertDialog.Builder(listener);
         builder.setTitle("Before you start!")
-                .setMessage("String")
+                .setMessage(R.string.vignere)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -191,7 +191,7 @@ public class Puzzles extends Fragment {
     {
         builder = new AlertDialog.Builder(listener);
         builder.setTitle("Before you start!")
-                .setMessage("String")
+                .setMessage(R.string.anagram)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -207,7 +207,7 @@ public class Puzzles extends Fragment {
     {
         builder = new AlertDialog.Builder(listener);
         builder.setTitle("Before you start!")
-                .setMessage("String")
+                .setMessage(R.string.Dad)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override

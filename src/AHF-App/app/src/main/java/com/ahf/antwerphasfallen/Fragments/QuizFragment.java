@@ -118,13 +118,17 @@ public class QuizFragment extends Fragment {
             public void onClick(View view) {
                 if (choice2.getText().equals(answer)){
                     questionnumber++;
+
                    checkquestion(true);
+
                     updateQuestion();
                     Toast.makeText(host, "Correct",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     questionnumber++;
+
                    checkquestion(false);
+
                     updateQuestion();
                     Toast.makeText(host, "Wrong",Toast.LENGTH_SHORT).show();
 

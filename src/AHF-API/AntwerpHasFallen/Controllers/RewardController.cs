@@ -21,9 +21,19 @@ namespace AntwerpHasFallen.Controllers
 
         [Route("{teamId}")]
         [HttpPut]
-        public IActionResult Reward(int teamId, [FromBody] string difficulty, [FromBody] bool gotIngredient, [FromBody] bool answer, [FromBody] List<string> missingIngredients)
+        public IActionResult Reward(int teamId, [FromHeader] string difficulty, [FromHeader] string gotIngredient, [FromHeader] string answer, [FromBody] List<string> missingIngredients)
         {
-            Team team = rewardService.Reward(teamId, difficulty, answer, gotIngredient, missingIngredients);
+            bool b_answer;
+            bool b_gotIngredient;
+            if (answer == "true")
+                b_answer = true;
+            else
+                b_answer = false;
+            if (gotIngredient == "true")
+                b_gotIngredient = true;
+            else
+                b_gotIngredient = false;
+            Team team = rewardService.Reward(teamId, difficulty, b_answer, b_gotIngredient, missingIngredients);
             if (team != null)
                 return Ok(team);
             return NotFound();

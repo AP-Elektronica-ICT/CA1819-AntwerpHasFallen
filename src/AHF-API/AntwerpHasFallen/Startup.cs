@@ -42,6 +42,7 @@ namespace AntwerpHasFallen
             services.AddScoped<InventoryService>();
             services.AddScoped<ShopService>();
             services.AddScoped<LocationService>();
+            services.AddScoped<RewardService>();
 
 
             services.AddMvc();

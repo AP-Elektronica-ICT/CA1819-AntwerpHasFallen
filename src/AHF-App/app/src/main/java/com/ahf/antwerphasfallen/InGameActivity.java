@@ -82,7 +82,6 @@ public class InGameActivity extends AppCompatActivity {
     private AlertDialog.Builder alertBuilder;
     private AlertDialog.Builder noMoreLocationsAlert;
     private boolean gotIngredient = false;
-
     private boolean foundMissingIngredient = false;
     private boolean canStartTimer = true;
     private boolean canGetLocation = true;
@@ -91,6 +90,7 @@ public class InGameActivity extends AppCompatActivity {
     public boolean opensub;
     public boolean openanagram;
     public boolean opendad;
+
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
@@ -277,16 +277,16 @@ public class InGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void ShowAnagram() {
+    public void ShowAnagram(boolean check) {
         fr = new AnagramFragment();
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
         openanagram = true;
+
 
     }
 

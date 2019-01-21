@@ -1,74 +1,17 @@
-# Antwerp Has Fallen!
+# Documentatie  
+Antwerp Has Fallen is een android applicatie die communiceert met een .NET core API. Deze beschikt dan ook over een MySQL database. We zijn begonnen met de API en de database op Azure maar na wat problemen hiermee zijn we overgeschakeld naar Google Cloud Platform.   
 
-## Verhaal en beschrijving:
-*Door een mislukt experiment in het MLK (centrum voor medische experimenten) is er een schadelijke stof vrijgekomen in Antwerpen, degene die besmet zijn hebben nog maar een paar uur te leven. De laatste groepen die niet besmet zijn moeten dus zo snel mogelijk aan een tegengif geraken of uit de stad geraken voor ze zelf besmet zijn. Ze moeten onderweg naar bepaalde gebieden gaan om de ingrediënten te verzamelen voor een tegengif OF opdrachtjes doen om geld te verdienen daar. Ze mogen wel maar een bepaalde tijd in dat gebied blijven of ze raken zelf besmet! Ze mogen met hun geld wel een medicament voor zichzelf aankopen waardoor ze zelf langer in een gebied kunnen blijven of ze kunnen het andere team saboteren, zodat dit team tijd verliest. Het team dat als eerste alle ingrediënten heeft om een tegengif te maken wint!* <br> <br>
-Het spel begint met alle teams op een centrale plaats en van daaruit wordt elk team naar een andere locatie gestuurd waar ze dan opdrachten moeten oplossen. Deze opdrachten zijn vragen over de locatie, het antwoord is dan vaak te vinden op infopanelen of standbeelden e.d. ofwel is er een geheimschrift dat ontcijferd moet worden, vaak in teamverband. De opdracht en ontcijfersleutel worden op verschillende gsm’s getoond zodat niet een iemand bezig is maar dat er samengewerkt moet worden. In ruil voor deze opdrachten krijgen teams geld of ingrediënten voor het tegengif. <br>
+We hadden eerst geprobeerd het op te lossen door gebruik te maken van IIS en zo de servers lokaal te kunnen draaien voor de app te kunnen testen maar 2 teamleden konden deze niet opstarten dus moesten we naar een ander alternatief zoeken en heeft meneer Peeters ons geholpen met het Google Cloud Platform op te zetten.  
+## Google Cloud Platform  
+De .NET core API wordt gehost via Google Cloud Platform. Om hier naar te publishen moeten er enkele configuratie aanpassingen gedaan worden. Als eerste moet er in de [Startup.cs](./src/AHF-API/AntwerpHasFallen/Startup.cs) het deel met de MySql connectionstring uit commentaar worden gehaald en het deel met de SqlServer in commentaar gezet worden. Dit omdat de settings met de SqlServer gebruikt worden om de API lokaal te hosten, met een localdb connectionstring. Deze connectionstring moet dus ook vervangen worden met de connectionstring van de MySql database op Google Cloud Platform. Dit moet in [appsettings.json](./src/AHF-API/AntwerpHasFallen/appsettings.json) gebeuren. De connectionstring van de MySql database staat niet in github omdat hier wachtwoorden in staan.  
 
-## Voorbeeld puzzel
-- Locatie: groenplaats
-- Opdracht: maak een foto van het opschrift onderaan het standbeeld, zodat het kader tegen de rand van de foto valt.
-- Sleutel: filter, gekleurd vlak met uitsparingen dat over de foto gelegd kan worden, zo ziet men de letters die men kan gebruiken om de oplossing te zoeken
-- Vraag: hoe werd dit plein ooit genoemd? Je krijgt 1 letter cadeau die niet van het opschrift komt
-![Antwoordrooster](/doc/images/Antwoordrooster.jpg)
+Na deze configuratie aangepast te hebben, hebben we google cloud console nodig. Navigeer naar *"./src/AHF-API/AntwerpHasFallen/"* en voer het commando *"dotnet publish -c test"* uit. Normaal is *"test"* *"Release"* of *"Debug"* maar doordat onze API eerst naar Azure gepublished werd zitten hier enkele files in die voor errors zorgen. Maar *test* kan vervangen worden door een andere map, hier worden de build files naartoe gekopieërd.  
+Navigeer dan naar *"./src/AHF-API/AntwerpHasFallen/bin/test/netcoreapp2.1/publish"*. Voer hier het commando *"gcloud app deploy"* uit. Het is mogelijk om hier een versie nummer aan mee te geven met *"--version **versienummer**"* dit mag echter wel geen ‘.’ bevatten zoals in v1.0.  
+Na dit commando bevestigd te hebben wordt de api gepublished.  
+## Maps API  
+Voor de android maps API moet er een project aangemaakt worden op het Google Cloud Platform, hier kan je dan de Maps SDK voor Android selecteren, deze activeren en een API-key genereren. Deze API-key moet dan in de AndroidManifest.xml van de android applicatie gestoken worden. daar staat een meta-data tag met een API_KEY in, deze waarde moet dan aangepast worden naar de nieuwe API-key.
+## App  
+Om de app en het spel op te starten zoals het nu is is er eigenlijk niet veel nodig, je kan gewoon de app opstarten en een game aanmaken. Als je dan in het menu links naar het "team" scherm gaat kan je zo het game-id terug vinden om deze dan door te geven aan de andere teams zodat ze dezelfde game kunnen joinen.  
+De android app bestaat uit 3 activities, de eerste activity is het [startscherm](./src/AHF-App/app/src/main/java/com/ahf/antwerphasfallen/MainActivity.java), dit is het scherm waar je op komt als je de app opstart en dit is ook het scherm waar je op komt als je voorbij het eind scherm bent gegaan. De volgende activity is de [InGameActivity](./src/AHF-App/app/src/main/java/com/ahf/antwerphasfallen/InGameActivity.java) hier gebeurt eigenlijk alles dat met het spel zelf te maken heeft. De InGameActivity beschikt over een FrameLayout die we als fragment container gebruiken. Alle andere schermen die te zien zijn in het spel zelf zijn dus allemaal [fragments](./src/AHF-App/app/src/main/java/com/ahf/antwerphasfallen/Fragments/) die we dus in deze container kunnen zetten. Ook beschikt de InGameActivity over een navigation drawer die het menu laat zien met alle mogelijke schermen en dan ook het juiste fragment in de container zet zodat deze het juiste scherm toont op de juiste moment. De laatste activity is de [EndActivity](./src/AHF-App/app/src/main/java/com/ahf/antwerphasfallen/EndActivity.java), deze wordt getoond als er een team alle ingrediënten gevonden heeft voor “The Cure” te maken. Op dit scherm komt dan te staan welk team dat gewonnen heeft en dan een ranking van alle teams.
 
-- Antwoord: Place Bonaparte 
-![Voorbeeld puzzel](/doc/images/Voorbeeldpuzzel.jpg)
 
-Sprint 1
-- as a user I want to be able to start a game
-    - On the start screen in the app, click on the start button => new view => fill in detail about game (amount of players, playtime...) => click ok => data to api => api makes new game and returns the id => in game view
-    - Sequence diagram:
-    ![Sequence diagram CA18AHF-1](/doc/images/CA18AHF-1.png)
- - as a user I want to be able to join a game
-    - On the start screen in the app click on the join button => join view => fill in game id => API adds player to game, returns teams => next screen/popup, choose team => API adds player to team, returns OK => in game view
-    - Sequence diagram:
-    ![Sequence diagram CA18AHF-2](/doc/images/CA18AHF-2.png)
-- as a user I want to be able to receive puzzles/challenges when i arrive on the next location
-- as a user I want a puzzle where I need to find things in the location to solve it
-
-## User Stories
- * **Game session**
-    * as a user I want to be able to start a game
-    * as a user I want to be able to join a game
-    * as a user I want to be able to end a game manually
-    * as a user I want the game to end as soon as a team completed the cure
-    * as a user I want to be able to print/share my teams score after the game ends
-
-* **Location**
-    * as a user I want to be able to see a map with the next location on
-    * as a user I want to be able to receive puzzles/challenges when i arrive on the next location
-    * as a user I want to see a timer how long I can stay in the current location
-    * as a user I want to be able to see which ingredients I still have to collect 
-
-* **Rewards/inventory**
-    * as a user I want to be able to see the rewards I collected
-    * as a user I want to see which ingrediënts I still need to collect
-    * as a user I want to receive a reward when I solve a puzzle/challenge
-    * as a user I want to receive the next location when I completed a puzzle
-
-* **Shop**
-    * as a user I want to spend in game money to decrease the time that the other team can spend in a location
-    * as a user I want to spend in game money to give one of the other teams a temporary blackout
-    * as a user I want to spend in game money to see the location of the other team(s)
-    * as a user I want to spend in game money to steal an ingredient from another team
-    * as a user I want to spend in game money to receive tips for a puzzle/challenge
-    * as a user I want to spend in game money to spend more time in a location
-    * as a user I want to buy the missing ingredients with in game money
-
-* **Education**
-    * as a user I want to have to use information about the location in the puzzles/challenges (information to be found on site)
-    * as a user I want to see ‘did-you-knows’ on a location 
-    * as a user I want to be able to find clues in the ‘did-you-knows’  
-
-* **Puzzles**
-    * as a user I want a puzzle where I need to find things in the location to solve it
-    * as a user I want a puzzle where I need to solve a multiple choice question within a limited time 
-    * as a user I want to fill in a crossword puzzle
-    * as a user I want to have to find a code in an (interactive) image to solve the puzzle
-    * as a user I want a simon says alike puzzle 
-    * as a user I want to be able to solve more than one puzzle for extra rewards (even though I already know my next location)
-
-## Software Architecture
-
-![Software Architecture diagram](/doc/images/SoftwareArchitecture.jpg)
-De client is een android app, geschreven in Java. De server zal worden gehost op Azure en bestaat uit een ASP.NET Core MVC Web API met Entity Framework om te communiceren met de SQL database.

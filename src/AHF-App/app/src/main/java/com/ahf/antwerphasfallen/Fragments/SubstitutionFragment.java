@@ -30,6 +30,7 @@ private TextView key;
 private EditText solution;
 private String Key;
 private Button Checksolution;
+private Button Back;
 private String Solution;
 private String Clear;
 private TextView cleartext;
@@ -55,6 +56,15 @@ InGameActivity listener;
         Checksolution = (Button) rootView.findViewById(R.id.checksolution);
         cleartext = (TextView) rootView.findViewById(R.id.clear);
         solution = (EditText) rootView.findViewById(R.id.solution);
+        Back = (Button) rootView.findViewById(R.id.btn_back);
+
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.opensub = false;
+                listener.ShowPuzzles(false);
+            }
+        });
         Checksolution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

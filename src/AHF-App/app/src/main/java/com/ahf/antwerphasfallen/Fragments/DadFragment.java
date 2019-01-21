@@ -33,6 +33,7 @@ public class DadFragment extends Fragment {
     private TextView t4;
     private TextView question;
     private Button check;
+    private Button back;
     private String answer;
     private String difficulty;
     String location;
@@ -97,6 +98,7 @@ public class DadFragment extends Fragment {
         sp2 = (EditText) rootView.findViewById(R.id.Spinner2);
         sp3 = (EditText) rootView.findViewById(R.id.Spinner3);
         sp4 = (EditText) rootView.findViewById(R.id.Spinner4);
+        back = (Button) rootView.findViewById(R.id.btn_back);
         check = (Button) rootView.findViewById(R.id.dadsolution);
         question = (TextView) rootView.findViewById(R.id.question);
         t1 = (TextView) rootView.findViewById(R.id.Choice1);
@@ -105,6 +107,13 @@ public class DadFragment extends Fragment {
         t4 = (TextView) rootView.findViewById(R.id.Choice4);
 
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                host.opendad = false;
+                host.ShowPuzzles(false);
+            }
+        });
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

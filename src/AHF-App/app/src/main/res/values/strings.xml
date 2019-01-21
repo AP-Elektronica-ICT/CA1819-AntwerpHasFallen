@@ -12,5 +12,9 @@
     <string name="shop">In de shop kan je items kopen die jou team kunnen helpen het spel sneller uit te spelen, of items die het andere team tegenhouden om het spel sneller dan jou team uit te spelen.\nItems die je in de shop koopt kan je terugvinden in de inventory</string>
     <string name="inventory">In de inventory vind je al je items en je gevonden ingredienten terug. Als je een item wil gebruiken druk dan op \"use\" naast het item. Je kan zien hoeveel je van elk item nog over hebt.\nBij de gevonden ingredienten kan je ook zien hoeveel je hier al van hebt. </string>
     <string name="team">Bij het tabje team vind je de informatie over je team terug, alsook je teamnaam en de game id. Deze game id heb je nodig om aan het spel te kunnen deelnemen. Ook vind je hier welke ingredienten je nog nodig hebt om het tegengif te maken.</string>
-
+    <string name="anagram">Om de anagram op te lossen moet je met de letters die je krijgt een ander woord maken. Dit woord heeft te maken met de bijbehorende tip die je krijgt</string>
+   <string name="quiz">Om de quizpuzzel op te lossen moet je het antwoord kiezen tussen 3 andere mogelijke antwoorden! Pas op, bij een verkeerd atnwoord verlies je geld!</string>
+    <string name="Dad">Om de Drag and Drop puzzel op te lossen moet je de antwoorden in de juiste volgorde zetten door de nummers 1 tot 4 in de tekstvakjes te zetten.</string>
+    <string name = "vignere">Om de Vignere cijferpuzzel op te lossen, heeft u een cijfercode en een key nodig. U noteert de key onder de cijfercode en blijft dit herhalen tot al de letters van de cijfercode een bijhorende Key letter hebben. Dan zoekt u de Key letter op in het horizontale deel, ga deze rij af tot je de letter van de cijfercode tegenkomt. De letter die hier tegenover staat in het verticale diagram is de juiste letter.Doe dit nu voor elke letter tot je de oplossing hebt!">
+</string>
 </resources>

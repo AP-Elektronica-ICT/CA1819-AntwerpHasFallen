@@ -78,7 +78,7 @@ public class EndActivity extends AppCompatActivity {
         for(int i=0; i<teams.length; i++){
             endText += (i + 1) + ".\t" + teams[i] + "\n";
         }
-        endText += "We hope you enjoyed the game!\n\nPress the continue button to return back to the main screen";
+        endText += "\n\nWe hope you enjoyed the game!\n\nPress the continue button to return back to the main screen";
         txtEndInfo.setText(endText);
     }
 

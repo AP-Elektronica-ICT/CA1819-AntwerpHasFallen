@@ -47,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getBoolean("delete"))
+                PlayerHandler.getInstance(this).deleteFile(PlayerHandler.SAVED_PLAYER);
+        }
+
         Button btnStart = (Button)findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override

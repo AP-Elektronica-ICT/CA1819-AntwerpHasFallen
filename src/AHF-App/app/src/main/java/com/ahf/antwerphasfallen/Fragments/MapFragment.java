@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -142,7 +143,7 @@ public class MapFragment extends Fragment {
                                             startLocationUpdates();
                                         }
                                         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Previous location"));
+                                        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Previous location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
                                         googleMap.addMarker(new MarkerOptions().position(targetLocation).title(targetLocationTitle));
                                         calculateDistance(currentLocation,targetLocation);

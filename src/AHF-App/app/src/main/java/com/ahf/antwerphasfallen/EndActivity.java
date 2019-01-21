@@ -70,8 +70,11 @@ public class EndActivity extends AppCompatActivity {
             teams[i] = tmp;
         }
         String endText = "The game has been won by ";
-        endText += game.getWinner() != "null"? game.getWinner() : "more than one team";
-        endText += "!\n\nLeaderboard: \n";
+        if(game.getWinner() == null)
+            endText += "more than one team";
+        else
+            endText += game.getWinner();
+        endText += "!\n\n\nLeaderboard: \n\n";
         for(int i=0; i<teams.length; i++){
             endText += (i + 1) + ".\t" + teams[i] + "\n";
         }

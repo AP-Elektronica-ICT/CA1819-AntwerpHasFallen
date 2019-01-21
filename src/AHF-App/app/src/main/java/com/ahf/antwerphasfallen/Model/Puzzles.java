@@ -174,7 +174,7 @@ public class Puzzles extends Fragment {
     private void SubAlert()
     {
         builder = new AlertDialog.Builder(listener);
-        builder.setTitle("Before you start!")
+        builder.setTitle("Dit is een zeer tijdsrovende puzzel! Maar u zal dan ook rijkelijk beloond worden!")
                 .setMessage(R.string.vignere)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

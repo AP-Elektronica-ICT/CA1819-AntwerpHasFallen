@@ -5,18 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/endgame"
     tools:context="com.ahf.antwerphasfallen.EndActivity">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/txt_end"
         android:text="The game has ended"
-        android:layout_width="match_parent"
+        android:layout_marginTop="100sp"
+        android:layout_width="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/custom"
+        android:fontFamily="@font/scorched"
         android:layout_height="wrap_content" />
+
+</RelativeLayout>
+
 
     <Button
         android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btnlayout"
+        android:layout_marginTop="500sp"
         android:text="Continue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/custom"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

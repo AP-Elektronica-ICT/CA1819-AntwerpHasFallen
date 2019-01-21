@@ -2,6 +2,7 @@ package com.ahf.antwerphasfallen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -78,8 +79,8 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
-    private long timeLeft;
     private AlertDialog.Builder alertBuilder;
+    private AlertDialog.Builder noMoreLocationsAlert;
     private boolean gotIngredient = false;
 
     private boolean foundMissingIngredient = false;
@@ -99,6 +100,7 @@ public class InGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         inventoryFragment = new InventoryFragment();
         shopFragment = new ShopFragment();
@@ -197,6 +199,7 @@ public class InGameActivity extends AppCompatActivity {
             randomLocationCall.enqueue(new Callback<Location>() {
                 @Override
                 public void onResponse(Call<Location> call, Response<Location> response) {
+                    //check if there are still locations the team hasn't visited yet
                     if(response.body() != null){
                         canGetLocation = false;
                         newLocation = true;
@@ -215,7 +218,7 @@ public class InGameActivity extends AppCompatActivity {
                         ft.commit();
                     }
                     else{
-                        //game ending
+                        ShowDialog("Alert!", "You visited all the locations but didn't find the ingredients for the cure, your only hope now is that the other team does.");
                     }
 
                 }
@@ -390,10 +393,15 @@ public class InGameActivity extends AppCompatActivity {
     public void Timer(int seconds){
         timer = new CountDownTimer(seconds * 1000, 1000) {
 
+            boolean finished;
+            private long timeLeft;
+
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
-                if(timeLeft > 0)
+                if(timeLeft > 0) {
                     txtTimer.setText("Time left: " + timeConversion(timeLeft));
+                    finished = false;
+                }
                 else
                     onFinish();
             }
@@ -420,7 +428,11 @@ public class InGameActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    ToLongInZone();
+                    if(!finished){
+                        finished = true;
+                        UpdateMoney(-20);
+                        ToLongInZone();
+                    }
                 }
             }
         }.start();
@@ -431,29 +443,9 @@ public class InGameActivity extends AppCompatActivity {
         updateMoneyCall.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
-                CurrentTeam = response.body();
-                UpdateUI();
-            }
-
-            @Override
-            public void onFailure(Call<Team> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public void ReceiveReward(boolean answer, String difficulty){
-        Log.e("test", Boolean.toString(answer));
-        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, Boolean.toString(answer), Boolean.toString(gotIngredient) ,missingIngredients);
-        getReward.enqueue(new Callback<Team>() {
-            @Override
-            public void onResponse(Call<Team> call, Response<Team> response) {
-                if(response.body() != null){
-                    int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
+                if(response.body() != null)
+                {
                     CurrentTeam = response.body();
-                    if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount)
-                        gotIngredient = true;
-                    CheckIngredients();
                     UpdateUI();
                 }
             }
@@ -465,48 +457,126 @@ public class InGameActivity extends AppCompatActivity {
         });
     }
 
-    public void CheckIngredients() {
-        missingIngredients.clear();
-        Call<ArrayList<Item>> ingredientCall = service.getIngredients();
-        ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
+    public void ReceiveReward(boolean answer, String difficulty){
+        Call<Team> getReward = service.reward(CurrentTeam.getId(), difficulty, Boolean.toString(answer), Boolean.toString(gotIngredient) ,missingIngredients);
+        getReward.enqueue(new Callback<Team>() {
             @Override
-            public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
-                try {
-                    Log.e("testa", CurrentTeam.getInventory().getIngredients().toString());
-                    Log.e("testa", response.body().toString());
-                    if(CurrentTeam.getInventory().getIngredients().size() == 0){
-                        for (Item ingredient : response.body()){
-                            missingIngredients.add(ingredient.getName());
-                        }
+            public void onResponse(Call<Team> call, Response<Team> response) {
+                if(response.body() != null){
+                    int oldInventoryCount = CurrentTeam.getInventory().getIngredients().size();
+                    int oldMoney = CurrentTeam.getMoney();
+                    CurrentTeam = response.body();
+                    int receivedMoney = CurrentTeam.getMoney() - oldMoney;
+                    //Log.e("received", "old: " + oldMoney + ", new: " + CurrentTeam.getMoney() + ", received: " + receivedMoney);
+                    if (CurrentTeam.getInventory().getIngredients().size() > oldInventoryCount){
+                        gotIngredient = true;
+                        if(receivedMoney > 0)
+                            ShowDialog("Reward received!", "You received an ingredient and " + receivedMoney + "G! Check your inventory to see your ingredients.");
+                        else
+                            ShowDialog("Reward received!", "You received an ingredient! Check your inventory to see your ingredients.");
                     }
-                    else{
-                        for (Item ingredient : response.body()) {
-                            for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
-                                if(inventoryItem.getItem().getId() != ingredient.getId()){
-                                    foundMissingIngredient = true;
-                                }
-                                else
-                                {
-                                    foundMissingIngredient = false;
-                                    break;
-                                }
-                            }
-                            if(foundMissingIngredient){
-                                missingIngredients.add(ingredient.getName());
-                                foundMissingIngredient = false;
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e("error", e.toString());
+                    else
+                        if(receivedMoney > 0)
+                            ShowDialog("Reward received!", "You received " + receivedMoney + "G.");
+                        else
+                            ShowDialog("Money lost...", "You lost " + receivedMoney + "G.");
+                    UpdateUI();
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+            public void onFailure(Call<Team> call, Throwable t) {
 
             }
         });
+    }
+
+    public void ShowDialog(String title, String message){
+        alertBuilder = new AlertDialog.Builder(InGameActivity.this);
+        alertBuilder.setTitle(title)
+                .setMessage(message)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        CheckIngredients();
+                    }
+                });
+        alertBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                CheckIngredients();
+            }
+        });
+        alertBuilder.show();
+    }
+
+    public void CheckIngredients() {
+        missingIngredients.clear();
+        Log.e("Ingredients", "Number of ingredients: " + CurrentTeam.getInventory().getIngredients().size());
+        if(CurrentTeam.getInventory().getIngredients().size() < 3){
+            Call<ArrayList<Item>> ingredientCall = service.getIngredients();
+            ingredientCall.enqueue(new Callback<ArrayList<Item>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+                    try {
+                        if(CurrentTeam.getInventory().getIngredients().size() == 0){
+                            for (Item ingredient : response.body()){
+                                missingIngredients.add(ingredient.getName());
+                            }
+                        }
+                        else{
+                            for (Item ingredient : response.body()) {
+                                for (InventoryItem inventoryItem : CurrentTeam.getInventory().getIngredients()){
+                                    if(inventoryItem.getItem().getId() != ingredient.getId()){
+                                        foundMissingIngredient = true;
+                                    }
+                                    else
+                                    {
+                                        foundMissingIngredient = false;
+                                        break;
+                                    }
+                                }
+                                if(foundMissingIngredient){
+                                    missingIngredients.add(ingredient.getName());
+                                    foundMissingIngredient = false;
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("error", e.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+
+                }
+            });
+        }
+        else {
+            GameWon();
+        }
+    }
+
+    public void GameWon(){
+        alertBuilder = new AlertDialog.Builder(InGameActivity.this);
+        alertBuilder.setTitle("You won!")
+                .setMessage("Congratulations your team has found all the ingredients to make the cure! You won the game!")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //endgame
+                    }
+                });
+        alertBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                //endgame
+            }
+        });
+        alertBuilder.show();
     }
 
     public void StartBlackout(String enemyTeam){
@@ -645,5 +715,10 @@ public class InGameActivity extends AppCompatActivity {
         super.onPause();
         if(backgroundChecker != null)
             backgroundChecker.Stop();
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }

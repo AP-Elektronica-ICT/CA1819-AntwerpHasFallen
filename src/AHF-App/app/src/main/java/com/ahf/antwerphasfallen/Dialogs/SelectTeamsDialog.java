@@ -29,7 +29,7 @@ public class SelectTeamsDialog extends DialogFragment{
 
         final NumberPicker numberPicker = (NumberPicker)dialogView.findViewById(R.id.np_teams);
         numberPicker.setMinValue(2);
-        numberPicker.setMaxValue(10);
+        numberPicker.setMaxValue(5);
 
         builder.setView(dialogView)
                 .setTitle("Teams")

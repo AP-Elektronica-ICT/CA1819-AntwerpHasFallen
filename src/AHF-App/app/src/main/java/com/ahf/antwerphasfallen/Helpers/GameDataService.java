@@ -91,10 +91,9 @@ public interface GameDataService {
     @DELETE("games/{gameId}")
     Call<Boolean> endGame(@Path("gameId") int gameId);
 
-    @POST("teams/{id}/{money}")
+    @PUT("teams/{id}/{money}")
     Call<Team> updateMoney(@Path("id") int id, @Path("money") int money);
 
     @PUT("rewards/{teamId}")
-
     Call<Team> reward(@Path("teamId") int teamId, @Header("difficulty") String difficulty, @Header("answer") String answer, @Header("gotIngredient") String gotIngredient, @Body ArrayList<String> missingIngredients);
 }

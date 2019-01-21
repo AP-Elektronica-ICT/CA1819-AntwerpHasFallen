@@ -79,7 +79,6 @@ public class InGameActivity extends AppCompatActivity {
     private Bundle bundle;
     private int gameId;
     private int playerId;
-    private long timeLeft;
     private AlertDialog.Builder alertBuilder;
     private AlertDialog.Builder noMoreLocationsAlert;
     private boolean gotIngredient = false;
@@ -394,10 +393,15 @@ public class InGameActivity extends AppCompatActivity {
     public void Timer(int seconds){
         timer = new CountDownTimer(seconds * 1000, 1000) {
 
+            boolean finished;
+            private long timeLeft;
+
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished / 1000 + CurrentTeam.getTimerOffset();
-                if(timeLeft > 0)
+                if(timeLeft > 0) {
                     txtTimer.setText("Time left: " + timeConversion(timeLeft));
+                    finished = false;
+                }
                 else
                     onFinish();
             }
@@ -424,8 +428,11 @@ public class InGameActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    UpdateMoney(-20);
-                    ToLongInZone();
+                    if(!finished){
+                        finished = true;
+                        UpdateMoney(-20);
+                        ToLongInZone();
+                    }
                 }
             }
         }.start();
@@ -436,8 +443,11 @@ public class InGameActivity extends AppCompatActivity {
         updateMoneyCall.enqueue(new Callback<Team>() {
             @Override
             public void onResponse(Call<Team> call, Response<Team> response) {
-                CurrentTeam = response.body();
-//                UpdateUI();
+                if(response.body() != null)
+                {
+                    CurrentTeam = response.body();
+                    UpdateUI();
+                }
             }
 
             @Override

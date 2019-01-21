@@ -29,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btnlayout"
-        android:layout_marginTop="450sp"
         android:text="Continue"
         android:textColor="@color/custom"
         android:textSize="20sp"

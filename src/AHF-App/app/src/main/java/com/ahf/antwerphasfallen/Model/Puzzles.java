@@ -197,7 +197,7 @@ public class Puzzles extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.ShowAnagram();
+                        listener.ShowAnagram(true);
                     }
                 });
 

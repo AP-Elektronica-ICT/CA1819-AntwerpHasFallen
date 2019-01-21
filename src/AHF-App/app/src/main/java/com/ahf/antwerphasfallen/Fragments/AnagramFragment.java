@@ -29,6 +29,7 @@ public class AnagramFragment extends Fragment  {
     private TextView hint;
     String Hint;
     private Button ancheck;
+    private Button back;
     private InGameActivity host;
     private String location;
     private String difficulty;
@@ -80,6 +81,19 @@ public class AnagramFragment extends Fragment  {
         hint = (TextView) rootView.findViewById(R.id.tip);
         ancheck = (Button) rootView.findViewById(R.id.btnsol);
         solution = (EditText) rootView.findViewById(R.id.editSolution);
+        back = (Button) rootView.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                host.openanagram = false;
+                host.ShowPuzzles(false);
+
+            }
+        });
+
+
+
         ancheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

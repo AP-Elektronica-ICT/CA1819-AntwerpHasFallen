@@ -29,7 +29,7 @@
                 android:layout_alignParentLeft="true"
                 android:text="Clear Text"
                 android:textColor="@color/custom"
-                android:textSize="30sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -79,12 +79,25 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="423dp"
-            android:layout_height="418dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:srcCompat="@drawable/substitutie" />
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_back"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btnlayout"
+            android:padding="8dp"
+            android:text="Go back"
+            android:textColor="#fff" />
 
     </LinearLayout>
+
+
+
 
 
 </FrameLayout>

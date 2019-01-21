@@ -65,10 +65,16 @@ public class EndActivity extends AppCompatActivity {
 
     private void UpdateUI(FinishedGame game) {
         String teams[] = game.getTeamsLeaderboard().split("/");
-        for (String team : teams) {
-            team = team.replace(":", ":\t");
+        for (int i=0; i<teams.length; i++) {
+            String tmp = teams[i].replace(":", ":\t");
+            teams[i] = tmp;
         }
-        String endText = "The game has been won by " + game.getWinner() != null? game.getWinner() : "more than one team" + "!\n\nLeaderboard: \n";
+        String endText = "The game has been won by ";
+        if(game.getWinner() == null)
+            endText += "more than one team";
+        else
+            endText += game.getWinner();
+        endText += "!\n\n\nLeaderboard: \n\n";
         for(int i=0; i<teams.length; i++){
             endText += (i + 1) + ".\t" + teams[i] + "\n";
         }

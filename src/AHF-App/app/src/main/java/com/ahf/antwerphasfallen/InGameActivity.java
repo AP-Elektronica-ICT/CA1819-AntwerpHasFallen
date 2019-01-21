@@ -658,7 +658,7 @@ public class InGameActivity extends AppCompatActivity {
                             Toast.makeText(InGameActivity.this, "Error getting team information", Toast.LENGTH_SHORT).show();
                         }
                     });
-                } else startMainActivity();
+                } else ShowEndScreen();
             }
 
             @Override
@@ -669,10 +669,6 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
-    private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     public void EndGame() {
         Call<Boolean> call = service.endGame(CurrentPlayer.getGameId());

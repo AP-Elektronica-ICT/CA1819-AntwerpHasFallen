@@ -207,7 +207,7 @@ public class MapFragment extends Fragment {
         Log.e("distance", d + "m");
         //txt_distance.setText(d + "m");
         d = 10;
-        if(d <= 10){
+        if(d <= 40){
             builder.show();
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }

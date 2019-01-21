@@ -5,9 +5,11 @@
     tools:context="com.ahf.antwerphasfallen.Fragments.TeamFragment"
     android:background="@drawable/shop"
     android:orientation="vertical">
+
     <ScrollView
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,8 +106,9 @@
     </ScrollView>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         android:orientation="vertical">
         <TextView
             android:id="@+id/lbl_mingredients"

@@ -58,9 +58,10 @@ public class ShopListAdapter extends ArrayAdapter<ShopItem> {
                 dialog.show(host.getFragmentManager(), "confirm buy ");
             }
         });
-        if(host.CurrentTeam.getMoney() - item.getPrice() < 0)
+        if(host.CurrentTeam.getMoney() - item.getPrice() < 0) {
             btnPrice.setEnabled(false);
-
+            btnPrice.setTextColor(getContext().getResources().getColor(R.color.red));
+        }
         return itemView;
     }
 }

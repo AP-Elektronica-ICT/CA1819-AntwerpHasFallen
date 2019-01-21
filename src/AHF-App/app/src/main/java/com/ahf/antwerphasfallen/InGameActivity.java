@@ -89,6 +89,7 @@ public class InGameActivity extends AppCompatActivity {
     public boolean openquiz;
     public boolean opensub;
     public boolean openanagram;
+    public boolean opendad;
     private ArrayList<String> missingIngredients;
 
     private CheckerThread backgroundChecker = null;
@@ -267,7 +268,7 @@ public class InGameActivity extends AppCompatActivity {
         txtTimer.setVisibility(View.VISIBLE);
         bundle.putString("target",locationName);
         fr.setArguments(bundle);
-
+        opendad = true;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container,fr);
         ft.commit();
@@ -316,12 +317,14 @@ public class InGameActivity extends AppCompatActivity {
             openquiz = false;
             opensub = false;
             openanagram= false;
+            opendad = false;
         }
         puzzleFragment = fr;
         bundle.putBoolean("Stat",status);
         bundle.putBoolean("Quiz",openquiz);
         bundle.putBoolean("Sub",opensub);
         bundle.putBoolean("Anagram",openanagram);
+        bundle.putBoolean("Dad", opendad);
         fr.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fr);

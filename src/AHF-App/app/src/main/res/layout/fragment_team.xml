@@ -68,7 +68,37 @@
                 android:textColor="@color/custom"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Om de Vignere cijferpuzzel op te lossen, heeft u een cijfercode en een key nodig. U noteert de key onder de cijfercode en blijft dit herhalen tot al de letters van de cijfercode een bijhorende Key letter hebben. Dan zoekt u de kruising van de beide letters op in het diagram. Als u dit bij alle letters doet krijgt u een woord, dit woord is de oplossing.">
+                android:text="@string/vignere">
+            </TextView>
+            <TextView
+                android:id="@+id/txtanagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:textColor="@color/custom"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/anagram">
+            </TextView>
+            <TextView
+                android:id="@+id/txt_dad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:textColor="@color/custom"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/Dad">
+            </TextView>
+            <TextView
+                android:id="@+id/txt_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:textColor="@color/custom"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/quiz">
             </TextView>
         </LinearLayout>
     </ScrollView>

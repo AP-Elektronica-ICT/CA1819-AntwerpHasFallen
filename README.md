@@ -8,6 +8,8 @@ De .NET core API wordt gehost via Google Cloud Platform. Om hier naar te publish
 Na deze configuratie aangepast te hebben, hebben we google cloud console nodig. Navigeer naar *"./src/AHF-API/AntwerpHasFallen/"* en voer het commando *"dotnet publish -c test"* uit. Normaal is *"test"* *"Release"* of *"Debug"* maar doordat onze API eerst naar Azure gepublished werd zitten hier enkele files in die voor errors zorgen. Maar *test* kan vervangen worden door een andere map, hier worden de build files naartoe gekopieërd.  
 Navigeer dan naar *"./src/AHF-API/AntwerpHasFallen/bin/test/netcoreapp2.1/publish"*. Voer hier het commando *"gcloud app deploy"* uit. Het is mogelijk om hier een versie nummer aan mee te geven met *"--version **versienummer**"* dit mag echter wel geen ‘.’ bevatten zoals in v1.0.  
 Na dit commando bevestigd te hebben wordt de api gepublished.  
+
+Om de API lokaal te gebruiken moet er een aanpassing gedaan worden in de code van de app. In [RetrofitInstance.java](./src/AHF-App/app/src/main/java/com/ahf/antwerphasfallen/Helpers/RetrofitInstance.java) moet de variabele BASE_URL aangepast worden. Deze url word dan het adres waar de server op draait + "*/api*".
 ## Maps API  
 Voor de android maps API moet er een project aangemaakt worden op het Google Cloud Platform, hier kan je dan de Maps SDK voor Android selecteren, deze activeren en een API-key genereren. Deze API-key moet dan in de AndroidManifest.xml van de android applicatie gestoken worden. daar staat een meta-data tag met een API_KEY in, deze waarde moet dan aangepast worden naar de nieuwe API-key.
 ## App  
